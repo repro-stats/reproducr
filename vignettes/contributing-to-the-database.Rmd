@@ -1,0 +1,300 @@
+---
+title: "Contributing to the breaking-changes database"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Contributing to the breaking-changes database}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>"
+)
+library(reproducr)
+```
+
+The breaking-changes database is the heart of `risk_score()`'s
+`"changelog"` check. It is a curated list of cases where a package update
+silently changed a function's *behaviour* — not its interface — in a way that
+can alter analytical results without producing an error.
+
+This vignette explains the database schema, how to find good candidates,
+how to write an entry, and how to test it before submitting a pull request.
+
+---
+
+## What belongs in the database
+
+A good database entry documents a case where all of the following are true:
+
+1. **A specific function in a specific package** changed its output between two
+   versions.
+2. The change is **silent** — it does not throw an error or warning on the old
+   calling pattern.
+3. The change can **affect analytical conclusions** — not just cosmetic
+   differences like whitespace in printed output.
+4. The change is **documented** — there is a `NEWS.md`, GitHub release, or
+   official changelog entry you can link to.
+
+### Examples of things that belong
+
+- `dplyr::summarise()` changed its default `.groups` argument in v1.1.0,
+  causing grouped data frames to be returned ungrouped where they previously
+  were not.
+- `stats::sample()` RNG algorithm changed in R 3.6.0, producing different
+  random draws for the same seed.
+- `readr::read_csv()` switched its parsing backend in v2.0.0, changing column
+  type inference.
+
+### Examples of things that do not belong
+
+- A function that **errors** on the old calling pattern after an upgrade
+  (that's a breaking change that produces a visible failure, not a silent one).
+- A cosmetic change to printed output (e.g. number of decimal places shown by
+  `print.lm()`).
+- A change that only affects internal implementation with no observable
+  difference in returned values.
+- Performance changes with no effect on results.
+
+---
+
+## The database schema
+
+The database lives in `R/breaking_changes_db.R` as a named list called
+`.BREAKING_CHANGES_DB`. Keys are `"pkg::fn"` strings. Each key maps to a
+list of entries — one per distinct breaking change for that function:
+
+```r
+.BREAKING_CHANGES_DB <- list(
+
+  "pkg::function_name" = list(
+    list(
+      from_version = "x.y.z",   # last version where behaviour was "safe"
+      to_version   = "x.y.z",   # last version where breaking change applies
+      risk         = "high",     # "high", "medium", or "low"
+      description  = "...",      # plain-English explanation
+      reference    = "https://..." # URL to the changelog entry
+    )
+  )
+
+)
+```
+
+### The version window
+
+The `from_version` and `to_version` fields define a **half-open interval**:
+
+```
+(from_version, to_version]
+     ↑               ↑
+ exclusive        inclusive
+```
+
+A user's installed version is flagged if and only if:
+
+```
+installed > from_version  AND  installed <= to_version
+```
+
+**`from_version`** is the last version where the old behaviour still applied.
+Set this to one patch version below the first risky version. For example, if
+the breaking change was introduced in `1.1.0`, set `from_version = "1.0.99"`.
+
+**`to_version`** is the last version where the breaking change is known to
+apply. If the behaviour has since been fixed or stabilised, set this to the
+last affected version. If the change is permanent and no fix has been released,
+set a high ceiling like `"9.9.9"` to cover all future versions.
+
+### Risk levels
+
+| Level | When to use |
+|---|---|
+| `"high"` | Output *values* change silently — model coefficients, table cells, random draws, sort order. Any result that goes into a paper could be different. |
+| `"medium"` | An argument was renamed or deprecated; the function may warn, error, or produce different output depending on the call pattern. Needs manual review. |
+| `"low"` | A minor behavioural note. Output is unlikely to differ in practice, but worth knowing. Covers locale sensitivity, cosmetic differences in edge cases, etc. |
+
+---
+
+## Finding candidates
+
+### From NEWS.md files
+
+Most CRAN packages maintain a `NEWS.md`. Look for entries mentioning:
+
+- "breaking change"
+- "changed default"
+- "deprecated"
+- "now returns"
+- "behaviour changed"
+- "no longer"
+
+The tidyverse packages maintain especially detailed changelogs:
+
+- `dplyr`: <https://dplyr.tidyverse.org/news/index.html>
+- `tidyr`: <https://tidyr.tidyverse.org/news/index.html>
+- `ggplot2`: <https://ggplot2.tidyverse.org/news/index.html>
+- `readr`: <https://readr.tidyverse.org/news/index.html>
+- `purrr`: <https://purrr.tidyverse.org/news/index.html>
+- `stringr`: <https://stringr.tidyverse.org/news/index.html>
+- `lubridate`: <https://lubridate.tidyverse.org/news/index.html>
+
+For base R, the R release notes are authoritative:
+
+- <https://cran.r-project.org/doc/manuals/r-release/NEWS.html>
+
+### From your own experience
+
+If you have encountered a case where upgrading a package changed your results,
+that is exactly the kind of entry the database needs. Document it while the
+details are fresh.
+
+---
+
+## Writing an entry
+
+Here is a complete worked example. Suppose you have discovered that
+`broom::augment()` changed the name of the residuals column from `.resid`
+to `.std.resid` for some model types between versions 0.7.x and 0.8.0.
+
+**Step 1: Verify it is in the changelog.**
+
+Find the relevant `NEWS.md` entry. Copy the URL.
+
+**Step 2: Determine the version window.**
+
+The change was introduced in 0.8.0. The last safe version is 0.7.x. Set:
+- `from_version = "0.7.99"` (one patch below the first risky version)
+- `to_version = "1.0.9"` (the last version where this applies, or a high
+  ceiling if unfixed)
+
+**Step 3: Determine the risk level.**
+
+Code that selects the `.resid` column by name from `augment()` output will
+silently return `NA` or error after the upgrade, depending on how selection
+is done. Categorise as `"medium"` — the calling pattern may break, but it
+depends on the code.
+
+**Step 4: Write the description.**
+
+The description should:
+- State which version the change was introduced in
+- Describe the old behaviour
+- Describe the new behaviour
+- Explain the practical consequence for reproducibility
+
+**Step 5: Add the entry.**
+
+Open `R/breaking_changes_db.R` and add your entry in the appropriate section:
+
+```r
+"broom::augment" = list(
+  list(
+    from_version = "0.7.99",
+    to_version   = "1.0.9",
+    risk         = "medium",
+    description  = paste0(
+      "In broom 0.8.0, augment() renamed residual columns for several model ",
+      "types — '.resid' became '.std.resid' for standardised residuals in ",
+      "lm and glm objects. Code that selects '.resid' by name from augment() ",
+      "output will silently return NA or error after upgrading."
+    ),
+    reference = "https://broom.tidymodels.org/news/index.html"
+  )
+),
+```
+
+---
+
+## Testing your entry
+
+Before submitting, verify that the entry behaves correctly by simulating a
+version match:
+
+```{r test-entry}
+# Temporarily add a test entry to verify the detection logic
+# (this is what a test in tests/testthat/ would do)
+
+# 1. Write a script that calls the at-risk function
+test_script <- tempfile(fileext = ".R")
+writeLines("x <- dplyr::summarise(mtcars, n = dplyr::n())", test_script)
+
+# 2. Audit it — package version will be from installed library
+report <- audit_script(test_script, renv = FALSE, verbose = FALSE)
+
+# 3. Confirm the call was detected
+report$calls[, c("pkg", "fn", "pkg_version")]
+
+# 4. Run the changelog check
+risks <- risk_score(report, methods = "changelog")
+
+# 5. If the installed version is in the risk window, it will be flagged
+if (nrow(risks) > 0) {
+  risks[, c("call", "pkg_version", "risk", "check")]
+} else {
+  cat("Installed version is outside the risk window — entry is correct,\n")
+  cat("but not triggered by this version.\n")
+}
+```
+
+To test with a specific version (simulating a user on an older installation),
+you can temporarily override the `pkg_version` in the calls data frame:
+
+```{r test-with-version}
+# Force the version to sit inside the dplyr::summarise risk window
+report_forced <- report
+report_forced$calls$pkg_version <- as.character(report_forced$calls$pkg_version)
+report_forced$calls$pkg_version[report_forced$calls$pkg == "dplyr"] <- "1.1.0"
+
+risks_forced <- risk_score(report_forced, methods = "changelog")
+as.data.frame(risks_forced)[, c("call", "pkg_version", "risk")]
+```
+
+---
+
+## Submitting a pull request
+
+1. Fork the repository on GitHub.
+2. Add your entry to `R/breaking_changes_db.R` in the appropriate package
+   section (alphabetical order by package name, then by function name).
+3. Add a test in `tests/testthat/test-risk_score.R` that confirms:
+   - The entry is flagged when the version is inside the risk window.
+   - The entry is **not** flagged when the version is outside the window.
+4. Update `NEWS.md` with a bullet under `# reproducr (development version)`.
+5. Open a pull request with a short description of the breaking change and
+   a link to the official changelog.
+
+### Minimum test for a new entry
+
+```r
+test_that("risk_score() flags mypackage::myfun in the risk window", {
+  f <- write_script("x <- mypackage::myfun(42)")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  # Simulate a version inside the risk window
+  r$calls$pkg_version[r$calls$pkg == "mypackage"] <- "2.1.0"
+
+  rs <- risk_score(r, methods = "changelog")
+  expect_true(nrow(rs) > 0L)
+  expect_true(any(rs$call == "mypackage::myfun"))
+})
+
+test_that("risk_score() does NOT flag mypackage::myfun outside the window", {
+  f <- write_script("x <- mypackage::myfun(42)")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  # Simulate a version before the risk window
+  r$calls$pkg_version[r$calls$pkg == "mypackage"] <- "1.9.0"
+
+  rs <- risk_score(r, methods = "changelog")
+  myfun_risks <- rs[rs$call == "mypackage::myfun" & rs$check == "changelog", ]
+  expect_equal(nrow(myfun_risks), 0L)
+})
+```
+
+```{r cleanup, include = FALSE}
+unlink(test_script)
+```

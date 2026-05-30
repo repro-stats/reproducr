@@ -1,0 +1,55 @@
+name: Reproducibility audit
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 6 * * 1'   # Weekly on Monday at 06:00 UTC
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - name: Install reproducr
+        run: Rscript -e "remotes::install_github('ndohpenngit/reproducr', quiet = TRUE)"
+
+      - name: Run reproducibility audit
+        run: |
+          Rscript -e "
+            library(reproducr)
+            report <- audit_script('.', renv = TRUE, verbose = FALSE)
+            risks  <- risk_score(report)
+            repro_badge(report, risks, output = 'README')
+            repro_report(report, risks,
+                         format      = 'md',
+                         style       = 'minimal',
+                         output_file = 'reproducibility_report.md')
+            n_high <- sum(risks\$risk == 'high', na.rm = TRUE)
+            if (n_high > 0) {
+              warning(n_high, ' high-severity reproducibility risk(s) detected.')
+            }
+          "
+
+      - name: Commit audit results
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md reproducibility_report.md
+          git diff --staged --quiet || \
+            git commit -m "chore: update reproducibility audit [skip ci]"
+          git push

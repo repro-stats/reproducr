@@ -1,0 +1,7 @@
+All analyses were conducted in R (version {{r_version}}) on {{os}}.
+The following packages were used: {{package_list}}.
+Package environments were managed using renv (Ushey & Wickham, 2023).
+Computational reproducibility was assessed using the reproducr package
+(Last, 2026). {{risk_sentence}}
+The full audit report and certification records are available in the
+supplementary materials.

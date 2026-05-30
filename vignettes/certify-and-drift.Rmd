@@ -1,0 +1,346 @@
+---
+title: "Certifying outputs and detecting drift"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Certifying outputs and detecting drift}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>"
+)
+library(reproducr)
+cert_file <- tempfile()   # shared across all chunks
+```
+
+This vignette covers Tier 2 of the `reproducr` workflow in depth:
+`certify()`, `check_drift()`, and `list_certs()`. These three functions
+together form the *baseline and drift detection* system.
+
+## The problem they solve
+
+`renv` freezes the package versions you declare. But packages change hands,
+maintainers push silent fixes, platform-level libraries (BLAS, LAPACK) get
+updated by system administrators, and R itself changes RNG defaults between
+minor versions. Any of these can alter your numerical results without
+producing an error.
+
+`certify()` and `check_drift()` detect this. The idea is simple:
+
+1. After a successful analysis run, hash the key outputs and store the hashes.
+2. Later — after any change to the environment — re-run the analysis and
+   compare the new hashes against the stored ones.
+3. Any mismatch is reported explicitly, by output name.
+
+---
+
+## `certify()` — creating a baseline
+
+### What gets hashed
+
+Pass a fully named list of any R objects you want to protect. Common choices:
+
+```{r certify-examples}
+model <- lm(mpg ~ wt + cyl, data = mtcars)
+
+certify(
+  outputs = list(
+    # Model parameters
+    coefs       = coef(model),
+    r_squared   = summary(model)$r.squared,
+    sigma       = sigma(model),
+
+    # Key data properties
+    n_obs       = nrow(mtcars),
+    n_complete  = sum(complete.cases(mtcars)),
+
+    # A summary table
+    group_means = aggregate(mpg ~ cyl, data = mtcars, FUN = mean)
+  ),
+  tag    = "baseline-v1",
+  script = "analysis.R",
+  file   = cert_file
+)
+```
+
+Any R object that can be serialised works: numeric vectors, data frames,
+matrices, lists, character vectors, and scalars. The hash is computed with
+SHA-256 via the `digest` package if available, or a base-R fallback otherwise.
+
+### Choosing what to certify
+
+Certify outputs that are:
+
+- **Conclusions** — the numbers that appear in your paper or report
+- **Stable** — not random session artefacts like timestamps or row ordering
+- **Interpretable** — so a drift report tells you something meaningful
+
+Avoid certifying objects that are expected to differ across runs by design,
+such as `proc.time()` outputs or `Sys.time()` values.
+
+### Tags and the certification store
+
+Every certification requires a `tag` — a human-readable label that identifies
+the analysis milestone:
+
+```{r tags}
+# Certify at multiple milestones
+certify(
+  outputs = list(coefs = coef(model)),
+  tag     = "pre-peer-review",
+  file    = cert_file
+)
+
+certify(
+  outputs = list(coefs = coef(model)),
+  tag     = "post-revision",
+  file    = cert_file
+)
+```
+
+All certifications for a project accumulate in a single `.reproducr.rds` file.
+Tags must be unique within a file — passing a duplicate tag overwrites the
+existing record with a warning:
+
+```{r duplicate-tag, warning = TRUE}
+certify(
+  outputs = list(coefs = coef(model)),
+  tag     = "baseline-v1",  # already exists
+  file    = cert_file
+)
+```
+
+### What gets stored alongside the hashes
+
+Each certification record stores:
+
+| Field | Description |
+|---|---|
+| `tag` | The label you supplied |
+| `timestamp` | ISO 8601 timestamp |
+| `script` | Path to the script (if supplied) |
+| `r_version` | R version at certification time |
+| `r_platform` | Platform string |
+| `os` | Operating system |
+| `hashes` | Named list of SHA-256 hashes |
+| `output_names` | Names of certified outputs |
+| `output_classes` | R class of each output |
+| `output_dims` | Dimensions/length of each output |
+
+This means that even if `check_drift()` reports a mismatch, the record tells
+you what *type* of object changed and approximately what size it was — which
+helps diagnose whether it was a data issue or a model issue.
+
+---
+
+## `list_certs()` — inspecting the store
+
+Before running `check_drift()`, you can inspect what certifications are stored:
+
+```{r list-certs}
+list_certs(file = cert_file)
+```
+
+The result is a plain data frame — one row per certification, in insertion
+order. This is useful for:
+
+- Confirming the right tag exists before passing it to `check_drift()`
+- Auditing the history of an analysis over time
+- Checking that CI has been certifying on each run
+
+---
+
+## `check_drift()` — comparing against a baseline
+
+### Basic usage
+
+```{r drift-basic}
+# Re-run the same analysis
+model2 <- lm(mpg ~ wt + cyl, data = mtcars)
+
+result <- check_drift(
+  outputs = list(
+    coefs      = coef(model2),
+    r_squared  = summary(model2)$r.squared,
+    sigma      = sigma(model2),
+    n_obs      = nrow(mtcars),
+    n_complete = sum(complete.cases(mtcars)),
+    group_means = aggregate(mpg ~ cyl, data = mtcars, FUN = mean)
+  ),
+  against = "baseline-v1",
+  file    = cert_file
+)
+```
+
+### The four statuses
+
+Every output in the comparison gets one of four statuses:
+
+```{r statuses}
+# Demonstrate all four by constructing an artificial scenario
+certify(
+  outputs = list(
+    stays_same  = 42L,
+    will_change = coef(lm(mpg ~ wt, data = mtcars)),
+    will_vanish = "this output disappears next run"
+  ),
+  tag  = "four-statuses",
+  file = cert_file
+)
+
+demo_result <- check_drift(
+  outputs = list(
+    stays_same  = 42L,
+    will_change = coef(lm(mpg ~ hp, data = mtcars)),  # different model
+    brand_new   = "this output is new"
+    # will_vanish is not supplied
+  ),
+  against = "four-statuses",
+  file    = cert_file
+)
+
+print(demo_result)
+```
+
+| Status | Meaning |
+|---|---|
+| `ok` | Hash matches the baseline exactly |
+| `drifted` | Hash differs — output has changed |
+| `missing` | Present in baseline, not supplied to `check_drift()` |
+| `new` | Supplied to `check_drift()`, not in baseline |
+
+`"missing"` and `"new"` are not errors by themselves — you may have
+intentionally added or removed outputs between milestones. But they are worth
+reviewing, especially `"missing"`, which could indicate an output was dropped
+by accident.
+
+### Using `"latest"` to always compare against the most recent certification
+
+```{r latest}
+certify(outputs = list(x = 1L), tag = "run-1", file = cert_file)
+certify(outputs = list(x = 1L), tag = "run-2", file = cert_file)
+certify(outputs = list(x = 1L), tag = "run-3", file = cert_file)
+
+# Compares against "run-3" automatically
+check_drift(outputs = list(x = 1L), against = "latest", file = cert_file)
+```
+
+This is the pattern to use in CI: always certify after a successful run, then
+on the next run compare against `"latest"`. Any drift between consecutive runs
+is caught immediately.
+
+### Working with the drift report
+
+The return value is a `data.frame` with columns `output`, `status`,
+`max_delta`, and `note`. Use it programmatically to make CI fail on drift:
+
+```{r drift-programmatic, eval = FALSE}
+result <- check_drift(outputs = current_outputs, against = "latest")
+
+n_drifted <- sum(result$status == "drifted")
+if (n_drifted > 0L) {
+  drifted_names <- result$output[result$status == "drifted"]
+  stop(sprintf(
+    "%d output(s) have drifted since last certification: %s",
+    n_drifted,
+    paste(drifted_names, collapse = ", ")
+  ))
+}
+```
+
+---
+
+## Recommended workflow across a project lifecycle
+
+### Initial analysis
+
+```r
+# Run analysis
+model <- lm(...)
+results <- compute_results(...)
+
+# Certify at submission
+certify(
+  outputs = list(
+    primary_coef = coef(model)[2],
+    primary_pval = summary(model)$coefficients[2, 4],
+    n            = nrow(data),
+    effect_size  = compute_d(model)
+  ),
+  tag    = "submitted-2026-01-15",
+  script = "main_analysis.R"
+)
+```
+
+### After reviewer comments
+
+```r
+# Re-run with minor changes
+# ...
+
+check_drift(
+  outputs = list(
+    primary_coef = coef(model)[2],
+    primary_pval = summary(model)$coefficients[2, 4],
+    n            = nrow(data),
+    effect_size  = compute_d(model)
+  ),
+  against = "submitted-2026-01-15"
+)
+# If all "ok" — results are numerically identical to submission
+# If "drifted" — investigate before resubmitting
+```
+
+### In a CI pipeline (GitHub Actions)
+
+```yaml
+- name: Certify and check drift
+  run: |
+    Rscript -e "
+      source('main_analysis.R')
+      library(reproducr)
+
+      # On first run, certify
+      if (!file.exists('.reproducr.rds')) {
+        certify(outputs = OUTPUTS, tag = 'ci-initial')
+      }
+
+      # On every subsequent run, check
+      result <- check_drift(outputs = OUTPUTS, against = 'latest')
+      certify(outputs = OUTPUTS, tag = paste0('ci-', Sys.Date()))
+
+      if (any(result\$status == 'drifted')) stop('Drift detected!')
+    "
+```
+
+---
+
+## Version control considerations
+
+Commit `.reproducr.rds` to your Git repository. This gives you:
+
+- A permanent, auditable history of what every run produced
+- The ability to `check_drift()` against any past milestone, not just the
+  most recent one
+- A single file reviewers can inspect to verify reproducibility claims
+
+Add `.reproducr.rds` to your `.gitattributes` as a binary file to prevent
+noisy diffs:
+
+```
+.reproducr.rds binary
+```
+
+And add a note to your `.Rbuildignore` so it does not end up in a package
+tarball if your analysis is inside a package directory:
+
+```
+^\.reproducr\.rds$
+```
+
+```{r cleanup, include = FALSE}
+unlink(paste0(cert_file, ".rds"))
+```
