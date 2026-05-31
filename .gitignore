@@ -4,3 +4,10 @@
 .Ruserdata
 inst/doc
 docs
+.DS_Store
+Thumbs.db
+docs/
+
+# R CMD check
+/*.Rcheck/
+*.tar.gz
