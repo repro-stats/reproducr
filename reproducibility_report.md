@@ -1,6 +1,6 @@
 # reproducr audit report
 
-- **Generated:** 2026-05-31 11:59
+- **Generated:** 2026-05-31 12:26
 - **R version:** 4.6.0
 - **Platform:** Linux 6.17.0-1015-azure
 - **Files scanned:** 21
@@ -68,7 +68,7 @@
 
 ### \[HIGH\] `stats::sample`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** changelog
 - **Details:** In R 3.6.0, the default RNG algorithm for sample()
   changed (sample.kind = ‘Rejection’ replaced ‘Rounding’). Results
@@ -81,7 +81,7 @@
 
 ### \[HIGH\] `stats::runif`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** changelog
 - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from
   runif() with the same seed will differ between R \<= 3.5 and R \>=
@@ -91,7 +91,7 @@
 
 ### \[HIGH\] `stats::rnorm`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** changelog
 - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from
   rnorm() with the same seed will differ between R \<= 3.5 and R \>=
@@ -101,7 +101,7 @@
 
 ### \[HIGH\] `stats::rbinom`
 
-- **File:** risk_score.R, line 124
+- **File:** risk_score.R, line 119
 - **Check:** changelog
 - **Details:** In R 3.6.0, RNG defaults changed. Results from rbinom()
   with the same seed will differ between R \<= 3.5 and R \>= 3.6.
@@ -419,180 +419,180 @@
 
 ### \[MEDIUM\] `stats::sample`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** seed_check
 - **Details:** sample() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 123). Output will differ across runs
+  50 lines above this call (line 118). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::runif`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** seed_check
 - **Details:** runif() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 123). Output will differ across runs
+  50 lines above this call (line 118). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rnorm`
 
-- **File:** risk_score.R, line 123
+- **File:** risk_score.R, line 118
 - **Check:** seed_check
 - **Details:** rnorm() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 123). Output will differ across runs
+  50 lines above this call (line 118). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rbinom`
 
-- **File:** risk_score.R, line 124
+- **File:** risk_score.R, line 119
 - **Check:** seed_check
 - **Details:** rbinom() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 124). Output will differ across runs
+  50 lines above this call (line 119). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rpois`
 
-- **File:** risk_score.R, line 124
+- **File:** risk_score.R, line 119
 - **Check:** seed_check
 - **Details:** rpois() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 124). Output will differ across runs
+  50 lines above this call (line 119). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rexp`
 
-- **File:** risk_score.R, line 124
+- **File:** risk_score.R, line 119
 - **Check:** seed_check
 - **Details:** rexp() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 124). Output will differ across runs
+  50 lines above this call (line 119). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rgamma`
 
-- **File:** risk_score.R, line 125
+- **File:** risk_score.R, line 120
 - **Check:** seed_check
 - **Details:** rgamma() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 125). Output will differ across runs
+  50 lines above this call (line 120). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rbeta`
 
-- **File:** risk_score.R, line 125
+- **File:** risk_score.R, line 120
 - **Check:** seed_check
 - **Details:** rbeta() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 125). Output will differ across runs
+  50 lines above this call (line 120). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rcauchy`
 
-- **File:** risk_score.R, line 125
+- **File:** risk_score.R, line 120
 - **Check:** seed_check
 - **Details:** rcauchy() is stochastic but no set.seed() was found in
-  the 50 lines above this call (line 125). Output will differ across
+  the 50 lines above this call (line 120). Output will differ across
   runs without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rchisq`
 
-- **File:** risk_score.R, line 126
+- **File:** risk_score.R, line 121
 - **Check:** seed_check
 - **Details:** rchisq() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 126). Output will differ across runs
+  50 lines above this call (line 121). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rf`
 
-- **File:** risk_score.R, line 126
+- **File:** risk_score.R, line 121
 - **Check:** seed_check
 - **Details:** rf() is stochastic but no set.seed() was found in the 50
-  lines above this call (line 126). Output will differ across runs
+  lines above this call (line 121). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rt`
 
-- **File:** risk_score.R, line 126
+- **File:** risk_score.R, line 121
 - **Check:** seed_check
 - **Details:** rt() is stochastic but no set.seed() was found in the 50
-  lines above this call (line 126). Output will differ across runs
+  lines above this call (line 121). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rgeom`
 
-- **File:** risk_score.R, line 127
+- **File:** risk_score.R, line 122
 - **Check:** seed_check
 - **Details:** rgeom() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 127). Output will differ across runs
+  50 lines above this call (line 122). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rhyper`
 
-- **File:** risk_score.R, line 127
+- **File:** risk_score.R, line 122
 - **Check:** seed_check
 - **Details:** rhyper() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 127). Output will differ across runs
+  50 lines above this call (line 122). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rnbinom`
 
-- **File:** risk_score.R, line 127
+- **File:** risk_score.R, line 122
 - **Check:** seed_check
 - **Details:** rnbinom() is stochastic but no set.seed() was found in
-  the 50 lines above this call (line 127). Output will differ across
+  the 50 lines above this call (line 122). Output will differ across
   runs without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `stats::rweibull`
 
-- **File:** risk_score.R, line 128
+- **File:** risk_score.R, line 123
 - **Check:** seed_check
 - **Details:** rweibull() is stochastic but no set.seed() was found in
-  the 50 lines above this call (line 128). Output will differ across
+  the 50 lines above this call (line 123). Output will differ across
   runs without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `base::sample`
 
-- **File:** risk_score.R, line 128
+- **File:** risk_score.R, line 123
 - **Check:** seed_check
 - **Details:** sample() is stochastic but no set.seed() was found in the
-  50 lines above this call (line 128). Output will differ across runs
+  50 lines above this call (line 123). Output will differ across runs
   without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
 
 ### \[MEDIUM\] `base::sample.int`
 
-- **File:** risk_score.R, line 128
+- **File:** risk_score.R, line 123
 - **Check:** seed_check
 - **Details:** sample.int() is stochastic but no set.seed() was found in
-  the 50 lines above this call (line 128). Output will differ across
+  the 50 lines above this call (line 123). Output will differ across
   runs without a fixed seed.
 - **Reference:**
   <https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html>
@@ -699,7 +699,7 @@
 
 ### \[LOW\] `base::sort`
 
-- **File:** risk_score.R, line 184
+- **File:** risk_score.R, line 179
 - **Check:** locale_check
 - **Details:** sort() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -709,7 +709,7 @@
 
 ### \[LOW\] `base::order`
 
-- **File:** risk_score.R, line 184
+- **File:** risk_score.R, line 179
 - **Check:** locale_check
 - **Details:** order() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -719,7 +719,7 @@
 
 ### \[LOW\] `base::format`
 
-- **File:** risk_score.R, line 184
+- **File:** risk_score.R, line 179
 - **Check:** locale_check
 - **Details:** format() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -729,7 +729,7 @@
 
 ### \[LOW\] `base::toupper`
 
-- **File:** risk_score.R, line 185
+- **File:** risk_score.R, line 180
 - **Check:** locale_check
 - **Details:** toupper() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -739,7 +739,7 @@
 
 ### \[LOW\] `base::tolower`
 
-- **File:** risk_score.R, line 185
+- **File:** risk_score.R, line 180
 - **Check:** locale_check
 - **Details:** tolower() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -749,7 +749,7 @@
 
 ### \[LOW\] `base::strftime`
 
-- **File:** risk_score.R, line 185
+- **File:** risk_score.R, line 180
 - **Check:** locale_check
 - **Details:** strftime() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -759,7 +759,7 @@
 
 ### \[LOW\] `base::as.Date`
 
-- **File:** risk_score.R, line 186
+- **File:** risk_score.R, line 181
 - **Check:** locale_check
 - **Details:** as.Date() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or
@@ -769,7 +769,7 @@
 
 ### \[LOW\] `base::sprintf`
 
-- **File:** risk_score.R, line 186
+- **File:** risk_score.R, line 181
 - **Check:** locale_check
 - **Details:** sprintf() output is locale-sensitive. Current locale:
   C.UTF-8. Results may differ on machines with different LC_COLLATE or

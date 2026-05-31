@@ -8,14 +8,14 @@ result and
 [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md)
 result. Three style presets are available:
 
-- **`"minimal"`** — compact summary suitable for console review or
+- **`"minimal"`** â€” compact summary suitable for console review or
   internal project documentation.
 
-- **`"academic"`** — generates a ready-to-paste methods paragraph for
+- **`"academic"`** â€” generates a ready-to-paste methods paragraph for
   journal submissions, listing all packages with versions and
   summarising risk findings.
 
-- **`"pharma"`** — structured QC document with a risk register and
+- **`"pharma"`** â€” structured QC document with a risk register and
   sign-off fields, suitable for pharmaceutical or regulated analytical
   workflows.
 
@@ -44,7 +44,7 @@ repro_report(
 
   A `risk_report` data frame from
   [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md).
-  Optional but strongly recommended — without it, the report cannot
+  Optional but strongly recommended â€” without it, the report cannot
   assess reproducibility.
 
 - drift:
@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 12:26
+#> - Generated: 2026-05-31 12:42
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -113,7 +113,7 @@ repro_report(report, risks, format = "text", style = "minimal")
 #> ## Risks
 #> 
 #> ### [HIGH] stats::rnorm
-#> - File: file19452532678d.R, line 3
+#> - File: file19633a27948a.R, line 3
 #> - Check: changelog
 #> - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>

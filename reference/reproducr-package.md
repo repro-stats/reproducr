@@ -61,5 +61,5 @@ Useful links:
 
 ## Author
 
-**Maintainer**: First Last <you@example.com>
-([ORCID](https://orcid.org/0000-0000-0000-0000))
+**Maintainer**: Ndoh Penn <ndohpenn9@gmail.com>
+([ORCID](https://orcid.org/0009-0003-9054-465X))

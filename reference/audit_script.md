@@ -37,6 +37,18 @@ summary(object, ...)
 
   `logical(1)`. Whether to print progress messages. Default `TRUE`.
 
+- x:
+
+  An `audit_report` object (for `print`).
+
+- ...:
+
+  Additional arguments (currently unused).
+
+- object:
+
+  An `audit_report` object (for `summary`).
+
 ## Value
 
 An S3 object of class `"audit_report"`, a list containing:
@@ -102,7 +114,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-05-31 12:26] --
+#> -- reproducr audit report [2026-05-31 12:42] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    2
@@ -117,7 +129,7 @@ print(report)
 # See the detected calls as a data frame
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/Rtmpt0FnI5/file194522d3811f.R    2 dplyr    filter        <NA>
-#> 2 /tmp/Rtmpt0FnI5/file194522d3811f.R    3 dplyr summarise        <NA>
-#> 3 /tmp/Rtmpt0FnI5/file194522d3811f.R    4 stats     rnorm       4.6.0
+#> 1 /tmp/RtmpWPxNIf/file19636998cfd5.R    2 dplyr    filter        <NA>
+#> 2 /tmp/RtmpWPxNIf/file19636998cfd5.R    3 dplyr summarise        <NA>
+#> 3 /tmp/RtmpWPxNIf/file19636998cfd5.R    4 stats     rnorm       4.6.0
 ```

@@ -42,7 +42,7 @@
 <div id="reproducr-audit-report" class="section level1">
 
 <ul><li>
-<strong>Generated:</strong> 2026-05-31 11:59</li>
+<strong>Generated:</strong> 2026-05-31 12:26</li>
 <li>
 <strong>R version:</strong> 4.6.0</li>
 <li>
@@ -132,7 +132,7 @@
 <h3 id="high-statssample-1">[HIGH] <code>stats::sample</code>
 <a class="anchor" aria-label="anchor" href="#high-statssample-1"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 123</li>
+<strong>File:</strong> risk_score.R, line 118</li>
 <li>
 <strong>Check:</strong> changelog</li>
 <li>
@@ -145,7 +145,7 @@
 <h3 id="high-statsrunif-1">[HIGH] <code>stats::runif</code>
 <a class="anchor" aria-label="anchor" href="#high-statsrunif-1"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 123</li>
+<strong>File:</strong> risk_score.R, line 118</li>
 <li>
 <strong>Check:</strong> changelog</li>
 <li>
@@ -158,7 +158,7 @@
 <h3 id="high-statsrnorm-1">[HIGH] <code>stats::rnorm</code>
 <a class="anchor" aria-label="anchor" href="#high-statsrnorm-1"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 123</li>
+<strong>File:</strong> risk_score.R, line 118</li>
 <li>
 <strong>Check:</strong> changelog</li>
 <li>
@@ -171,7 +171,7 @@
 <h3 id="high-statsrbinom-1">[HIGH] <code>stats::rbinom</code>
 <a class="anchor" aria-label="anchor" href="#high-statsrbinom-1"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 124</li>
+<strong>File:</strong> risk_score.R, line 119</li>
 <li>
 <strong>Check:</strong> changelog</li>
 <li>
@@ -574,6 +574,214 @@
 <h3 id="medium-statssample-1">[MEDIUM] <code>stats::sample</code>
 <a class="anchor" aria-label="anchor" href="#medium-statssample-1"></a></h3>
 <ul><li>
+<strong>File:</strong> risk_score.R, line 118</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> sample() is stochastic but no set.seed() was found in the 50 lines above this call (line 118). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrunif">[MEDIUM] <code>stats::runif</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrunif"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 118</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> runif() is stochastic but no set.seed() was found in the 50 lines above this call (line 118). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrnorm">[MEDIUM] <code>stats::rnorm</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrnorm"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 118</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rnorm() is stochastic but no set.seed() was found in the 50 lines above this call (line 118). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrbinom">[MEDIUM] <code>stats::rbinom</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrbinom"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 119</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rbinom() is stochastic but no set.seed() was found in the 50 lines above this call (line 119). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrpois">[MEDIUM] <code>stats::rpois</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrpois"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 119</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rpois() is stochastic but no set.seed() was found in the 50 lines above this call (line 119). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrexp">[MEDIUM] <code>stats::rexp</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrexp"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 119</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rexp() is stochastic but no set.seed() was found in the 50 lines above this call (line 119). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrgamma">[MEDIUM] <code>stats::rgamma</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrgamma"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 120</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rgamma() is stochastic but no set.seed() was found in the 50 lines above this call (line 120). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrbeta">[MEDIUM] <code>stats::rbeta</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrbeta"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 120</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rbeta() is stochastic but no set.seed() was found in the 50 lines above this call (line 120). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrcauchy">[MEDIUM] <code>stats::rcauchy</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrcauchy"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 120</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rcauchy() is stochastic but no set.seed() was found in the 50 lines above this call (line 120). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrchisq">[MEDIUM] <code>stats::rchisq</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrchisq"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 121</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rchisq() is stochastic but no set.seed() was found in the 50 lines above this call (line 121). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrf">[MEDIUM] <code>stats::rf</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrf"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 121</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rf() is stochastic but no set.seed() was found in the 50 lines above this call (line 121). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrt">[MEDIUM] <code>stats::rt</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrt"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 121</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rt() is stochastic but no set.seed() was found in the 50 lines above this call (line 121). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrgeom">[MEDIUM] <code>stats::rgeom</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrgeom"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 122</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rgeom() is stochastic but no set.seed() was found in the 50 lines above this call (line 122). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrhyper">[MEDIUM] <code>stats::rhyper</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrhyper"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 122</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rhyper() is stochastic but no set.seed() was found in the 50 lines above this call (line 122). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrnbinom">[MEDIUM] <code>stats::rnbinom</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrnbinom"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 122</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rnbinom() is stochastic but no set.seed() was found in the 50 lines above this call (line 122). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-statsrweibull">[MEDIUM] <code>stats::rweibull</code>
+<a class="anchor" aria-label="anchor" href="#medium-statsrweibull"></a></h3>
+<ul><li>
+<strong>File:</strong> risk_score.R, line 123</li>
+<li>
+<strong>Check:</strong> seed_check</li>
+<li>
+<strong>Details:</strong> rweibull() is stochastic but no set.seed() was found in the 50 lines above this call (line 123). Output will differ across runs without a fixed seed.</li>
+<li>
+<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="medium-basesample">[MEDIUM] <code>base::sample</code>
+<a class="anchor" aria-label="anchor" href="#medium-basesample"></a></h3>
+<ul><li>
 <strong>File:</strong> risk_score.R, line 123</li>
 <li>
 <strong>Check:</strong> seed_check</li>
@@ -584,222 +792,14 @@
 </li>
 </ul></div>
 <div class="section level3">
-<h3 id="medium-statsrunif">[MEDIUM] <code>stats::runif</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrunif"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 123</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> runif() is stochastic but no set.seed() was found in the 50 lines above this call (line 123). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrnorm">[MEDIUM] <code>stats::rnorm</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrnorm"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 123</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rnorm() is stochastic but no set.seed() was found in the 50 lines above this call (line 123). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrbinom">[MEDIUM] <code>stats::rbinom</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrbinom"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 124</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rbinom() is stochastic but no set.seed() was found in the 50 lines above this call (line 124). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrpois">[MEDIUM] <code>stats::rpois</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrpois"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 124</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rpois() is stochastic but no set.seed() was found in the 50 lines above this call (line 124). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrexp">[MEDIUM] <code>stats::rexp</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrexp"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 124</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rexp() is stochastic but no set.seed() was found in the 50 lines above this call (line 124). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrgamma">[MEDIUM] <code>stats::rgamma</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrgamma"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 125</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rgamma() is stochastic but no set.seed() was found in the 50 lines above this call (line 125). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrbeta">[MEDIUM] <code>stats::rbeta</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrbeta"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 125</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rbeta() is stochastic but no set.seed() was found in the 50 lines above this call (line 125). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrcauchy">[MEDIUM] <code>stats::rcauchy</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrcauchy"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 125</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rcauchy() is stochastic but no set.seed() was found in the 50 lines above this call (line 125). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrchisq">[MEDIUM] <code>stats::rchisq</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrchisq"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 126</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rchisq() is stochastic but no set.seed() was found in the 50 lines above this call (line 126). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrf">[MEDIUM] <code>stats::rf</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrf"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 126</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rf() is stochastic but no set.seed() was found in the 50 lines above this call (line 126). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrt">[MEDIUM] <code>stats::rt</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrt"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 126</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rt() is stochastic but no set.seed() was found in the 50 lines above this call (line 126). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrgeom">[MEDIUM] <code>stats::rgeom</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrgeom"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 127</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rgeom() is stochastic but no set.seed() was found in the 50 lines above this call (line 127). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrhyper">[MEDIUM] <code>stats::rhyper</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrhyper"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 127</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rhyper() is stochastic but no set.seed() was found in the 50 lines above this call (line 127). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrnbinom">[MEDIUM] <code>stats::rnbinom</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrnbinom"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 127</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rnbinom() is stochastic but no set.seed() was found in the 50 lines above this call (line 127). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-statsrweibull">[MEDIUM] <code>stats::rweibull</code>
-<a class="anchor" aria-label="anchor" href="#medium-statsrweibull"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 128</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> rweibull() is stochastic but no set.seed() was found in the 50 lines above this call (line 128). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
-<h3 id="medium-basesample">[MEDIUM] <code>base::sample</code>
-<a class="anchor" aria-label="anchor" href="#medium-basesample"></a></h3>
-<ul><li>
-<strong>File:</strong> risk_score.R, line 128</li>
-<li>
-<strong>Check:</strong> seed_check</li>
-<li>
-<strong>Details:</strong> sample() is stochastic but no set.seed() was found in the 50 lines above this call (line 128). Output will differ across runs without a fixed seed.</li>
-<li>
-<strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
-</li>
-</ul></div>
-<div class="section level3">
 <h3 id="medium-basesampleint">[MEDIUM] <code>base::sample.int</code>
 <a class="anchor" aria-label="anchor" href="#medium-basesampleint"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 128</li>
+<strong>File:</strong> risk_score.R, line 123</li>
 <li>
 <strong>Check:</strong> seed_check</li>
 <li>
-<strong>Details:</strong> sample.int() is stochastic but no set.seed() was found in the 50 lines above this call (line 128). Output will differ across runs without a fixed seed.</li>
+<strong>Details:</strong> sample.int() is stochastic but no set.seed() was found in the 50 lines above this call (line 123). Output will differ across runs without a fixed seed.</li>
 <li>
 <strong>Reference:</strong> <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html" class="external-link uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</a>
 </li>
@@ -938,7 +938,7 @@
 <h3 id="low-basesort">[LOW] <code>base::sort</code>
 <a class="anchor" aria-label="anchor" href="#low-basesort"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 184</li>
+<strong>File:</strong> risk_score.R, line 179</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -951,7 +951,7 @@
 <h3 id="low-baseorder">[LOW] <code>base::order</code>
 <a class="anchor" aria-label="anchor" href="#low-baseorder"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 184</li>
+<strong>File:</strong> risk_score.R, line 179</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -964,7 +964,7 @@
 <h3 id="low-baseformat">[LOW] <code>base::format</code>
 <a class="anchor" aria-label="anchor" href="#low-baseformat"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 184</li>
+<strong>File:</strong> risk_score.R, line 179</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -977,7 +977,7 @@
 <h3 id="low-basetoupper">[LOW] <code>base::toupper</code>
 <a class="anchor" aria-label="anchor" href="#low-basetoupper"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 185</li>
+<strong>File:</strong> risk_score.R, line 180</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -990,7 +990,7 @@
 <h3 id="low-basetolower">[LOW] <code>base::tolower</code>
 <a class="anchor" aria-label="anchor" href="#low-basetolower"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 185</li>
+<strong>File:</strong> risk_score.R, line 180</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -1003,7 +1003,7 @@
 <h3 id="low-basestrftime">[LOW] <code>base::strftime</code>
 <a class="anchor" aria-label="anchor" href="#low-basestrftime"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 185</li>
+<strong>File:</strong> risk_score.R, line 180</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -1016,7 +1016,7 @@
 <h3 id="low-baseasdate">[LOW] <code>base::as.Date</code>
 <a class="anchor" aria-label="anchor" href="#low-baseasdate"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 186</li>
+<strong>File:</strong> risk_score.R, line 181</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
@@ -1029,7 +1029,7 @@
 <h3 id="low-basesprintf">[LOW] <code>base::sprintf</code>
 <a class="anchor" aria-label="anchor" href="#low-basesprintf"></a></h3>
 <ul><li>
-<strong>File:</strong> risk_score.R, line 186</li>
+<strong>File:</strong> risk_score.R, line 181</li>
 <li>
 <strong>Check:</strong> locale_check</li>
 <li>
