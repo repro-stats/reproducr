@@ -6,6 +6,7 @@
 ^\.Rproj\.user$
 ^cran-comments\.md$
 ^\.reproducr\.rds$
+^reproducibility_report\.md$
+^reproducr\.Rproj$
 ^_pkgdown\.yml$
-^docs$
 ^pkgdown$
