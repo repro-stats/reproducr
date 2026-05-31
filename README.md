@@ -1,28 +1,32 @@
-<!-- reproducr-badge -->![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)<!-- /reproducr-badge -->
-
 # reproducr <img src="man/figures/logo.svg" align="right" height="120" alt="" />
 
-![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)
+![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)
 ![CRAN status](https://img.shields.io/badge/CRAN-not%20yet-lightgrey)
 ![Tests](https://img.shields.io/badge/tests-63%20passing-brightgreen)
 
-> **Computational reproducibility auditing for R — the layer `renv` doesn't cover.**
+> **Know your R analysis will produce the same results tomorrow as it does today.**
 
 ---
 
 ## The problem
 
-You have an analysis. You have `renv`. Your packages are locked. Are you done?
+You finish an analysis. The code runs. The numbers look right. But are they stable?
 
-Not quite. `renv` answers one question: *"Can I reinstall these packages?"*
-It cannot tell you:
+Package updates change function behaviour silently. Stochastic code without a fixed seed produces different results on every run. A model fitted on one platform may return subtly different coefficients on another. Results that were correct in January may drift by March — with no error, no warning, and no obvious cause.
 
-- Whether a function's **behaviour changed silently** between versions (e.g. `dplyr::summarise()` changed its grouping defaults in v1.1.0)
-- Whether your **stochastic code** is missing a `set.seed()` and will produce different results every run
-- Whether your results have **numerically drifted** since your last analysis
-- Whether your code is **locale-sensitive** and will behave differently on a server in a different country
+`reproducr` makes these risks visible and trackable, before they reach a journal, a regulator, or a collaborator.
 
-`reproducr` answers those questions. Use it *alongside* `renv`, not instead of it.
+---
+
+## What it does
+
+**Scans your scripts** for known breaking changes across popular CRAN packages, flags stochastic calls missing `set.seed()`, and identifies locale-sensitive operations that behave differently across systems.
+
+**Certifies your outputs** by hashing key results — model coefficients, summary statistics, p-values — so any numerical drift is detected automatically on subsequent runs.
+
+**Generates audit reports** in three styles: a plain summary, a ready-to-paste academic methods paragraph, and a structured QC document with sign-off fields for regulated workflows.
+
+**Works with your existing setup.** If you use `renv`, `reproducr` reads your lockfile automatically. If you don't, it uses your installed library. No configuration required.
 
 ---
 
@@ -30,8 +34,7 @@ It cannot tell you:
 
 ```r
 # Development version from GitHub
-# install.packages("remotes")
-remotes::install_github("ndohpenngit/reproducr")
+pak::pkg_install("ndohpenngit/reproducr")
 ```
 
 ---
@@ -50,9 +53,9 @@ print(report)
 #>   Files scanned:    1
 #>   Packages found:   4
 #>   Calls detected:   23
-#>   R version:        4.3.3
-#>   Platform:         Linux 6.18.5
-#>   Versions from:    renv.lock
+#>   R version:        4.4.2
+#>   Platform:         aarch64-apple-darwin20
+#>   Versions from:    installed library
 #>
 #>   Next step: risks <- risk_score(report)
 
@@ -86,7 +89,7 @@ certify(
 )
 #> reproducr: certified 3 output(s) [2026-05-30] under tag 'submission-v1'
 
-# Step 4: After a package upgrade, check for drift
+# Step 4: After any environment change or package upgrade, check for drift
 check_drift(
   outputs = list(
     coefs     = coef(model),
@@ -135,16 +138,13 @@ audit_script()                 certify()                       repro_report()
 risk_score()               check_drift()                    repro_badge()
 ```
 
-You can use just Tier 1 for a quick scan, or build up to the full pipeline for
-regulated or peer-reviewed work.
+Use Tier 1 alone for a quick scan, or build the full pipeline for regulated or peer-reviewed work.
 
 ---
 
 ## The breaking-changes database
 
-The heart of `risk_score()` is a curated database of known cases where a
-package update **silently changed function behaviour** — not errors, not
-deprecation warnings, just different results.
+The heart of `risk_score()` is a curated database of known cases where a package update **silently changed function behaviour** — not errors, not deprecation warnings, just different results.
 
 Current coverage:
 
@@ -162,9 +162,7 @@ Current coverage:
 | `lme4` | 1 | Optimizer tolerance change |
 | `base R` | 5 | RNG change (R 3.6.0), `hclust()` tie-breaking (R 4.0.0) |
 
-**Contributing:** The database is designed for community contribution. Each
-entry is a plain R list — see `R/breaking_changes_db.R` and open a pull
-request to add new entries.
+**Contributing:** Each entry is a plain R list in `R/breaking_changes_db.R`. Open a pull request to add new entries — see the contributing guide for the schema.
 
 ---
 
@@ -172,20 +170,16 @@ request to add new entries.
 
 ### `"changelog"` — Breaking changes database
 
-Checks every detected `pkg::fn` call against the built-in database. A call is
-flagged only if the installed (or `renv`-locked) version falls within a known
-risky version window `(from_ver, to_ver]`.
+Checks every detected `pkg::fn` call against the built-in database. A call is flagged only if the installed version falls within a known risky version window `(from_ver, to_ver]`.
 
 Risk levels:
 - **HIGH** — output values can change silently with no error
-- **MEDIUM** — argument renamed/deprecated; may error or produce different output
+- **MEDIUM** — argument renamed or deprecated; may error or produce different output
 - **LOW** — minor behavioural note; output unlikely to differ in practice
 
 ### `"seed_check"` — Missing set.seed()
 
-Flags any call to a stochastic function (`rnorm`, `sample`, `rbinom`, etc.)
-where no `set.seed()` is found within the 50 lines above the call. Rated
-**MEDIUM** risk — results will differ across runs.
+Flags any call to a stochastic function (`rnorm`, `sample`, `rbinom`, etc.) where no `set.seed()` is found within 50 lines above the call.
 
 ```r
 # This will be flagged:
@@ -198,9 +192,7 @@ x <- stats::rnorm(100)
 
 ### `"locale_check"` — Locale-sensitive operations
 
-Flags functions whose output depends on the system locale (`sort()`, `format()`,
-`strftime()`, etc.). Rated **LOW** risk — relevant when code will run on
-servers in different countries or with different OS locale settings.
+Flags functions whose output depends on the system locale (`sort()`, `format()`, `strftime()`, etc.) — relevant when code runs on servers in different countries or with different OS locale settings.
 
 ---
 
@@ -218,7 +210,7 @@ certify(
   script = "main_analysis.R"
 )
 
-# Three months later, after a dplyr upgrade:
+# Three months later, after any environment change:
 check_drift(
   outputs = list(
     model_coefs  = coef(my_model),
@@ -238,23 +230,17 @@ Certifications accumulate in a `.reproducr.rds` file in your project root.
 
 ### `"minimal"` (default)
 A compact Markdown/HTML summary covering environment, verdict, and risk table.
-Good for internal project documentation.
 
 ### `"academic"`
-Generates a ready-to-paste methods paragraph for journal submissions:
+A ready-to-paste methods paragraph for journal submissions:
 
-> *All analyses were conducted in R (version 4.3.3) on Linux 6.18.5.
+> *All analyses were conducted in R (version 4.4.2) on macOS 26.5.
 > The following packages were used: dplyr (v1.1.4), ggplot2 (v3.5.1) ...
 > Reproducibility auditing (reproducr) identified no risks. The full audit
 > report and certification records are available in the supplementary materials.*
 
 ### `"pharma"`
-A structured QC document with:
-- Execution environment table
-- Full package inventory with versions
-- Risk register (one entry per flagged call)
-- Drift assessment table
-- Sign-off fields for analyst and reviewer
+A structured QC document with execution environment table, full package inventory, risk register, drift assessment, and sign-off fields for analyst and reviewer.
 
 ```r
 repro_report(report, risks, drift,
@@ -266,72 +252,20 @@ repro_report(report, risks, drift,
 
 ## CI/CD integration
 
-Add `reproducr` to your GitHub Actions workflow to automatically audit on
-every push and update the badge in your README:
+`reproducr` is designed to run automatically on every push. A typical workflow:
 
-```yaml
-# .github/workflows/reproducr.yml
-name: Reproducibility audit
+- Audits your scripts for risk
+- Checks for drift against the last certified run
+- Updates the reproducibility badge in your README
+- Commits a `reproducibility_report.md` to the repo
 
-on: [push, pull_request]
-
-jobs:
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          use-public-rspm: true
-
-      - name: Install reproducr
-        run: Rscript -e "remotes::install_github('ndohpenngit/reproducr')"
-
-      - name: Run audit
-        run: |
-          Rscript -e "
-            library(reproducr)
-            report <- audit_script('.', verbose = FALSE)
-            risks  <- risk_score(report)
-            repro_badge(report, risks, output = 'README')
-            repro_report(report, risks, format = 'md',
-                         output_file = 'reproducibility_report.md')
-            if (any(risks\$risk == 'high')) stop('High-severity risks detected.')
-          "
-
-      - name: Commit updated badge
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add README.md reproducibility_report.md
-          git diff --staged --quiet || git commit -m "chore: update reproducibility badge"
-          git push
-```
-
----
-
-## Relationship to renv
-
-| | `renv` | `reproducr` |
-|---|---|---|
-| Freezes package versions | ✓ | — |
-| Restores environments | ✓ | — |
-| Detects silent behavioural changes | — | ✓ |
-| Flags missing set.seed() | — | ✓ |
-| Detects numerical drift | — | ✓ |
-| Generates QC reports | — | ✓ |
-| Works without renv | — | ✓ |
-| Works best with renv | ✓ | ✓ |
-
-`renv` locks your packages. `reproducr` tells you whether locking is enough.
+See the [reports and badges vignette](https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html) for the complete GitHub Actions workflow.
 
 ---
 
 ## Contributing
 
-Contributions to the breaking-changes database are especially welcome. Each
-entry requires:
+Contributions to the breaking-changes database are especially welcome. Each entry requires:
 
 1. A `pkg::fn` key
 2. A version window (`from_version`, `to_version`)
@@ -348,12 +282,6 @@ See `R/breaking_changes_db.R` for the existing format and open a pull request.
 If you use `reproducr` in published research, please cite:
 
 ```
-Last, F. (2026). reproducr: Computational Reproducibility Auditing for R
+Penn, N. (2026). reproducr: Behavioural Reproducibility Auditing for R
 Projects. R package version 0.1.0. https://github.com/ndohpenngit/reproducr
 ```
-
----
-
-## License
-
-MIT © 2026 reproducr authors
