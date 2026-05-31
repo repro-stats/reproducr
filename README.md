@@ -1,3 +1,5 @@
+<!-- reproducr-badge -->![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)<!-- /reproducr-badge -->
+
 # reproducr <img src="man/figures/logo.svg" align="right" height="120" alt="" />
 
 ![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)
