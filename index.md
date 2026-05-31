@@ -1,6 +1,6 @@
 # reproducr
 
-![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)![CRAN
+![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)![CRAN
 status](https://img.shields.io/badge/CRAN-not%20yet-lightgrey)![R CMD
 check](https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)
 
@@ -300,7 +300,6 @@ workflow:
 - Audits your scripts for risk
 - Checks for drift against the last certified run
 - Updates the reproducibility badge in your README
-- Commits a `reproducibility_report.md` to the repo
 
 See the [reports and badges
 vignette](https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html)

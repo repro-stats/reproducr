@@ -134,7 +134,7 @@ drift:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">clean_report</span>, <span class="va">clean_risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - Generated: 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -147,7 +147,7 @@ drift:</p>
 <span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -171,7 +171,7 @@ quick console review.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - Generated: 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -186,19 +186,19 @@ quick console review.</p>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [HIGH] stats::rnorm</span></span>
-<span><span class="co">#&gt; - File: file1b844f7cc0b5.R, line 4</span></span>
+<span><span class="co">#&gt; - File: file1b5cc348a79.R, line 4</span></span>
 <span><span class="co">#&gt; - Check: changelog</span></span>
 <span><span class="co">#&gt; - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] base::sort</span></span>
-<span><span class="co">#&gt; - File: file1b844f7cc0b5.R, line 5</span></span>
+<span><span class="co">#&gt; - File: file1b5cc348a79.R, line 5</span></span>
 <span><span class="co">#&gt; - Check: locale_check</span></span>
 <span><span class="co">#&gt; - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -213,13 +213,13 @@ quick console review.</p>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [HIGH] `stats::rnorm`</span></span>
-<span><span class="co">#&gt; - **File:** file1b844f7cc0b5.R, line 4</span></span>
+<span><span class="co">#&gt; - **File:** file1b5cc348a79.R, line 4</span></span>
 <span><span class="co">#&gt; - **Check:** changelog</span></span>
 <span><span class="co">#&gt; - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] `base::sort`</span></span>
-<span><span class="co">#&gt; - **File:** file1b844f7cc0b5.R, line 5</span></span>
+<span><span class="co">#&gt; - **File:** file1b5cc348a79.R, line 5</span></span>
 <span><span class="co">#&gt; - **Check:** locale_check</span></span>
 <span><span class="co">#&gt; - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span></code></pre></div>
@@ -227,7 +227,7 @@ quick console review.</p>
 <ul>
 <li>Generation timestamp and R version</li>
 <li>File count, package count, call count</li>
-<li>Version source (renv.lock or installed library)</li>
+<li>Version source (lockfile or installed library)</li>
 <li>Overall verdict</li>
 <li>One entry per risk (if any)</li>
 <li>Drift summary (if drift is supplied)</li>
@@ -237,7 +237,7 @@ quick console review.</p>
 <span>                 format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - Generated: 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -252,13 +252,13 @@ quick console review.</p>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [HIGH] stats::rnorm</span></span>
-<span><span class="co">#&gt; - File: file1b844f7cc0b5.R, line 4</span></span>
+<span><span class="co">#&gt; - File: file1b5cc348a79.R, line 4</span></span>
 <span><span class="co">#&gt; - Check: changelog</span></span>
 <span><span class="co">#&gt; - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] base::sort</span></span>
-<span><span class="co">#&gt; - File: file1b844f7cc0b5.R, line 5</span></span>
+<span><span class="co">#&gt; - File: file1b5cc348a79.R, line 5</span></span>
 <span><span class="co">#&gt; - Check: locale_check</span></span>
 <span><span class="co">#&gt; - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
@@ -268,7 +268,7 @@ quick console review.</p>
 <span><span class="co">#&gt; - OK coefs</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 16:27</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-05-31 17:18</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -283,13 +283,13 @@ quick console review.</p>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [HIGH] `stats::rnorm`</span></span>
-<span><span class="co">#&gt; - **File:** file1b844f7cc0b5.R, line 4</span></span>
+<span><span class="co">#&gt; - **File:** file1b5cc348a79.R, line 4</span></span>
 <span><span class="co">#&gt; - **Check:** changelog</span></span>
 <span><span class="co">#&gt; - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] `base::sort`</span></span>
-<span><span class="co">#&gt; - **File:** file1b844f7cc0b5.R, line 5</span></span>
+<span><span class="co">#&gt; - **File:** file1b5cc348a79.R, line 5</span></span>
 <span><span class="co">#&gt; - **Check:** locale_check</span></span>
 <span><span class="co">#&gt; - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
@@ -323,10 +323,9 @@ look at the supplementary materials.</p>
 <blockquote>
 <p>All analyses were conducted in R (version 4.3.3) on Linux 6.1.0. The
 following packages were used: dplyr (v1.1.4), ggplot2 (v3.5.1), readr
-(v2.1.5). Package environments were managed using renv (Ushey &amp;
-Wickham, 2023). Reproducibility auditing (reproducr) identified no
-risks. The full audit report and certification records are available in
-the supplementary materials.</p>
+(v2.1.5). Reproducibility auditing (reproducr) identified no risks. The
+full audit report and certification records are available in the
+supplementary materials.</p>
 </blockquote>
 <hr>
 </div>
@@ -363,7 +362,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 2. Files audited</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - /tmp/RtmpGeYCJm/file1b844f7cc0b5.R</span></span>
+<span><span class="co">#&gt; - /tmp/RtmpXk7uC4/file1b5cc348a79.R</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 3. Package inventory</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -379,7 +378,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | HIGH |</span></span>
-<span><span class="co">#&gt; | File | file1b844f7cc0b5.R, line 4 |</span></span>
+<span><span class="co">#&gt; | File | file1b5cc348a79.R, line 4 |</span></span>
 <span><span class="co">#&gt; | Check method | changelog |</span></span>
 <span><span class="co">#&gt; | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt; |</span></span>
@@ -388,7 +387,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | LOW |</span></span>
-<span><span class="co">#&gt; | File | file1b844f7cc0b5.R, line 5 |</span></span>
+<span><span class="co">#&gt; | File | file1b5cc348a79.R, line 5 |</span></span>
 <span><span class="co">#&gt; | Check method | locale_check |</span></span>
 <span><span class="co">#&gt; | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt; |</span></span>
@@ -427,7 +426,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 2. Files audited</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - `/tmp/RtmpGeYCJm/file1b844f7cc0b5.R`</span></span>
+<span><span class="co">#&gt; - `/tmp/RtmpXk7uC4/file1b5cc348a79.R`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 3. Package inventory</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -443,7 +442,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | **HIGH** |</span></span>
-<span><span class="co">#&gt; | File | file1b844f7cc0b5.R, line 4 |</span></span>
+<span><span class="co">#&gt; | File | file1b5cc348a79.R, line 4 |</span></span>
 <span><span class="co">#&gt; | Check method | changelog |</span></span>
 <span><span class="co">#&gt; | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt; |</span></span>
@@ -452,7 +451,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | **LOW** |</span></span>
-<span><span class="co">#&gt; | File | file1b844f7cc0b5.R, line 5 |</span></span>
+<span><span class="co">#&gt; | File | file1b5cc348a79.R, line 5 |</span></span>
 <span><span class="co">#&gt; | Check method | locale_check |</span></span>
 <span><span class="co">#&gt; | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt; |</span></span>
@@ -507,7 +506,7 @@ with status</li>
 <span>             format      <span class="op">=</span> <span class="st">"md"</span>,</span>
 <span>             style       <span class="op">=</span> <span class="st">"minimal"</span>,</span>
 <span>             output_file <span class="op">=</span> <span class="va">md_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpGeYCJm/file1b84628311af.md'</span></span>
+<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpXk7uC4/file1b5c275cf8a1.md'</span></span>
 <span></span>
 <span><span class="co"># Inspect the raw Markdown</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">md_file</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
@@ -517,7 +516,7 @@ with status</li>
 <span>             format      <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>             style       <span class="op">=</span> <span class="st">"pharma"</span>,</span>
 <span>             output_file <span class="op">=</span> <span class="va">html_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpGeYCJm/file1b842d6a6e35.html'</span></span>
+<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpXk7uC4/file1b5c676bc06.html'</span></span>
 <span></span>
 <span><span class="co"># The file is self-contained — open it in a browser</span></span>
 <span><span class="co"># browseURL(html_file)</span></span></code></pre></div>
@@ -617,7 +616,7 @@ README and update automatically via CI.</p>
 <span></span>
 <span><span class="co"># Insert badge at the top</span></span>
 <span><span class="fu"><a href="../reference/repro_badge.html">repro_badge</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, output <span class="op">=</span> <span class="st">"README"</span>, readme_path <span class="op">=</span> <span class="va">readme</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: badge updated in '/tmp/RtmpGeYCJm/file1b841460cdb3.md'</span></span>
+<span><span class="co">#&gt; reproducr: badge updated in '/tmp/RtmpXk7uC4/file1b5c450745c2.md'</span></span>
 <span></span>
 <span><span class="co"># See the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">readme</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
@@ -646,74 +645,57 @@ easy to find with any text editor or <code>grep</code>.</p>
 <div class="section level2">
 <h2 id="full-ci-pipeline">Full CI pipeline<a class="anchor" aria-label="anchor" href="#full-ci-pipeline"></a>
 </h2>
-<p>The recommended CI pattern combines all three tiers and updates both
-the badge and a report file on every push:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># .github/workflows/reproducr-audit.yml</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Reproducibility audit</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="at">  </span><span class="fu">audit</span><span class="kw">:</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> write</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@v2</span></span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="at">          </span><span class="fu">r-version</span><span class="kw">:</span><span class="at"> release</span></span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="at">          </span><span class="fu">use-public-rspm</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-renv@v2</span></span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install reproducr</span></span>
-<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> Rscript -e "remotes::install_github('ndohpenngit/reproducr')"</span></span>
-<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a></span>
-<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Source analysis and audit</span></span>
-<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a>          Rscript -e "</span>
-<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a>            source('analysis.R')          # produces OUTPUTS list</span>
+<p>The recommended CI pattern updates the badge automatically on every
+push:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Reproducibility audit</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">,</span><span class="at"> master</span><span class="kw">]</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">'0 6 * * 1'</span><span class="co">   # Weekly on Monday at 06:00 UTC</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="at">  </span><span class="fu">audit</span><span class="kw">:</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="at">    </span><span class="fu">permissions</span><span class="kw">:</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="at">      </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> write</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="at">          </span><span class="fu">token</span><span class="kw">:</span><span class="at"> ${{ secrets.GITHUB_TOKEN }}</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@v2</span></span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="at">          </span><span class="fu">r-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'release'</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="at">          </span><span class="fu">use-public-rspm</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install reproducr</span></span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> Rscript -e "install.packages('.', repos = NULL, type = 'source')"</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Run reproducibility audit</span></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a>          Rscript -e "</span>
 <span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a>            library(reproducr)</span>
-<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a></span>
-<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a>            report &lt;- audit_script('.', renv = TRUE, verbose = FALSE)</span>
-<span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a>            risks  &lt;- risk_score(report)</span>
-<span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a></span>
-<span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a>            # Check drift against last run</span>
-<span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a>            if (file.exists('.reproducr.rds')) {</span>
-<span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a>              drift &lt;- check_drift(OUTPUTS, against = 'latest')</span>
-<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a>            } else {</span>
-<span id="cb12-40"><a href="#cb12-40" tabindex="-1"></a>              drift &lt;- NULL</span>
-<span id="cb12-41"><a href="#cb12-41" tabindex="-1"></a>            }</span>
-<span id="cb12-42"><a href="#cb12-42" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" tabindex="-1"></a>            # Certify this run</span>
-<span id="cb12-44"><a href="#cb12-44" tabindex="-1"></a>            certify(OUTPUTS, tag = paste0('ci-', Sys.Date()))</span>
-<span id="cb12-45"><a href="#cb12-45" tabindex="-1"></a></span>
-<span id="cb12-46"><a href="#cb12-46" tabindex="-1"></a>            # Update badge and report</span>
-<span id="cb12-47"><a href="#cb12-47" tabindex="-1"></a>            repro_badge(report, risks, drift = drift, output = 'README')</span>
-<span id="cb12-48"><a href="#cb12-48" tabindex="-1"></a>            repro_report(report, risks, drift = drift,</span>
-<span id="cb12-49"><a href="#cb12-49" tabindex="-1"></a>                         format = 'md', style = 'minimal',</span>
-<span id="cb12-50"><a href="#cb12-50" tabindex="-1"></a>                         output_file = 'reproducibility_report.md')</span>
-<span id="cb12-51"><a href="#cb12-51" tabindex="-1"></a></span>
-<span id="cb12-52"><a href="#cb12-52" tabindex="-1"></a>            # Fail CI on high risks or drift</span>
-<span id="cb12-53"><a href="#cb12-53" tabindex="-1"></a>            if (any(risks\$risk == 'high'))</span>
-<span id="cb12-54"><a href="#cb12-54" tabindex="-1"></a>              stop('High-severity reproducibility risks detected.')</span>
-<span id="cb12-55"><a href="#cb12-55" tabindex="-1"></a>            if (!is.null(drift) &amp;&amp; any(drift\$status == 'drifted'))</span>
-<span id="cb12-56"><a href="#cb12-56" tabindex="-1"></a>              stop('Output drift detected since last run.')</span>
-<span id="cb12-57"><a href="#cb12-57" tabindex="-1"></a>          "</span>
-<span id="cb12-58"><a href="#cb12-58" tabindex="-1"></a></span>
-<span id="cb12-59"><a href="#cb12-59" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Commit results</span></span>
-<span id="cb12-60"><a href="#cb12-60" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb12-61"><a href="#cb12-61" tabindex="-1"></a>          git config user.name  'github-actions[bot]'</span>
-<span id="cb12-62"><a href="#cb12-62" tabindex="-1"></a>          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'</span>
-<span id="cb12-63"><a href="#cb12-63" tabindex="-1"></a>          git add README.md reproducibility_report.md .reproducr.rds || true</span>
-<span id="cb12-64"><a href="#cb12-64" tabindex="-1"></a>          git diff --staged --quiet || \</span>
-<span id="cb12-65"><a href="#cb12-65" tabindex="-1"></a>            git commit -m 'chore: update reproducibility audit [skip ci]'</span>
-<span id="cb12-66"><a href="#cb12-66" tabindex="-1"></a>          git push</span></code></pre></div>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a>            report &lt;- audit_script('vignettes/', renv = FALSE, verbose = FALSE)</span>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a>            risks  &lt;- risk_score(report)</span>
+<span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a>            repro_badge(report, risks, output = 'README')</span>
+<span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a>            n_high &lt;- sum(risks\$risk == 'high', na.rm = TRUE)</span>
+<span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a>            if (n_high &gt; 0) {</span>
+<span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a>              message(n_high, ' high-severity reproducibility risk(s) detected.')</span>
+<span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a>            }</span>
+<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a>          "</span>
+<span id="cb12-40"><a href="#cb12-40" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Commit updated badge</span></span>
+<span id="cb12-42"><a href="#cb12-42" tabindex="-1"></a><span class="at">        </span><span class="fu">if</span><span class="kw">:</span><span class="at"> github.event_name == 'push'</span></span>
+<span id="cb12-43"><a href="#cb12-43" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb12-44"><a href="#cb12-44" tabindex="-1"></a>          git config user.name  'github-actions[bot]'</span>
+<span id="cb12-45"><a href="#cb12-45" tabindex="-1"></a>          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'</span>
+<span id="cb12-46"><a href="#cb12-46" tabindex="-1"></a>          git add README.md</span>
+<span id="cb12-47"><a href="#cb12-47" tabindex="-1"></a>          git diff --staged --quiet || \</span>
+<span id="cb12-48"><a href="#cb12-48" tabindex="-1"></a>            git commit -m 'chore: update reproducibility badge [skip ci]'</span>
+<span id="cb12-49"><a href="#cb12-49" tabindex="-1"></a>          git push</span></code></pre></div>
 <p>The workflow template is also available as a file inside the
 package:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

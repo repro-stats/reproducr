@@ -91,7 +91,7 @@ certify(
 # See what is stored
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-05-31T16:27:10+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1 baseline-v1 2026-05-31T17:17:57+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs     script
 #> 1         3 analysis.R
 ```

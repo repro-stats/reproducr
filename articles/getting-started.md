@@ -46,7 +46,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-05-31 16:27] --
+#> -- reproducr audit report [2026-05-31 17:18] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    3
@@ -61,12 +61,12 @@ print(report)
 ``` r
 
 report$calls
-#>                                file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpP3iELo/file1b4a70ae167.R    3 dplyr    filter        <NA>
-#> 2 /tmp/RtmpP3iELo/file1b4a70ae167.R    4 dplyr summarise        <NA>
-#> 3 /tmp/RtmpP3iELo/file1b4a70ae167.R    4 dplyr         n        <NA>
-#> 4 /tmp/RtmpP3iELo/file1b4a70ae167.R    6 stats     rnorm       4.6.0
-#> 5 /tmp/RtmpP3iELo/file1b4a70ae167.R    7  base      sort       4.6.0
+#>                                 file line   pkg        fn pkg_version
+#> 1 /tmp/RtmptdxjA9/file1b234bdbdeed.R    3 dplyr    filter        <NA>
+#> 2 /tmp/RtmptdxjA9/file1b234bdbdeed.R    4 dplyr summarise        <NA>
+#> 3 /tmp/RtmptdxjA9/file1b234bdbdeed.R    4 dplyr         n        <NA>
+#> 4 /tmp/RtmptdxjA9/file1b234bdbdeed.R    6 stats     rnorm       4.6.0
+#> 5 /tmp/RtmptdxjA9/file1b234bdbdeed.R    7  base      sort       4.6.0
 ```
 
 ### Scoring for risk
@@ -86,13 +86,13 @@ print(risks)
 #>   MEDIUM:    0
 #>   LOW:       1
 #> 
-#> [HIGH]    stats::rnorm  (line 6 in file1b4a70ae167.R)
+#> [HIGH]    stats::rnorm  (line 6 in file1b234bdbdeed.R)
 #>          Check    : changelog
 #>          Details  : In R 3.6.0, RNG defaults changed. Stochastic output from rnorm()
 #>                     with the same seed will differ between R <= 3.5 and R >= 3.6.
 #>          Reference: https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html
 #> 
-#> [LOW]     base::sort  (line 7 in file1b4a70ae167.R)
+#> [LOW]     base::sort  (line 7 in file1b234bdbdeed.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.
 #>                     Results may differ on machines with different LC_COLLATE or
@@ -120,9 +120,9 @@ seed_issues <- risk_score(report, methods = "seed_check")
 
 # As a plain data frame for downstream use
 as.data.frame(risks)
-#>                                file line         call pkg_version risk
-#> 1 /tmp/RtmpP3iELo/file1b4a70ae167.R    6 stats::rnorm       4.6.0 high
-#> 2 /tmp/RtmpP3iELo/file1b4a70ae167.R    7   base::sort       4.6.0  low
+#>                                 file line         call pkg_version risk
+#> 1 /tmp/RtmptdxjA9/file1b234bdbdeed.R    6 stats::rnorm       4.6.0 high
+#> 2 /tmp/RtmptdxjA9/file1b234bdbdeed.R    7   base::sort       4.6.0  low
 #>          check
 #> 1    changelog
 #> 2 locale_check
@@ -164,9 +164,9 @@ certify(
 
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-05-31T16:27:23+0000     4.6.0 Linux 6.17.0-1015-azure
-#>   n_outputs                            script
-#> 1         3 /tmp/RtmpP3iELo/file1b4a70ae167.R
+#> 1 baseline-v1 2026-05-31T17:18:09+0000     4.6.0 Linux 6.17.0-1015-azure
+#>   n_outputs                             script
+#> 1         3 /tmp/RtmptdxjA9/file1b234bdbdeed.R
 ```
 
 ### Checking for drift

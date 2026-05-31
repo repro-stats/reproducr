@@ -42,7 +42,7 @@ clean_risks  <- risk_score(clean_report)
 cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 16:27
+#> - Generated: 2026-05-31 17:18
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -55,7 +55,7 @@ cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> > REPRODUCIBLE: No significant risks detected.
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-05-31 16:27
+#> - **Generated:** 2026-05-31 17:18
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -81,7 +81,7 @@ quick console review.
 cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 16:27
+#> - Generated: 2026-05-31 17:18
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -96,19 +96,19 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [HIGH] stats::rnorm
-#> - File: file1b844f7cc0b5.R, line 4
+#> - File: file1b5cc348a79.R, line 4
 #> - Check: changelog
 #> - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
 #> 
 #> ### [LOW] base::sort
-#> - File: file1b844f7cc0b5.R, line 5
+#> - File: file1b5cc348a79.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-05-31 16:27
+#> - **Generated:** 2026-05-31 17:18
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -123,13 +123,13 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [HIGH] `stats::rnorm`
-#> - **File:** file1b844f7cc0b5.R, line 4
+#> - **File:** file1b5cc348a79.R, line 4
 #> - **Check:** changelog
 #> - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file1b844f7cc0b5.R, line 5
+#> - **File:** file1b5cc348a79.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -139,7 +139,7 @@ The minimal style includes:
 
 - Generation timestamp and R version
 - File count, package count, call count
-- Version source (renv.lock or installed library)
+- Version source (lockfile or installed library)
 - Overall verdict
 - One entry per risk (if any)
 - Drift summary (if drift is supplied)
@@ -150,7 +150,7 @@ cat(repro_report(report, risks, drift = drift,
                  format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 16:27
+#> - Generated: 2026-05-31 17:18
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -165,13 +165,13 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [HIGH] stats::rnorm
-#> - File: file1b844f7cc0b5.R, line 4
+#> - File: file1b5cc348a79.R, line 4
 #> - Check: changelog
 #> - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
 #> 
 #> ### [LOW] base::sort
-#> - File: file1b844f7cc0b5.R, line 5
+#> - File: file1b5cc348a79.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -181,7 +181,7 @@ cat(repro_report(report, risks, drift = drift,
 #> - OK coefs
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-05-31 16:27
+#> - **Generated:** 2026-05-31 17:18
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -196,13 +196,13 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [HIGH] `stats::rnorm`
-#> - **File:** file1b844f7cc0b5.R, line 4
+#> - **File:** file1b5cc348a79.R, line 4
 #> - **Check:** changelog
 #> - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file1b844f7cc0b5.R, line 5
+#> - **File:** file1b5cc348a79.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -242,10 +242,9 @@ look at the supplementary materials.
 
 > All analyses were conducted in R (version 4.3.3) on Linux 6.1.0. The
 > following packages were used: dplyr (v1.1.4), ggplot2 (v3.5.1), readr
-> (v2.1.5). Package environments were managed using renv (Ushey &
-> Wickham, 2023). Reproducibility auditing (reproducr) identified no
-> risks. The full audit report and certification records are available
-> in the supplementary materials.
+> (v2.1.5). Reproducibility auditing (reproducr) identified no risks.
+> The full audit report and certification records are available in the
+> supplementary materials.
 
 ------------------------------------------------------------------------
 
@@ -283,7 +282,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - /tmp/RtmpGeYCJm/file1b844f7cc0b5.R
+#> - /tmp/RtmpXk7uC4/file1b5cc348a79.R
 #> 
 #> ## 3. Package inventory
 #> 
@@ -299,7 +298,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | HIGH |
-#> | File | file1b844f7cc0b5.R, line 4 |
+#> | File | file1b5cc348a79.R, line 4 |
 #> | Check method | changelog |
 #> | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html> |
@@ -308,7 +307,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | LOW |
-#> | File | file1b844f7cc0b5.R, line 5 |
+#> | File | file1b5cc348a79.R, line 5 |
 #> | Check method | locale_check |
 #> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
@@ -347,7 +346,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - `/tmp/RtmpGeYCJm/file1b844f7cc0b5.R`
+#> - `/tmp/RtmpXk7uC4/file1b5cc348a79.R`
 #> 
 #> ## 3. Package inventory
 #> 
@@ -363,7 +362,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | **HIGH** |
-#> | File | file1b844f7cc0b5.R, line 4 |
+#> | File | file1b5cc348a79.R, line 4 |
 #> | Check method | changelog |
 #> | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html> |
@@ -372,7 +371,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | **LOW** |
-#> | File | file1b844f7cc0b5.R, line 5 |
+#> | File | file1b5cc348a79.R, line 5 |
 #> | Check method | locale_check |
 #> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
@@ -420,7 +419,7 @@ repro_report(report, risks,
              format      = "md",
              style       = "minimal",
              output_file = md_file)
-#> reproducr: report written to '/tmp/RtmpGeYCJm/file1b84628311af.md'
+#> reproducr: report written to '/tmp/RtmpXk7uC4/file1b5c275cf8a1.md'
 
 # Inspect the raw Markdown
 cat(readLines(md_file, warn = FALSE), sep = "\n")
@@ -433,7 +432,7 @@ repro_report(report, risks, drift = drift,
              format      = "html",
              style       = "pharma",
              output_file = html_file)
-#> reproducr: report written to '/tmp/RtmpGeYCJm/file1b842d6a6e35.html'
+#> reproducr: report written to '/tmp/RtmpXk7uC4/file1b5c676bc06.html'
 
 # The file is self-contained — open it in a browser
 # browseURL(html_file)
@@ -517,7 +516,7 @@ writeLines(c(
 
 # Insert badge at the top
 repro_badge(report, risks, output = "README", readme_path = readme)
-#> reproducr: badge updated in '/tmp/RtmpGeYCJm/file1b841460cdb3.md'
+#> reproducr: badge updated in '/tmp/RtmpXk7uC4/file1b5c450745c2.md'
 
 # See the result
 cat(readLines(readme, warn = FALSE), sep = "\n")
@@ -551,16 +550,17 @@ with any text editor or `grep`.
 
 ## Full CI pipeline
 
-The recommended CI pattern combines all three tiers and updates both the
-badge and a report file on every push:
+The recommended CI pattern updates the badge automatically on every
+push:
 
 ``` yaml
-# .github/workflows/reproducr-audit.yml
 name: Reproducibility audit
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
+  schedule:
+    - cron: '0 6 * * 1'   # Weekly on Monday at 06:00 UTC
 
 jobs:
   audit:
@@ -570,56 +570,38 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: release
+          r-version: 'release'
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-renv@v2
-
       - name: Install reproducr
-        run: Rscript -e "remotes::install_github('ndohpenngit/reproducr')"
+        run: Rscript -e "install.packages('.', repos = NULL, type = 'source')"
 
-      - name: Source analysis and audit
+      - name: Run reproducibility audit
         run: |
           Rscript -e "
-            source('analysis.R')          # produces OUTPUTS list
             library(reproducr)
-
-            report <- audit_script('.', renv = TRUE, verbose = FALSE)
+            report <- audit_script('vignettes/', renv = FALSE, verbose = FALSE)
             risks  <- risk_score(report)
-
-            # Check drift against last run
-            if (file.exists('.reproducr.rds')) {
-              drift <- check_drift(OUTPUTS, against = 'latest')
-            } else {
-              drift <- NULL
+            repro_badge(report, risks, output = 'README')
+            n_high <- sum(risks\$risk == 'high', na.rm = TRUE)
+            if (n_high > 0) {
+              message(n_high, ' high-severity reproducibility risk(s) detected.')
             }
-
-            # Certify this run
-            certify(OUTPUTS, tag = paste0('ci-', Sys.Date()))
-
-            # Update badge and report
-            repro_badge(report, risks, drift = drift, output = 'README')
-            repro_report(report, risks, drift = drift,
-                         format = 'md', style = 'minimal',
-                         output_file = 'reproducibility_report.md')
-
-            # Fail CI on high risks or drift
-            if (any(risks\$risk == 'high'))
-              stop('High-severity reproducibility risks detected.')
-            if (!is.null(drift) && any(drift\$status == 'drifted'))
-              stop('Output drift detected since last run.')
           "
 
-      - name: Commit results
+      - name: Commit updated badge
+        if: github.event_name == 'push'
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md reproducibility_report.md .reproducr.rds || true
+          git add README.md
           git diff --staged --quiet || \
-            git commit -m 'chore: update reproducibility audit [skip ci]'
+            git commit -m 'chore: update reproducibility badge [skip ci]'
           git push
 ```
 
