@@ -1,19 +1,18 @@
 Package: reproducr
-Title: Computational Reproducibility Auditing for R Projects
+Title: Behavioural Reproducibility Auditing for R Projects
 Version: 0.1.0
 Authors@R:
     person("Ndoh", "Penn", email = "ndohpenn9@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0003-9054-465X"))
-Description: Audits R scripts for reproducibility risk beyond what 'renv'
-    provides. Scans scripts for qualified package::function calls, checks them
-    against a curated database of known breaking changes across popular CRAN
-    packages, flags stochastic calls lacking set.seed(), and detects
-    locale-sensitive operations. Supports baseline certification of analytical
-    outputs so that silent numerical drift can be detected across package
-    upgrades or platform changes. Generates human-readable audit reports
-    suitable for academic submission or pharmaceutical QC workflows. Designed
-    to complement 'renv', not replace it: 'renv' locks your packages;
-    'reproducr' tells you whether locking them is actually enough.
+Description: Audits R scripts for behavioural reproducibility risk. Scans
+    scripts for qualified package::function calls and checks them against a
+    curated database of known silent breaking changes across popular CRAN
+    packages. Flags stochastic calls lacking set.seed() and detects
+    locale-sensitive operations that may produce different results across
+    systems. Supports baseline certification of analytical outputs so that
+    silent numerical drift can be detected across package upgrades or platform
+    changes. Generates human-readable audit reports suitable for academic
+    submission or pharmaceutical QC workflows.
 License: MIT
 Encoding: UTF-8
 Language: en-GB
@@ -22,7 +21,7 @@ RoxygenNote: 7.3.3
 Depends:
     R (>= 4.0.0)
 Imports:
-    utils,
+    utils
 Suggests:
     digest (>= 0.6.0),
     testthat (>= 3.0.0),
@@ -30,5 +29,5 @@ Suggests:
     rmarkdown
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/ndohpenngit/reproducr, https://ndohpenngit.github.io/reproducr/
+URL: https://github.com/ndohpenngit/reproducr
 BugReports: https://github.com/ndohpenngit/reproducr/issues
