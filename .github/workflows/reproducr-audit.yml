@@ -25,7 +25,7 @@ jobs:
           use-public-rspm: true
 
       - name: Install reproducr
-        run: Rscript -e "remotes::install_github('ndohpenngit/reproducr', quiet = TRUE)"
+        run: Rscript -e "install.packages('.', repos = NULL, type = 'source')"
 
       - name: Run reproducibility audit
         run: |
