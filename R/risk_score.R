@@ -63,6 +63,11 @@
 #' # Only the changelog check
 #' risk_score(report, methods = "changelog")
 #'
+#' @rdname risk_score
+#' @param i Row index.
+#' @param j Column index. When columns are subsetted and required columns are
+#'   removed, the `"risk_report"` class is stripped so that
+#'   `print.risk_report()` is not called on an incomplete object.
 #' @export
 risk_score <- function(audit,
                        methods  = c("changelog", "seed_check", "locale_check"),
@@ -228,6 +233,9 @@ risk_score <- function(audit,
 
 # ---- S3 methods -------------------------------------------------------------
 
+#' @rdname risk_score
+#' @param x A `risk_report` object (for `print`, `as.data.frame`, and `[`).
+#' @param ... Additional arguments (currently unused).
 #' @export
 print.risk_report <- function(x, ...) {
   if (nrow(x) == 0L) {
@@ -250,28 +258,41 @@ print.risk_report <- function(x, ...) {
   )
 
   for (i in seq_len(nrow(x))) {
-    r   <- x[i, , drop = FALSE]
-    pfx <- switch(r$risk,
+    pfx <- switch(x$risk[i],
       high   = "[HIGH]   ",
       medium = "[MEDIUM] ",
       low    = "[LOW]    "
     )
-    cat(pfx, r$call,
-        sprintf(" (line %d in %s)\n", r$line, basename(r$file)))
-    cat("         Check    : ", r$check, "\n", sep = "")
+    cat(pfx, x$call[i],
+        sprintf(" (line %d in %s)\n", x$line[i],
+                if ("file" %in% names(x)) basename(x$file[i]) else "?"))
+    cat("         Check    : ", x$check[i], "\n", sep = "")
     cat("         Details  : ",
-        .wrap_text(r$description, width = 65L, indent = "                    "),
+        .wrap_text(x$description[i], width = 65L, indent = "                    "),
         "\n", sep = "")
-    cat("         Reference: ", r$reference, "\n\n", sep = "")
+    cat("         Reference: ", x$reference[i], "\n\n", sep = "")
   }
 
   invisible(x)
 }
 
+#' @rdname risk_score
 #' @export
 as.data.frame.risk_report <- function(x, ...) {
   class(x) <- "data.frame"
   x
+}
+
+#' @rdname risk_score
+#' @param x A `risk_report` object.
+#' @export
+`[.risk_report` <- function(x, i, j, ...) {
+  out <- NextMethod()
+  required <- c("file", "line", "call", "risk", "check", "description", "reference")
+  if (!is.data.frame(out) || !all(required %in% names(out))) {
+    class(out) <- setdiff(class(out), "risk_report")
+  }
+  out
 }
 
 # ---- internal ---------------------------------------------------------------

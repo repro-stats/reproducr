@@ -72,7 +72,7 @@
       risk         = "medium",
       description  = paste0(
         "In dplyr 1.1.0, across() changed column naming when .names uses the ",
-        "{col}_{fn} pattern with multiple functions — the function label changed ",
+        "{col}_{fn} pattern with multiple functions \u2014 the function label changed ",
         "from the function name to the list-element name. Column names in output ",
         "data frames may differ silently."
       ),

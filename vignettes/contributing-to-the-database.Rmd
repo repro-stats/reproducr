@@ -231,7 +231,7 @@ risks <- risk_score(report, methods = "changelog")
 
 # 5. If the installed version is in the risk window, it will be flagged
 if (nrow(risks) > 0) {
-  risks[, c("call", "pkg_version", "risk", "check")]
+  as.data.frame(risks)[, c("call", "pkg_version", "risk", "check")]
 } else {
   cat("Installed version is outside the risk window — entry is correct,\n")
   cat("but not triggered by this version.\n")

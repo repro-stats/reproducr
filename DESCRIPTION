@@ -23,8 +23,6 @@ Depends:
     R (>= 4.0.0)
 Imports:
     utils,
-    tools,
-    stats
 Suggests:
     digest (>= 0.6.0),
     testthat (>= 3.0.0),

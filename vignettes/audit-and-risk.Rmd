@@ -234,7 +234,7 @@ writeLines(c(
 
 report <- audit_script(locale_script, renv = FALSE, verbose = FALSE)
 risks  <- risk_score(report, methods = "locale_check")
-risks[, c("call", "risk", "description")]
+as.data.frame(risks)[, c("call", "risk", "description")]
 ```
 
 These are rated `"low"` risk because most analyses running on the same OS with

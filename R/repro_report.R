@@ -71,7 +71,7 @@ repro_report <- function(audit,
 
   if (format == "html") {
     content <- .md_to_html(md_content,
-                           title = sprintf("reproducr Report — %s", style))
+                           title = sprintf("reproducr Report \u2014 %s", style))
   } else {
     content <- md_content
   }
@@ -194,7 +194,7 @@ repro_badge <- function(audit,
   if (is.null(risks) && is.null(drift)) {
     return(list(
       level   = "unknown",
-      summary = "Reproducibility status unknown — run `risk_score()` to assess.",
+      summary = "Reproducibility status unknown \u2014 run `risk_score()` to assess.",
       emoji   = "?"
     ))
   }
@@ -270,7 +270,7 @@ repro_badge <- function(audit,
       lines <- c(lines,
         sprintf("- **%s** `%s`%s",
                 toupper(d$status), d$output,
-                if (nchar(trimws(d$note)) > 0L) paste0(" — ", d$note) else "")
+                if (nchar(trimws(d$note)) > 0L) paste0(" \u2014 ", d$note) else "")
       )
     }
     lines <- c(lines, "")

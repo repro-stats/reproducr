@@ -1,4 +1,8 @@
 # Internal utilities for reproducr
+#' @importFrom stats setNames
+#' @importFrom tools md5sum
+#' @importFrom utils file_test installed.packages
+NULL
 # Not exported. All helpers prefixed with . to signal internal use.
 
 # ---- hashing ----------------------------------------------------------------
