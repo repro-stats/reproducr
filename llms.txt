@@ -1,5 +1,7 @@
 # reproducr ![](reference/figures/logo.svg)
 
+![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)
+
 ![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)![CRAN
 status](https://img.shields.io/badge/CRAN-not%20yet-lightgrey)![Tests](https://img.shields.io/badge/tests-63%20passing-brightgreen)
 
