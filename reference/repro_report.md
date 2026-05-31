@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 12:56
+#> - Generated: 2026-05-31 13:04
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -113,7 +113,7 @@ repro_report(report, risks, format = "text", style = "minimal")
 #> ## Risks
 #> 
 #> ### [HIGH] stats::rnorm
-#> - File: file19465160e9a5.R, line 3
+#> - File: file199a4597c999.R, line 3
 #> - Check: changelog
 #> - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
