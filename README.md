@@ -257,7 +257,6 @@ repro_report(report, risks, drift,
 - Audits your scripts for risk
 - Checks for drift against the last certified run
 - Updates the reproducibility badge in your README
-- Commits a `reproducibility_report.md` to the repo
 
 See the [reports and badges vignette](https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html) for the complete GitHub Actions workflow.
 
