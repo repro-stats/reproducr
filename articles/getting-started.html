@@ -124,7 +124,7 @@ resolves which version of each package is in use.</p>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/audit_script.html">audit_script</a></span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -- reproducr audit report [2026-05-31 13:11] --</span></span>
+<span><span class="co">#&gt; -- reproducr audit report [2026-05-31 15:42] --</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Files scanned:     1</span></span>
 <span><span class="co">#&gt;   Packages found:    3</span></span>
@@ -137,11 +137,11 @@ resolves which version of each package is in use.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span>
 <span><span class="co">#&gt;                                 file line   pkg        fn pkg_version</span></span>
-<span><span class="co">#&gt; 1 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    3 dplyr    filter        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    4 dplyr summarise        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    4 dplyr         n        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    6 stats     rnorm       4.6.0</span></span>
-<span><span class="co">#&gt; 5 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    7  base      sort       4.6.0</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 /tmp/RtmpMEgmGc/file1a6b3202d176.R    3 dplyr    filter        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 /tmp/RtmpMEgmGc/file1a6b3202d176.R    4 dplyr summarise        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 /tmp/RtmpMEgmGc/file1a6b3202d176.R    4 dplyr         n        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 /tmp/RtmpMEgmGc/file1a6b3202d176.R    6 stats     rnorm       4.6.0</span></span>
+<span><span class="co">#&gt; 5 /tmp/RtmpMEgmGc/file1a6b3202d176.R    7  base      sort       4.6.0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="scoring-for-risk">Scoring for risk<a class="anchor" aria-label="anchor" href="#scoring-for-risk"></a>
@@ -158,13 +158,13 @@ checks:</p>
 <span><span class="co">#&gt;   MEDIUM:    0</span></span>
 <span><span class="co">#&gt;   LOW:       1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [HIGH]    stats::rnorm  (line 6 in file1b5961888fa5.R)</span></span>
+<span><span class="co">#&gt; [HIGH]    stats::rnorm  (line 6 in file1a6b3202d176.R)</span></span>
 <span><span class="co">#&gt;          Check    : changelog</span></span>
 <span><span class="co">#&gt;          Details  : In R 3.6.0, RNG defaults changed. Stochastic output from rnorm()</span></span>
 <span><span class="co">#&gt;                     with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
 <span><span class="co">#&gt;          Reference: https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file1b5961888fa5.R)</span></span>
+<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file1a6b3202d176.R)</span></span>
 <span><span class="co">#&gt;          Check    : locale_check</span></span>
 <span><span class="co">#&gt;          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.</span></span>
 <span><span class="co">#&gt;                     Results may differ on machines with different LC_COLLATE or</span></span>
@@ -192,8 +192,8 @@ output varies by system locale</li>
 <code class="sourceCode R"><span><span class="co"># As a plain data frame for downstream use</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                 file line         call pkg_version risk</span></span>
-<span><span class="co">#&gt; 1 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    6 stats::rnorm       4.6.0 high</span></span>
-<span><span class="co">#&gt; 2 /tmp/Rtmp7zhLNA/file1b5961888fa5.R    7   base::sort       4.6.0  low</span></span>
+<span><span class="co">#&gt; 1 /tmp/RtmpMEgmGc/file1a6b3202d176.R    6 stats::rnorm       4.6.0 high</span></span>
+<span><span class="co">#&gt; 2 /tmp/RtmpMEgmGc/file1a6b3202d176.R    7   base::sort       4.6.0  low</span></span>
 <span><span class="co">#&gt;          check</span></span>
 <span><span class="co">#&gt; 1    changelog</span></span>
 <span><span class="co">#&gt; 2 locale_check</span></span>
@@ -232,9 +232,9 @@ output varies by system locale</li>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1 baseline-v1 2026-05-31T13:11:48+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 1 baseline-v1 2026-05-31T15:42:46+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt;   n_outputs                             script</span></span>
-<span><span class="co">#&gt; 1         3 /tmp/Rtmp7zhLNA/file1b5961888fa5.R</span></span></code></pre></div>
+<span><span class="co">#&gt; 1         3 /tmp/RtmpMEgmGc/file1a6b3202d176.R</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="checking-for-drift">Checking for drift<a class="anchor" aria-label="anchor" href="#checking-for-drift"></a>
