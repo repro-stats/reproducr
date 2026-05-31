@@ -70,7 +70,7 @@ report <- audit_script(script, renv = FALSE, verbose = FALSE)
 risks  <- risk_score(report)
 
 badge <- repro_badge(report, risks)
-#> ![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen) 
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/) 
 cat(badge)
-#> ![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 ```
