@@ -219,7 +219,7 @@ components are:</p>
 <span></span>
 <span><span class="co"># Files scanned</span></span>
 <span><span class="va">report</span><span class="op">$</span><span class="va">paths</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp9MvylN/file1a7359bd6c20.R"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/Rtmp2expOc/file1aa34da4a9b1.R"</span></span>
 <span></span>
 <span><span class="co"># Programmatic summary</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
@@ -382,9 +382,9 @@ setting.</p>
 <span><span class="va">other_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seed_check"</span>, <span class="st">"locale_check"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">all_risks</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">changelog_risks</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">other_risks</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>Filter by minimum severity with <code>min_risk</code>:</p>
@@ -400,7 +400,7 @@ setting.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">high_only</span><span class="op">)</span>, medium_up <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">medium_up</span><span class="op">)</span>, all <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">all_items</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      high medium_up       all </span></span>
-<span><span class="co">#&gt;         1         2         3</span></span></code></pre></div>
+<span><span class="co">#&gt;         0         1         2</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -421,7 +421,7 @@ operations work directly:</p>
 <span><span class="co">#&gt;   MEDIUM:    1</span></span>
 <span><span class="co">#&gt;   LOW:       0</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1a737252f923.R)</span></span>
+<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1aa3678f58b4.R)</span></span>
 <span><span class="co">#&gt;          Check    : seed_check</span></span>
 <span><span class="co">#&gt;          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span></span>
 <span><span class="co">#&gt;                     above this call (line 2). Output will differ across runs without</span></span>
@@ -431,8 +431,8 @@ operations work directly:</p>
 <span><span class="co"># Count by risk level</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">risks</span><span class="op">$</span><span class="va">risk</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   high    low medium </span></span>
-<span><span class="co">#&gt;      1      1      1</span></span>
+<span><span class="co">#&gt;    low medium </span></span>
+<span><span class="co">#&gt;      1      1</span></span>
 <span></span>
 <span><span class="co"># Convert to plain data.frame (drops the extra class)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span>

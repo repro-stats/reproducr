@@ -142,7 +142,7 @@ report$env
 
 # Files scanned
 report$paths
-#> [1] "/tmp/Rtmp9MvylN/file1a7359bd6c20.R"
+#> [1] "/tmp/Rtmp2expOc/file1aa34da4a9b1.R"
 
 # Programmatic summary
 s <- summary(report)
@@ -319,9 +319,9 @@ changelog_risks <- risk_score(report, methods = "changelog")
 other_risks <- risk_score(report, methods = c("seed_check", "locale_check"))
 
 nrow(all_risks)
-#> [1] 3
+#> [1] 2
 nrow(changelog_risks)
-#> [1] 1
+#> [1] 0
 nrow(other_risks)
 #> [1] 2
 ```
@@ -341,7 +341,7 @@ all_items <- risk_score(report, min_risk = "low")
 
 c(high = nrow(high_only), medium_up = nrow(medium_up), all = nrow(all_items))
 #>      high medium_up       all 
-#>         1         2         3
+#>         0         1         2
 ```
 
 ------------------------------------------------------------------------
@@ -365,7 +365,7 @@ risks[risks$check == "seed_check", ]
 #>   MEDIUM:    1
 #>   LOW:       0
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file1a737252f923.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1aa3678f58b4.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
@@ -375,8 +375,8 @@ risks[risks$check == "seed_check", ]
 # Count by risk level
 table(risks$risk)
 #> 
-#>   high    low medium 
-#>      1      1      1
+#>    low medium 
+#>      1      1
 
 # Convert to plain data.frame (drops the extra class)
 df <- as.data.frame(risks)

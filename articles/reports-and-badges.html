@@ -134,7 +134,7 @@ drift:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">clean_report</span>, <span class="va">clean_risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - Generated: 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -147,7 +147,7 @@ drift:</p>
 <span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -171,7 +171,7 @@ quick console review.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - Generated: 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -181,24 +181,18 @@ quick console review.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Verdict</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &gt; AT RISK: 1 high-severity risk(s) detected.</span></span>
+<span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### [HIGH] stats::rnorm</span></span>
-<span><span class="co">#&gt; - File: file1b595ffc4d78.R, line 4</span></span>
-<span><span class="co">#&gt; - Check: changelog</span></span>
-<span><span class="co">#&gt; - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
-<span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] base::sort</span></span>
-<span><span class="co">#&gt; - File: file1b595ffc4d78.R, line 5</span></span>
+<span><span class="co">#&gt; - File: file1b87705cfb8f.R, line 5</span></span>
 <span><span class="co">#&gt; - Check: locale_check</span></span>
 <span><span class="co">#&gt; - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -208,18 +202,12 @@ quick console review.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Verdict</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &gt; AT RISK: 1 high-severity risk(s) detected.</span></span>
+<span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### [HIGH] `stats::rnorm`</span></span>
-<span><span class="co">#&gt; - **File:** file1b595ffc4d78.R, line 4</span></span>
-<span><span class="co">#&gt; - **Check:** changelog</span></span>
-<span><span class="co">#&gt; - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
-<span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] `base::sort`</span></span>
-<span><span class="co">#&gt; - **File:** file1b595ffc4d78.R, line 5</span></span>
+<span><span class="co">#&gt; - **File:** file1b87705cfb8f.R, line 5</span></span>
 <span><span class="co">#&gt; - **Check:** locale_check</span></span>
 <span><span class="co">#&gt; - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span></code></pre></div>
@@ -237,7 +225,7 @@ quick console review.</p>
 <span>                 format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - Generated: 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - Generated: 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - R version: 4.6.0</span></span>
 <span><span class="co">#&gt; - Platform: Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - Files scanned: 1</span></span>
@@ -247,18 +235,12 @@ quick console review.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Verdict</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &gt; AT RISK: 1 high-severity risk(s) detected.</span></span>
+<span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### [HIGH] stats::rnorm</span></span>
-<span><span class="co">#&gt; - File: file1b595ffc4d78.R, line 4</span></span>
-<span><span class="co">#&gt; - Check: changelog</span></span>
-<span><span class="co">#&gt; - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
-<span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] base::sort</span></span>
-<span><span class="co">#&gt; - File: file1b595ffc4d78.R, line 5</span></span>
+<span><span class="co">#&gt; - File: file1b87705cfb8f.R, line 5</span></span>
 <span><span class="co">#&gt; - Check: locale_check</span></span>
 <span><span class="co">#&gt; - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - Reference: &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
@@ -268,7 +250,7 @@ quick console review.</p>
 <span><span class="co">#&gt; - OK coefs</span></span>
 <span><span class="co">#&gt; # reproducr audit report</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - **Generated:** 2026-05-31 18:03</span></span>
+<span><span class="co">#&gt; - **Generated:** 2026-06-01 12:32</span></span>
 <span><span class="co">#&gt; - **R version:** 4.6.0</span></span>
 <span><span class="co">#&gt; - **Platform:** Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt; - **Files scanned:** 1</span></span>
@@ -278,18 +260,12 @@ quick console review.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Verdict</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; &gt; AT RISK: 1 high-severity risk(s) detected.</span></span>
+<span><span class="co">#&gt; &gt; REPRODUCIBLE: No significant risks detected.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## Risks</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### [HIGH] `stats::rnorm`</span></span>
-<span><span class="co">#&gt; - **File:** file1b595ffc4d78.R, line 4</span></span>
-<span><span class="co">#&gt; - **Check:** changelog</span></span>
-<span><span class="co">#&gt; - **Details:** In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6.</span></span>
-<span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ### [LOW] `base::sort`</span></span>
-<span><span class="co">#&gt; - **File:** file1b595ffc4d78.R, line 5</span></span>
+<span><span class="co">#&gt; - **File:** file1b87705cfb8f.R, line 5</span></span>
 <span><span class="co">#&gt; - **Check:** locale_check</span></span>
 <span><span class="co">#&gt; - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.</span></span>
 <span><span class="co">#&gt; - **Reference:** &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt;</span></span>
@@ -310,10 +286,10 @@ risk findings.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"academic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Methods paragraph (reproducr)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 2 potential concern(s) (1 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span>
+<span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span>
 <span><span class="co">#&gt; # Methods paragraph (reproducr)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 2 potential concern(s) (1 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span></code></pre></div>
+<span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span></code></pre></div>
 <p>This is intentionally a single prose paragraph so it can be pasted
 directly into a “Software and data” or “Computational reproducibility”
 subsection. If no risks were found, the paragraph says so explicitly. If
@@ -345,9 +321,9 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Document version | 1.0 |</span></span>
-<span><span class="co">#&gt; | Date | 2026-05-31 |</span></span>
+<span><span class="co">#&gt; | Date | 2026-06-01 |</span></span>
 <span><span class="co">#&gt; | Generated by | reproducr R package |</span></span>
-<span><span class="co">#&gt; | Verdict | AT RISK: 1 high-severity risk(s) detected. |</span></span>
+<span><span class="co">#&gt; | Verdict | REPRODUCIBLE: No significant risks detected. |</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 1. Execution environment</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -362,7 +338,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 2. Files audited</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - /tmp/RtmpY3Y1DA/file1b595ffc4d78.R</span></span>
+<span><span class="co">#&gt; - /tmp/Rtmp9wgQtV/file1b87705cfb8f.R</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 3. Package inventory</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -374,20 +350,11 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 4. Risk register</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### Risk 1: stats::rnorm</span></span>
-<span><span class="co">#&gt; | Field | Value |</span></span>
-<span><span class="co">#&gt; |---|---|</span></span>
-<span><span class="co">#&gt; | Severity | HIGH |</span></span>
-<span><span class="co">#&gt; | File | file1b595ffc4d78.R, line 4 |</span></span>
-<span><span class="co">#&gt; | Check method | changelog |</span></span>
-<span><span class="co">#&gt; | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6. |</span></span>
-<span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt; |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### Risk 2: base::sort</span></span>
+<span><span class="co">#&gt; ### Risk 1: base::sort</span></span>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | LOW |</span></span>
-<span><span class="co">#&gt; | File | file1b595ffc4d78.R, line 5 |</span></span>
+<span><span class="co">#&gt; | File | file1b87705cfb8f.R, line 5 |</span></span>
 <span><span class="co">#&gt; | Check method | locale_check |</span></span>
 <span><span class="co">#&gt; | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt; |</span></span>
@@ -409,9 +376,9 @@ signed before submission.</p>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Document version | 1.0 |</span></span>
-<span><span class="co">#&gt; | Date | 2026-05-31 |</span></span>
+<span><span class="co">#&gt; | Date | 2026-06-01 |</span></span>
 <span><span class="co">#&gt; | Generated by | reproducr R package |</span></span>
-<span><span class="co">#&gt; | Verdict | **AT RISK: 1 high-severity risk(s) detected.** |</span></span>
+<span><span class="co">#&gt; | Verdict | **REPRODUCIBLE: No significant risks detected.** |</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 1. Execution environment</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -426,7 +393,7 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 2. Files audited</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; - `/tmp/RtmpY3Y1DA/file1b595ffc4d78.R`</span></span>
+<span><span class="co">#&gt; - `/tmp/Rtmp9wgQtV/file1b87705cfb8f.R`</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 3. Package inventory</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -438,20 +405,11 @@ signed before submission.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ## 4. Risk register</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### Risk 1: `stats::rnorm`</span></span>
-<span><span class="co">#&gt; | Field | Value |</span></span>
-<span><span class="co">#&gt; |---|---|</span></span>
-<span><span class="co">#&gt; | Severity | **HIGH** |</span></span>
-<span><span class="co">#&gt; | File | file1b595ffc4d78.R, line 4 |</span></span>
-<span><span class="co">#&gt; | Check method | changelog |</span></span>
-<span><span class="co">#&gt; | Description | In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R &lt;= 3.5 and R &gt;= 3.6. |</span></span>
-<span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html&gt; |</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ### Risk 2: `base::sort`</span></span>
+<span><span class="co">#&gt; ### Risk 1: `base::sort`</span></span>
 <span><span class="co">#&gt; | Field | Value |</span></span>
 <span><span class="co">#&gt; |---|---|</span></span>
 <span><span class="co">#&gt; | Severity | **LOW** |</span></span>
-<span><span class="co">#&gt; | File | file1b595ffc4d78.R, line 5 |</span></span>
+<span><span class="co">#&gt; | File | file1b87705cfb8f.R, line 5 |</span></span>
 <span><span class="co">#&gt; | Check method | locale_check |</span></span>
 <span><span class="co">#&gt; | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |</span></span>
 <span><span class="co">#&gt; | Reference | &lt;https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html&gt; |</span></span>
@@ -506,7 +464,7 @@ with status</li>
 <span>             format      <span class="op">=</span> <span class="st">"md"</span>,</span>
 <span>             style       <span class="op">=</span> <span class="st">"minimal"</span>,</span>
 <span>             output_file <span class="op">=</span> <span class="va">md_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpY3Y1DA/file1b5929af61d8.md'</span></span>
+<span><span class="co">#&gt; reproducr: report written to '/tmp/Rtmp9wgQtV/file1b877b803c18.md'</span></span>
 <span></span>
 <span><span class="co"># Inspect the raw Markdown</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">md_file</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
@@ -516,7 +474,7 @@ with status</li>
 <span>             format      <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>             style       <span class="op">=</span> <span class="st">"pharma"</span>,</span>
 <span>             output_file <span class="op">=</span> <span class="va">html_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: report written to '/tmp/RtmpY3Y1DA/file1b5987f5e56.html'</span></span>
+<span><span class="co">#&gt; reproducr: report written to '/tmp/Rtmp9wgQtV/file1b8711d9d60a.html'</span></span>
 <span></span>
 <span><span class="co"># The file is self-contained — open it in a browser</span></span>
 <span><span class="co"># browseURL(html_file)</span></span></code></pre></div>
@@ -597,9 +555,9 @@ README and update automatically via CI.</p>
 <span></span>
 <span><span class="co"># With risks — colour depends on highest severity</span></span>
 <span><span class="va">risk_badge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repro_badge.html">repro_badge</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, output <span class="op">=</span> <span class="st">"markdown"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)](https://ndohpenngit.github.io/reproducr/)</span></span>
+<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">risk_badge</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)](https://ndohpenngit.github.io/reproducr/)</span></span></code></pre></div>
+<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="inserting-into-readme-md">Inserting into <code>README.md</code><a class="anchor" aria-label="anchor" href="#inserting-into-readme-md"></a>
@@ -616,11 +574,11 @@ README and update automatically via CI.</p>
 <span></span>
 <span><span class="co"># Insert badge at the top</span></span>
 <span><span class="fu"><a href="../reference/repro_badge.html">repro_badge</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, output <span class="op">=</span> <span class="st">"README"</span>, readme_path <span class="op">=</span> <span class="va">readme</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: badge updated in '/tmp/RtmpY3Y1DA/file1b592a335f76.md'</span></span>
+<span><span class="co">#&gt; reproducr: badge updated in '/tmp/Rtmp9wgQtV/file1b87c2f7844.md'</span></span>
 <span></span>
 <span><span class="co"># See the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">readme</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-at%20risk-red)](https://ndohpenngit.github.io/reproducr/)</span></span>
+<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; # myanalysis</span></span>
 <span><span class="co">#&gt; </span></span>

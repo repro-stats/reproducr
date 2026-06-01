@@ -90,11 +90,65 @@ applied. Set this to one patch version below the first risky version.
 For example, if the breaking change was introduced in `1.1.0`, set
 `from_version = "1.0.99"`.
 
-**`to_version`** is the last version where the breaking change is known
-to apply. If the behaviour has since been fixed or stabilised, set this
-to the last affected version. If the change is permanent and no fix has
-been released, set a high ceiling like `"9.9.9"` to cover all future
-versions.
+**`to_version`** is where careful judgement is required. The window
+should close when the ecosystem has moved on. A breaking change is only
+an *active* risk if users might realistically be comparing results
+produced by versions on different sides of the change. Once the entire R
+community has moved past the breaking version, the flag becomes noise
+and erodes trust in the tool.
+
+#### Rules for setting `to_version`
+
+**Rule 1 — Permanent package changes** (e.g. `dplyr 1.1.0` `summarise()`
+grouping, `readr 2.0.0` backend switch):
+
+Keep the window open with a version ceiling that covers the current
+release series. Any user upgrading from before to after the change is at
+risk. Close the window only if a future version explicitly reverts or
+compensates for the change.
+
+``` r
+# dplyr summarise — permanent change, window stays open
+from_version = "1.0.99",
+to_version   = "1.1.9"
+```
+
+**Rule 2 — Historical base R changes** (e.g. R 3.6.0 RNG defaults, R
+4.0.0 [`hclust()`](https://rdrr.io/r/stats/hclust.html) tie-breaking):
+
+Close the window at the patch series where the change occurred — not at
+a distant future version. By 2024+, all active R users are on R \>= 4.x
+and are on the same side of the R 3.6.0 RNG change. Flagging them
+produces a false positive. The risk only applies to teams actively
+comparing output between old and new R versions.
+
+``` r
+# R 3.6.0 RNG change — close window at 3.6.9, not 4.9.9
+from_version = "3.5.99",
+to_version   = "3.6.9"    # NOT "4.9.9"
+
+# R 4.0.0 hclust change — close window at 4.0.9
+from_version = "3.6.99",
+to_version   = "4.0.9"    # NOT "4.9.9"
+```
+
+**Rule 3 — When in doubt, prefer a narrower window.**
+
+A missed flag is better than a false positive. False positives cause
+users to distrust the tool and ignore genuine warnings. If you are
+unsure whether a risk is still active, check when the change was
+released and whether anyone using a modern R stack could realistically
+encounter it.
+
+#### Quick reference
+
+| Change type | `to_version` strategy |
+|----|----|
+| Permanent package behaviour change | Version ceiling of current series (e.g. `"1.1.9"`) |
+| Historical base R change (pre-2020) | Close at the patch series (e.g. `"3.6.9"`) |
+| Recent base R change (post-2022) | Keep open with modest ceiling (e.g. `"4.3.9"`) |
+| Fixed in a later version | Set to the last affected version exactly |
+| Ongoing / never fixed | Set to current series ceiling, revisit periodically |
 
 ### Risk levels
 
@@ -297,3 +351,57 @@ test_that("risk_score() does NOT flag mypackage::myfun outside the window", {
   expect_equal(nrow(myfun_risks), 0L)
 })
 ```
+
+------------------------------------------------------------------------
+
+## Keeping the database current
+
+As packages release new versions, database entries may become stale —
+their `to_version` ceiling falls below the current CRAN release.
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
+detects this automatically:
+
+``` r
+
+library(reproducr)
+
+# Check all tracked packages against CRAN
+report <- check_db_staleness()
+print(report)
+#>
+#> -- reproducr database staleness report --
+#>
+#>   STALE:     1
+#>   OK:        24
+#>   UNKNOWN:   0
+#>
+#> Stale entries:
+#>
+#>   [STALE] dplyr::summarise
+#>           to_version=1.1.9 | current=1.2.0
+#>
+#> Action: review each entry and update to_version in
+#>         R/breaking_changes_db.R.
+
+# Check specific packages only
+check_db_staleness(packages = c("dplyr", "tidyr"))
+
+# Offline — use installed versions instead of querying CRAN
+check_db_staleness(source = "installed")
+```
+
+The `reproducr` repository runs
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
+automatically every Monday via a GitHub Actions workflow and opens an
+issue when stale entries are found. If you notice a stale entry, opening
+a PR to update `to_version` is a valuable contribution even without
+adding a new entry.
+
+When reviewing a stale entry, ask:
+
+- Has the breaking change been **fixed** in the new version? Lower or
+  remove the `to_version`.
+- Does the breaking change **still apply**? Extend `to_version` to the
+  new release series.
+- Has the **ecosystem moved on**? Close the window as described in the
+  version window design principles above.

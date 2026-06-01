@@ -143,24 +143,18 @@ print(risks)
 #> 
 #> -- reproducr risk score --
 #> 
-#>   HIGH:      1
+#>   HIGH:      0
 #>   MEDIUM:    1
 #>   LOW:       1
 #> 
-#> [HIGH]    stats::rnorm  (line 2 in file1964ddbbc26.R)
-#>          Check    : changelog
-#>          Details  : In R 3.6.0, RNG defaults changed. Stochastic output from rnorm()
-#>                     with the same seed will differ between R <= 3.5 and R >= 3.6.
-#>          Reference: https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html
-#> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file1964ddbbc26.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file198819c520e6.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
 #>                     a fixed seed.
 #>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html
 #> 
-#> [LOW]     base::sort  (line 3 in file1964ddbbc26.R)
+#> [LOW]     base::sort  (line 3 in file198819c520e6.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C. Results may
 #>                     differ on machines with different LC_COLLATE or LC_TIME settings.
@@ -172,15 +166,7 @@ risk_score(report, min_risk = "high")
 #> 
 #> -- reproducr risk score --
 #> 
-#>   HIGH:      1
-#>   MEDIUM:    0
-#>   LOW:       0
-#> 
-#> [HIGH]    stats::rnorm  (line 2 in file1964ddbbc26.R)
-#>          Check    : changelog
-#>          Details  : In R 3.6.0, RNG defaults changed. Stochastic output from rnorm()
-#>                     with the same seed will differ between R <= 3.5 and R >= 3.6.
-#>          Reference: https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html
+#>   No risks detected. All checks passed.
 #> 
 
 # Only the changelog check
@@ -188,14 +174,6 @@ risk_score(report, methods = "changelog")
 #> 
 #> -- reproducr risk score --
 #> 
-#>   HIGH:      1
-#>   MEDIUM:    0
-#>   LOW:       0
-#> 
-#> [HIGH]    stats::rnorm  (line 2 in file1964ddbbc26.R)
-#>          Check    : changelog
-#>          Details  : In R 3.6.0, RNG defaults changed. Stochastic output from rnorm()
-#>                     with the same seed will differ between R <= 3.5 and R >= 3.6.
-#>          Reference: https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html
+#>   No risks detected. All checks passed.
 #> 
 ```

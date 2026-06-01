@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-05-31 18:03
+#> - Generated: 2026-06-01 12:32
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -108,22 +108,14 @@ repro_report(report, risks, format = "text", style = "minimal")
 #> 
 #> ## Verdict
 #> 
-#> > AT RISK: 1 high-severity risk(s) detected.
-#> 
-#> ## Risks
-#> 
-#> ### [HIGH] stats::rnorm
-#> - File: file1964803cf41.R, line 3
-#> - Check: changelog
-#> - Details: In R 3.6.0, RNG defaults changed. Stochastic output from rnorm() with the same seed will differ between R <= 3.5 and R >= 3.6.
-#> - Reference: <https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html>
+#> > REPRODUCIBLE: No significant risks detected.
 
 # Academic methods paragraph (printed, not written to file)
 cat(repro_report(report, risks, format = "text", style = "academic"))
 #> Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (1 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
 #> # Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (1 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
 ```

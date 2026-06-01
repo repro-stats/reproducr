@@ -7,8 +7,7 @@ they stable?
 trackable. It scans your scripts for known silent breaking changes,
 flags stochastic calls missing
 [`set.seed()`](https://rdrr.io/r/base/Random.html), certifies analytical
-outputs as baselines, and detects numerical drift across runs — before
-it reaches a journal, a regulator, or a collaborator.
+outputs as baselines, and detects numerical drift across runs.
 
 ## Workflow
 
@@ -23,7 +22,7 @@ it reaches a journal, a regulator, or a collaborator.
     model <- lm(mpg ~ wt, data = mtcars)
     certify(list(coefs = coef(model)), tag = "submission-v1")
 
-    # After any environment change:
+    # Later, after any environment change:
     check_drift(list(coefs = coef(model)), against = "submission-v1")
 
 **Tier 3 — Report & export**
@@ -40,16 +39,24 @@ it reaches a journal, a regulator, or a collaborator.
 | [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md) | Check calls against the breaking-changes database |
 | [`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md) | Hash and store analytical outputs as a baseline |
 | [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md) | Compare current outputs against a stored baseline |
+| [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md) | List all certifications in a `.reproducr` file |
 | [`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md) | Render a human-readable audit report |
 | [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md) | Generate a reproducibility status badge |
-| [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md) | List all certifications in a `.reproducr` file |
+| [`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md) | Check database entries against current CRAN versions |
 
 ## The breaking-changes database
 
 The internal database covers known silent breaking changes in: `dplyr`,
 `tidyr`, `ggplot2`, `readr`, `purrr`, `stringr`, `broom`, `data.table`,
-`lme4`, `lubridate`, and base R. Community contributions to expand the
-database are very welcome — see the contributing vignette.
+`lme4`, `lubridate`, and base R. Community contributions are welcome —
+see
+[`vignette("contributing-to-the-database")`](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.md).
+
+The database is kept current via a weekly GitHub Actions workflow that
+calls
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
+and opens an issue automatically when any entry's `to_version` ceiling
+falls below the current CRAN release.
 
 ## See also
 

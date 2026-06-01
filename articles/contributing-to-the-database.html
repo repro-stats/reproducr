@@ -166,11 +166,85 @@ define a <strong>half-open interval</strong>:</p>
 the old behaviour still applied. Set this to one patch version below the
 first risky version. For example, if the breaking change was introduced
 in <code>1.1.0</code>, set <code>from_version = "1.0.99"</code>.</p>
-<p><strong><code>to_version</code></strong> is the last version where
-the breaking change is known to apply. If the behaviour has since been
-fixed or stabilised, set this to the last affected version. If the
-change is permanent and no fix has been released, set a high ceiling
-like <code>"9.9.9"</code> to cover all future versions.</p>
+<p><strong><code>to_version</code></strong> is where careful judgement
+is required. The window should close when the ecosystem has moved on. A
+breaking change is only an <em>active</em> risk if users might
+realistically be comparing results produced by versions on different
+sides of the change. Once the entire R community has moved past the
+breaking version, the flag becomes noise and erodes trust in the
+tool.</p>
+<div class="section level4">
+<h4 id="rules-for-setting-to_version">Rules for setting <code>to_version</code><a class="anchor" aria-label="anchor" href="#rules-for-setting-to_version"></a>
+</h4>
+<p><strong>Rule 1 — Permanent package changes</strong>
+(e.g. <code>dplyr 1.1.0</code> <code>summarise()</code> grouping,
+<code>readr 2.0.0</code> backend switch):</p>
+<p>Keep the window open with a version ceiling that covers the current
+release series. Any user upgrading from before to after the change is at
+risk. Close the window only if a future version explicitly reverts or
+compensates for the change.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># dplyr summarise — permanent change, window stays open</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>from_version <span class="ot">=</span> <span class="st">"1.0.99"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>to_version   <span class="ot">=</span> <span class="st">"1.1.9"</span></span></code></pre></div>
+<p><strong>Rule 2 — Historical base R changes</strong> (e.g. R 3.6.0 RNG
+defaults, R 4.0.0 <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> tie-breaking):</p>
+<p>Close the window at the patch series where the change occurred — not
+at a distant future version. By 2024+, all active R users are on R &gt;=
+4.x and are on the same side of the R 3.6.0 RNG change. Flagging them
+produces a false positive. The risk only applies to teams actively
+comparing output between old and new R versions.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># R 3.6.0 RNG change — close window at 3.6.9, not 4.9.9</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>from_version <span class="ot">=</span> <span class="st">"3.5.99"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>to_version   <span class="ot">=</span> <span class="st">"3.6.9"</span>    <span class="co"># NOT "4.9.9"</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># R 4.0.0 hclust change — close window at 4.0.9</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>from_version <span class="ot">=</span> <span class="st">"3.6.99"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>to_version   <span class="ot">=</span> <span class="st">"4.0.9"</span>    <span class="co"># NOT "4.9.9"</span></span></code></pre></div>
+<p><strong>Rule 3 — When in doubt, prefer a narrower
+window.</strong></p>
+<p>A missed flag is better than a false positive. False positives cause
+users to distrust the tool and ignore genuine warnings. If you are
+unsure whether a risk is still active, check when the change was
+released and whether anyone using a modern R stack could realistically
+encounter it.</p>
+</div>
+<div class="section level4">
+<h4 id="quick-reference">Quick reference<a class="anchor" aria-label="anchor" href="#quick-reference"></a>
+</h4>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th>Change type</th>
+<th>
+<code>to_version</code> strategy</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Permanent package behaviour change</td>
+<td>Version ceiling of current series (e.g. <code>"1.1.9"</code>)</td>
+</tr>
+<tr class="even">
+<td>Historical base R change (pre-2020)</td>
+<td>Close at the patch series (e.g. <code>"3.6.9"</code>)</td>
+</tr>
+<tr class="odd">
+<td>Recent base R change (post-2022)</td>
+<td>Keep open with modest ceiling (e.g. <code>"4.3.9"</code>)</td>
+</tr>
+<tr class="even">
+<td>Fixed in a later version</td>
+<td>Set to the last affected version exactly</td>
+</tr>
+<tr class="odd">
+<td>Ongoing / never fixed</td>
+<td>Set to current series ceiling, revisit periodically</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section level3">
 <h3 id="risk-levels">Risk levels<a class="anchor" aria-label="anchor" href="#risk-levels"></a>
@@ -289,20 +363,20 @@ introduced in - Describe the old behaviour - Describe the new behaviour
 <p><strong>Step 5: Add the entry.</strong></p>
 <p>Open <code>R/breaking_changes_db.R</code> and add your entry in the
 appropriate section:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="st">"broom::augment"</span> <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">from_version =</span> <span class="st">"0.7.99"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">to_version   =</span> <span class="st">"1.0.9"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">risk         =</span> <span class="st">"medium"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">description  =</span> <span class="fu">paste0</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>      <span class="st">"In broom 0.8.0, augment() renamed residual columns for several model "</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>      <span class="st">"types — '.resid' became '.std.resid' for standardised residuals in "</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>      <span class="st">"lm and glm objects. Code that selects '.resid' by name from augment() "</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="st">"output will silently return NA or error after upgrading."</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>    ),</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>    <span class="at">reference =</span> <span class="st">"https://broom.tidymodels.org/news/index.html"</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  )</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>),</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="st">"broom::augment"</span> <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">from_version =</span> <span class="st">"0.7.99"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">to_version   =</span> <span class="st">"1.0.9"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">risk         =</span> <span class="st">"medium"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">description  =</span> <span class="fu">paste0</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>      <span class="st">"In broom 0.8.0, augment() renamed residual columns for several model "</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>      <span class="st">"types — '.resid' became '.std.resid' for standardised residuals in "</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>      <span class="st">"lm and glm objects. Code that selects '.resid' by name from augment() "</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>      <span class="st">"output will silently return NA or error after upgrading."</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    ),</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">reference =</span> <span class="st">"https://broom.tidymodels.org/news/index.html"</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  )</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>),</span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -310,7 +384,7 @@ appropriate section:</p>
 </h2>
 <p>Before submitting, verify that the entry behaves correctly by
 simulating a version match:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Temporarily add a test entry to verify the detection logic</span></span>
 <span><span class="co"># (this is what a test in tests/testthat/ would do)</span></span>
 <span></span>
@@ -342,7 +416,7 @@ simulating a version match:</p>
 <p>To test with a specific version (simulating a user on an older
 installation), you can temporarily override the <code>pkg_version</code>
 in the calls data frame:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Force the version to sit inside the dplyr::summarise risk window</span></span>
 <span><span class="va">report_forced</span> <span class="op">&lt;-</span> <span class="va">report</span></span>
 <span><span class="va">report_forced</span><span class="op">$</span><span class="va">calls</span><span class="op">$</span><span class="va">pkg_version</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">report_forced</span><span class="op">$</span><span class="va">calls</span><span class="op">$</span><span class="va">pkg_version</span><span class="op">)</span></span>
@@ -379,7 +453,7 @@ and a link to the official changelog.</li>
 <div class="section level3">
 <h3 id="minimum-test-for-a-new-entry">Minimum test for a new entry<a class="anchor" aria-label="anchor" href="#minimum-test-for-a-new-entry"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"risk_score() flags mypackage::myfun in the risk window"</span>, <span class="op">{</span></span>
 <span>  <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">write_script</span><span class="op">(</span><span class="st">"x &lt;- mypackage::myfun(42)"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span></span>
@@ -405,7 +479,57 @@ and a link to the official changelog.</li>
 <span>  <span class="va">myfun_risks</span> <span class="op">&lt;-</span> <span class="va">rs</span><span class="op">[</span><span class="va">rs</span><span class="op">$</span><span class="va">call</span> <span class="op">==</span> <span class="st">"mypackage::myfun"</span> <span class="op">&amp;</span> <span class="va">rs</span><span class="op">$</span><span class="va">check</span> <span class="op">==</span> <span class="st">"changelog"</span>, <span class="op">]</span></span>
 <span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">myfun_risks</span><span class="op">)</span>, <span class="fl">0L</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<hr>
 </div>
+</div>
+<div class="section level2">
+<h2 id="keeping-the-database-current">Keeping the database current<a class="anchor" aria-label="anchor" href="#keeping-the-database-current"></a>
+</h2>
+<p>As packages release new versions, database entries may become stale —
+their <code>to_version</code> ceiling falls below the current CRAN
+release. <code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> detects this
+automatically:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ndohpenngit/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check all tracked packages against CRAN</span></span>
+<span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_db_staleness.html">check_db_staleness</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; -- reproducr database staleness report --</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;   STALE:     1</span></span>
+<span><span class="co">#&gt;   OK:        24</span></span>
+<span><span class="co">#&gt;   UNKNOWN:   0</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Stale entries:</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt;   [STALE] dplyr::summarise</span></span>
+<span><span class="co">#&gt;           to_version=1.1.9 | current=1.2.0</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; Action: review each entry and update to_version in</span></span>
+<span><span class="co">#&gt;         R/breaking_changes_db.R.</span></span>
+<span></span>
+<span><span class="co"># Check specific packages only</span></span>
+<span><span class="fu"><a href="../reference/check_db_staleness.html">check_db_staleness</a></span><span class="op">(</span>packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"tidyr"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Offline — use installed versions instead of querying CRAN</span></span>
+<span><span class="fu"><a href="../reference/check_db_staleness.html">check_db_staleness</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"installed"</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>reproducr</code> repository runs
+<code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> automatically every Monday via a
+GitHub Actions workflow and opens an issue when stale entries are found.
+If you notice a stale entry, opening a PR to update
+<code>to_version</code> is a valuable contribution even without adding a
+new entry.</p>
+<p>When reviewing a stale entry, ask:</p>
+<ul>
+<li>Has the breaking change been <strong>fixed</strong> in the new
+version? Lower or remove the <code>to_version</code>.</li>
+<li>Does the breaking change <strong>still apply</strong>? Extend
+<code>to_version</code> to the new release series.</li>
+<li>Has the <strong>ecosystem moved on</strong>? Close the window as
+described in the version window design principles above.</li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

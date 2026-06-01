@@ -41,32 +41,22 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="reproducr-development-version">reproducr (development version)<a class="anchor" aria-label="anchor" href="#reproducr-development-version"></a></h2>
-</div>
+<ul><li><p><code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> — compares <code>to_version</code> ceilings in the breaking-changes database against current CRAN releases. Returns a tidy <code>staleness_report</code> data frame with <code>"ok"</code>, <code>"stale"</code>, or <code>"unknown"</code> status per entry. A weekly GitHub Actions workflow runs this automatically and opens a GitHub issue when stale entries are detected (<code>.github/workflows/db-staleness.yml</code>).</p></li>
+<li><p>Narrowed version windows for base R RNG entries (<code><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">stats::rnorm</a></code>, <code><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">stats::rbinom</a></code>, <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">stats::runif</a></code>, <code>stats::sample</code>) from <code>to_version = "4.9.9"</code> to <code>"3.6.9"</code>. Users on modern R (&gt;= 4.x) were being falsely flagged for a 2019 change they are all on the same side of.</p></li>
+<li><p>Narrowed version window for <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust</a></code> from <code>"4.9.9"</code> to <code>"4.0.9"</code> for the same reason.</p></li>
+<li><p>Added version window design principles to <code>R/breaking_changes_db.R</code> and expanded <code><a href="../articles/contributing-to-the-database.html">vignette("contributing-to-the-database")</a></code> with three rules for setting <code>to_version</code> and a quick-reference table.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="reproducr-010">reproducr 0.1.0<a class="anchor" aria-label="anchor" href="#reproducr-010"></a></h2>
-<div class="section level3">
-<h3 id="new-features-0-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-0"></a></h3>
 <ul><li><p><code><a href="../reference/audit_script.html">audit_script()</a></code> — parse <code>.R</code>, <code>.Rmd</code>, and <code>.qmd</code> files to extract all qualified <code>pkg::fn</code> calls with version resolution from <code>renv.lock</code> or the installed library.</p></li>
-<li>
-<p><code><a href="../reference/risk_score.html">risk_score()</a></code> — three independent risk checks:</p>
-<ul><li>
-<code>"changelog"</code>: curated database of 26 known breaking changes across 11 popular packages and base R.</li>
-<li>
-<code>"seed_check"</code>: flags stochastic functions without a nearby <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>.</li>
-<li>
-<code>"locale_check"</code>: flags locale-sensitive operations.</li>
-</ul></li>
+<li><p><code><a href="../reference/risk_score.html">risk_score()</a></code> — three independent risk checks: <code>"changelog"</code> (curated database of known breaking changes), <code>"seed_check"</code> (flags stochastic functions without a nearby <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>), and <code>"locale_check"</code> (flags locale-sensitive operations).</p></li>
 <li><p><code><a href="../reference/certify.html">certify()</a></code> — hash and store analytical outputs as a signed baseline.</p></li>
 <li><p><code><a href="../reference/check_drift.html">check_drift()</a></code> — compare current outputs against a stored baseline; reports <code>"ok"</code>, <code>"drifted"</code>, <code>"missing"</code>, and <code>"new"</code> statuses.</p></li>
 <li><p><code><a href="../reference/list_certs.html">list_certs()</a></code> — inspect all certifications stored in a project’s <code>.reproducr.rds</code> file.</p></li>
 <li><p><code><a href="../reference/repro_report.html">repro_report()</a></code> — render audit reports in three styles (<code>"minimal"</code>, <code>"academic"</code>, <code>"pharma"</code>) and three formats (<code>"text"</code>, <code>"md"</code>, <code>"html"</code>).</p></li>
 <li><p><code><a href="../reference/repro_badge.html">repro_badge()</a></code> — generate a shields.io reproducibility status badge and optionally insert it into <code>README.md</code>.</p></li>
+<li><p>Initial breaking-changes database covering <code>dplyr</code>, <code>tidyr</code>, <code>ggplot2</code>, <code>readr</code>, <code>purrr</code>, <code>stringr</code>, <code>lubridate</code>, <code>broom</code>, <code>data.table</code>, <code>lme4</code>, and base R (R 3.6.0 RNG changes, R 4.0.0 <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> tie-breaking).</p></li>
 </ul></div>
-<div class="section level3">
-<h3 id="breaking-changes-database-0-1-0">Breaking changes database<a class="anchor" aria-label="anchor" href="#breaking-changes-database-0-1-0"></a></h3>
-<p>Initial coverage: <code>dplyr</code>, <code>tidyr</code>, <code>ggplot2</code>, <code>readr</code>, <code>purrr</code>, <code>stringr</code>, <code>lubridate</code>, <code>broom</code>, <code>data.table</code>, <code>lme4</code>, and base R (R 3.6.0 RNG changes, R 4.0.0 <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> tie-breaking).</p>
-</div>
-</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
