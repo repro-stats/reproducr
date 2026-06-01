@@ -17,7 +17,7 @@ library(reproducr)
 # Shared setup: a script with a mix of risk levels
 script <- tempfile(fileext = ".R")
 writeLines(c(
-  "set.seed(42)",
+  "set.seed(237)",
   "x   <- dplyr::filter(mtcars, cyl == 4)",
   "y   <- dplyr::summarise(x, mean_mpg = mean(mpg), n = dplyr::n())",
   "z   <- stats::rnorm(10)",

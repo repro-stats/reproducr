@@ -43,7 +43,7 @@ in use.
 script <- tempfile(fileext = ".R")
 writeLines(c(
   "# Example analysis",
-  "set.seed(42)",
+  "set.seed(237)",
   "x   <- dplyr::filter(mtcars, cyl == 4)",
   "y   <- dplyr::summarise(x, mean_mpg = mean(mpg), n = dplyr::n())",
   "fit <- lm(mpg ~ wt, data = x)",

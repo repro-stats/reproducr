@@ -51,7 +51,7 @@ fields, suitable for pharmaceutical or regulated analytical workflows.
 \examples{
 script <- tempfile(fileext = ".R")
 writeLines(c(
-  "set.seed(42)",
+  "set.seed(237)",
   "x <- dplyr::filter(mtcars, cyl == 4)",
   "y <- stats::rnorm(10)"
 ), script)

@@ -91,7 +91,7 @@ test_that("risk_score() seed_check flags stats::sample without set.seed()", {
 })
 
 test_that("risk_score() seed_check does NOT flag rnorm when set.seed() is nearby", {
-  f  <- write_script("set.seed(42)", "x <- stats::rnorm(100)")
+  f  <- write_script("set.seed(237)", "x <- stats::rnorm(100)")
   on.exit(unlink(f))
   r  <- audit_script(f, renv = FALSE, verbose = FALSE)
   rs <- risk_score(r, methods = "seed_check")
@@ -101,7 +101,7 @@ test_that("risk_score() seed_check does NOT flag rnorm when set.seed() is nearby
 
 test_that("risk_score() seed_check flags rnorm when set.seed() is too far away", {
   # set.seed > 50 lines above the call
-  lines <- c("set.seed(42)", rep("x <- 1", 55L), "z <- stats::rnorm(10)")
+  lines <- c("set.seed(237)", rep("x <- 1", 55L), "z <- stats::rnorm(10)")
   f  <- write_script(lines)
   on.exit(unlink(f))
   r  <- audit_script(f, renv = FALSE, verbose = FALSE)

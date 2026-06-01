@@ -70,7 +70,7 @@ This is by design: qualifying calls is also a reproducibility best practice.
 # Write a temporary script to audit
 script <- tempfile(fileext = ".R")
 writeLines(c(
-  "set.seed(42)",
+  "set.seed(237)",
   "x <- dplyr::filter(mtcars, cyl == 4)",
   "y <- dplyr::summarise(x, mean_mpg = mean(mpg))",
   "z <- stats::rnorm(nrow(y))"

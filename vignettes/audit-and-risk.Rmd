@@ -197,7 +197,7 @@ writeLines(c(
   "x <- stats::rnorm(100)",
   "",
   "# Second call — seed present within 50 lines",
-  "set.seed(42)",
+  "set.seed(237)",
   "y <- stats::rbinom(100, 1, 0.5)",
   "",
   "# Third call — seed is there but 60 lines away (beyond the window)",
