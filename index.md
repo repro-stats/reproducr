@@ -47,8 +47,18 @@ library. No configuration required.
 ``` r
 
 # Development version from GitHub
-pak::pkg_install("ndohpenngit/reproducr")
+install.packages("remotes")
+remotes::install_github("ndohpenngit/reproducr")
 ```
+
+------------------------------------------------------------------------
+
+## See it in action
+
+| Example | Domain | renv | Walkthrough |
+|----|----|----|----|
+| [reproducr-example](https://github.com/ndohpenngit/reproducr-example) | Ecology / penguins | No | [DEMO.md](https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md) |
+| [reproducr-example-clinical](https://github.com/ndohpenngit/reproducr-example-clinical) | Clinical trials / oncology | Yes | [DEMO.md](https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md) |
 
 ------------------------------------------------------------------------
 
@@ -140,6 +150,7 @@ repro_badge(report, risks, output = "README")
 | [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md) | 2 | Inspect all certifications in a project |
 | [`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md) | 3 | Render audit report (text / Markdown / HTML) |
 | [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md) | 3 | Generate a shields.io reproducibility badge |
+| [`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md) | — | Check database entries against current CRAN versions |
 
 ### The three-tier workflow
 
@@ -179,9 +190,14 @@ Current coverage:
 | `lme4` | 1 | Optimizer tolerance change |
 | `base R` | 5 | RNG change (R 3.6.0), [`hclust()`](https://rdrr.io/r/stats/hclust.html) tie-breaking (R 4.0.0) |
 
+The database is kept current via a weekly automated check — see
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md).
+
 **Contributing:** Each entry is a plain R list in
 `R/breaking_changes_db.R`. Open a pull request to add new entries — see
-the contributing guide for the schema.
+the [contributing
+guide](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html)
+for the schema.
 
 ------------------------------------------------------------------------
 
@@ -210,7 +226,7 @@ found within 50 lines above the call.
 x <- stats::rnorm(100)
 
 # This will not:
-set.seed(42)
+set.seed(237)
 x <- stats::rnorm(100)
 ```
 
@@ -316,12 +332,3 @@ Each entry requires:
 
 See `R/breaking_changes_db.R` for the existing format and open a pull
 request.
-
-------------------------------------------------------------------------
-
-## Citation
-
-If you use `reproducr` in published research, please cite:
-
-    Penn, N. (2026). reproducr: Behavioural Reproducibility Auditing for R
-    Projects. R package version 0.1.0. https://github.com/ndohpenngit/reproducr

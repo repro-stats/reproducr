@@ -219,7 +219,7 @@ components are:</p>
 <span></span>
 <span><span class="co"># Files scanned</span></span>
 <span><span class="va">report</span><span class="op">$</span><span class="va">paths</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpsKxgD3/file1a8318244ffc.R"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/Rtmpx9Gnmk/file1a5ceee31d6.R"</span></span>
 <span></span>
 <span><span class="co"># Programmatic summary</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
@@ -300,7 +300,7 @@ base::sample     base::sample.int</code></pre>
 <span>  <span class="st">"x &lt;- stats::rnorm(100)"</span>,</span>
 <span>  <span class="st">""</span>,</span>
 <span>  <span class="st">"# Second call — seed present within 50 lines"</span>,</span>
-<span>  <span class="st">"set.seed(42)"</span>,</span>
+<span>  <span class="st">"set.seed(237)"</span>,</span>
 <span>  <span class="st">"y &lt;- stats::rbinom(100, 1, 0.5)"</span>,</span>
 <span>  <span class="st">""</span>,</span>
 <span>  <span class="st">"# Third call — seed is there but 60 lines away (beyond the window)"</span>,</span>
@@ -421,7 +421,7 @@ operations work directly:</p>
 <span><span class="co">#&gt;   MEDIUM:    1</span></span>
 <span><span class="co">#&gt;   LOW:       0</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1a8366a192d8.R)</span></span>
+<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1a5c6caa0eb7.R)</span></span>
 <span><span class="co">#&gt;          Check    : seed_check</span></span>
 <span><span class="co">#&gt;          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span></span>
 <span><span class="co">#&gt;                     above this call (line 2). Output will differ across runs without</span></span>

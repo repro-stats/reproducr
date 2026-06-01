@@ -96,7 +96,41 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Development version from GitHub</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"ndohpenngit/reproducr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ndohpenngit/reproducr"</span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="see-it-in-action">See it in action<a class="anchor" aria-label="anchor" href="#see-it-in-action"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
+<thead><tr>
+<th>Example</th>
+<th>Domain</th>
+<th>renv</th>
+<th>Walkthrough</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/ndohpenngit/reproducr-example" class="external-link">reproducr-example</a></td>
+<td>Ecology / penguins</td>
+<td>No</td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/ndohpenngit/reproducr-example-clinical" class="external-link">reproducr-example-clinical</a></td>
+<td>Clinical trials / oncology</td>
+<td>Yes</td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -224,6 +258,11 @@
 <td>3</td>
 <td>Generate a shields.io reproducibility badge</td>
 </tr>
+<tr>
+<td><code><a href="reference/check_db_staleness.html">check_db_staleness()</a></code></td>
+<td>—</td>
+<td>Check database entries against current CRAN versions</td>
+</tr>
 </tbody>
 </table>
 <div class="section level3">
@@ -317,7 +356,8 @@ risk_score()               check_drift()                    repro_badge()</code>
 </tr>
 </tbody>
 </table>
-<p><strong>Contributing:</strong> Each entry is a plain R list in <code>R/breaking_changes_db.R</code>. Open a pull request to add new entries — see the contributing guide for the schema.</p>
+<p>The database is kept current via a weekly automated check — see <code><a href="reference/check_db_staleness.html">check_db_staleness()</a></code>.</p>
+<p><strong>Contributing:</strong> Each entry is a plain R list in <code>R/breaking_changes_db.R</code>. Open a pull request to add new entries — see the <a href="https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html">contributing guide</a> for the schema.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -340,7 +380,7 @@ risk_score()               check_drift()                    repro_badge()</code>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># This will not:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">237</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -432,14 +472,6 @@ risk_score()               check_drift()                    repro_badge()</code>
 <li>A URL reference (package <code>NEWS.md</code>, CRAN page, GitHub release)</li>
 </ol>
 <p>See <code>R/breaking_changes_db.R</code> for the existing format and open a pull request.</p>
-<hr>
-</div>
-<div class="section level2">
-<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
-</h2>
-<p>If you use <code>reproducr</code> in published research, please cite:</p>
-<pre><code>Penn, N. (2026). reproducr: Behavioural Reproducibility Auditing for R
-Projects. R package version 0.1.0. https://github.com/ndohpenngit/reproducr</code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -475,7 +507,7 @@ Projects. R package version 0.1.0. https://github.com/ndohpenngit/reproducr</cod
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://ndohpenngit.github.io/reproducr/"><img src="https://img.shields.io/badge/reproducibility-caution-yellow" alt="reproducibility"></a></li>
+<li><a href="https://ndohpenngit.github.io/reproducr/"><img src="https://img.shields.io/badge/reproducibility-reproducible-brightgreen" alt="reproducibility"></a></li>
 <li><a href="https://cran.r-project.org" class="external-link"><img src="https://img.shields.io/badge/CRAN-not%20yet-lightgrey" alt="CRAN status"></a></li>
 <li><a href="https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>

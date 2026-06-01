@@ -86,7 +86,7 @@ file-based formats, the file is also written to disk.
 ``` r
 script <- tempfile(fileext = ".R")
 writeLines(c(
-  "set.seed(42)",
+  "set.seed(237)",
   "x <- dplyr::filter(mtcars, cyl == 4)",
   "y <- stats::rnorm(10)"
 ), script)
@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-01 12:45
+#> - Generated: 2026-06-01 13:03
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1

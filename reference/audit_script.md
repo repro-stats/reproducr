@@ -105,7 +105,7 @@ to lock a set of outputs as a baseline.
 # Write a temporary script to audit
 script <- tempfile(fileext = ".R")
 writeLines(c(
-  "set.seed(42)",
+  "set.seed(237)",
   "x <- dplyr::filter(mtcars, cyl == 4)",
   "y <- dplyr::summarise(x, mean_mpg = mean(mpg))",
   "z <- stats::rnorm(nrow(y))"
@@ -114,7 +114,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-01 12:45] --
+#> -- reproducr audit report [2026-06-01 13:03] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    2
@@ -128,8 +128,8 @@ print(report)
 
 # See the detected calls as a data frame
 report$calls
-#>                              file line   pkg        fn pkg_version
-#> 1 /tmp/Rtmp2z8SDM/file196842fde.R    2 dplyr    filter        <NA>
-#> 2 /tmp/Rtmp2z8SDM/file196842fde.R    3 dplyr summarise        <NA>
-#> 3 /tmp/Rtmp2z8SDM/file196842fde.R    4 stats     rnorm       4.6.0
+#>                                 file line   pkg        fn pkg_version
+#> 1 /tmp/RtmppBkDad/file1943143b5177.R    2 dplyr    filter        <NA>
+#> 2 /tmp/RtmppBkDad/file1943143b5177.R    3 dplyr summarise        <NA>
+#> 3 /tmp/RtmppBkDad/file1943143b5177.R    4 stats     rnorm       4.6.0
 ```

@@ -142,7 +142,7 @@ report$env
 
 # Files scanned
 report$paths
-#> [1] "/tmp/RtmpsKxgD3/file1a8318244ffc.R"
+#> [1] "/tmp/Rtmpx9Gnmk/file1a5ceee31d6.R"
 
 # Programmatic summary
 s <- summary(report)
@@ -233,7 +233,7 @@ writeLines(c(
   "x <- stats::rnorm(100)",
   "",
   "# Second call — seed present within 50 lines",
-  "set.seed(42)",
+  "set.seed(237)",
   "y <- stats::rbinom(100, 1, 0.5)",
   "",
   "# Third call — seed is there but 60 lines away (beyond the window)",
@@ -365,7 +365,7 @@ risks[risks$check == "seed_check", ]
 #>   MEDIUM:    1
 #>   LOW:       0
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file1a8366a192d8.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1a5c6caa0eb7.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
