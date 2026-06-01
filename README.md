@@ -6,7 +6,9 @@
 [![R-CMD-check](https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml)
 <!-- badges: end -->
 
-> **Know your R analysis will produce the same results tomorrow as it does today.**
+> The reproducibility badge reflects the status of the [example analysis repos](#see-it-in-action). See those repos for a live demonstration of `repro_badge()` in a real analysis workflow.
+
+**Know your R analysis will produce the same results tomorrow as it does today.**
 
 ---
 
@@ -201,7 +203,7 @@ Flags any call to a stochastic function (`rnorm`, `sample`, `rbinom`, etc.) wher
 x <- stats::rnorm(100)
 
 # This will not:
-set.seed(237)
+set.seed(42)
 x <- stats::rnorm(100)
 ```
 

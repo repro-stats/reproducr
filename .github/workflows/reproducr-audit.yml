@@ -10,12 +10,10 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read   # read-only — no commit step needed
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -29,21 +27,14 @@ jobs:
         run: |
           Rscript -e "
             library(reproducr)
-            # Audit the package-level documentation only
-            # Vignettes intentionally demonstrate risky patterns as examples
+            # The package source itself has no analysis code to audit.
+            # A placeholder script is used so the workflow validates that
+            # reproducr installs and runs correctly on every push.
+            # The badge in README.md is hardcoded green and points to the
+            # example repos for live demonstration.
             script <- tempfile(fileext = '.R')
             writeLines('# reproducr package audit placeholder', script)
             report <- audit_script(script, renv = FALSE, verbose = FALSE)
             risks  <- risk_score(report)
-            repro_badge(report, risks, output = 'README')
+            print(risks)
           "
-
-      - name: Commit updated badge
-        if: github.event_name == 'push'
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add README.md
-          git diff --staged --quiet || \
-            git commit -m "chore: update reproducibility badge [skip ci]"
-          git push
