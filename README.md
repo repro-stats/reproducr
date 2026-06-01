@@ -46,10 +46,23 @@ remotes::install_github("ndohpenngit/reproducr")
 
 ## See it in action
 
+The best way to understand `reproducr` is to see it running on a real analysis.
+The companion repositories below each demonstrate the full three-tier workflow
+on a realistic dataset, with CI that audits on every push, certifies outputs,
+detects drift, and updates the badge automatically.
+
+They also show that `reproducr` is environment-agnostic — the ecology example
+runs without `renv`, while the clinical trial example uses `renv` to lock the
+environment first. Both approaches are fully supported.
+
 | Example | Domain | renv | Badge | Walkthrough |
 |---|---|---|---|---|
 | [reproducr-example](https://github.com/ndohpenngit/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md) |
 | [reproducr-example-clinical](https://github.com/ndohpenngit/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md) |
+
+Each `DEMO.md` walks through the complete pipeline with real output at every
+step — from `audit_script()` through to the pharma QC report and committed
+certification history.
 
 ---
 
