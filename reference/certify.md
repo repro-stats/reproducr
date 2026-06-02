@@ -86,12 +86,12 @@ certify(
   script = "analysis.R",
   file   = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-01] under tag 'baseline-v1'
+#> reproducr: certified 3 output(s) [2026-06-02] under tag 'baseline-v1'
 
 # See what is stored
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-06-01T18:21:54+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1 baseline-v1 2026-06-02T10:26:19+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs     script
 #> 1         3 analysis.R
 ```
