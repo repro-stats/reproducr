@@ -1,6 +1,6 @@
 Package: reproducr
 Title: Behavioural Reproducibility Auditing for R Projects
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R:
     person("Ndoh", "Penn", email = "ndohpenn9@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0003-9054-465X"))
