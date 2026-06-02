@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,25 +40,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="reproducr-011">reproducr 0.1.1<a class="anchor" aria-label="anchor" href="#reproducr-011"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="reproducr-development-version">reproducr (development version)<a class="anchor" aria-label="anchor" href="#reproducr-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0.9002" id="reproducr-0109002">reproducr 0.1.0.9002<a class="anchor" aria-label="anchor" href="#reproducr-0109002"></a></h2>
-<ul><li>Fixed <code>audit_script(renv = TRUE)</code> incorrectly falling back to the installed library when a valid <code>renv.lock</code> was present. The regex parser was matching the R version field in the lockfile header, causing a length mismatch. Now uses <code>jsonlite</code> when available for robust JSON parsing, with a corrected regex fallback.</li>
-</ul><hr></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0.9001" id="reproducr-0109001">reproducr 0.1.0.9001<a class="anchor" aria-label="anchor" href="#reproducr-0109001"></a></h2>
-<ul><li><p>Fixed <code><a href="../reference/audit_script.html">audit_script()</a></code> to skip prose lines in <code>.Rmd</code> and <code>.qmd</code> files — only lines inside fenced <code>```{r}</code> code blocks are now parsed. Previously, inline backtick references like <code>`stats::sample()`</code> in prose were incorrectly detected as qualified calls, producing false positives when auditing vignettes.</p></li>
-<li><p>Added explanatory text to the “See it in action” gallery section in <code>README.md</code>.</p></li>
-<li><p>Simplified the <code>reproducr</code> package audit workflow to use a placeholder script — the package source has no analysis code to audit, and vignettes intentionally demonstrate risky patterns as examples.</p></li>
-</ul><hr></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0.9000" id="reproducr-0109000">reproducr 0.1.0.9000<a class="anchor" aria-label="anchor" href="#reproducr-0109000"></a></h2>
-<ul><li><p><code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> — compares <code>to_version</code> ceilings in the breaking-changes database against current CRAN releases. Returns a tidy <code>staleness_report</code> data frame with <code>"ok"</code>, <code>"stale"</code>, or <code>"unknown"</code> status per entry. A weekly GitHub Actions workflow runs this automatically and opens a GitHub issue when stale entries are detected (<code>.github/workflows/db-staleness.yml</code>).</p></li>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="reproducr-011">reproducr 0.1.1<a class="anchor" aria-label="anchor" href="#reproducr-011"></a></h2>
+<ul><li><p>Fixed <code>audit_script(renv = TRUE)</code> incorrectly falling back to the installed library when a valid <code>renv.lock</code> was present. The regex parser was matching the R version field in the lockfile header, causing a length mismatch. Now uses <code>jsonlite</code> when available for robust JSON parsing, with a corrected regex fallback.</p></li>
+<li><p>Fixed <code><a href="../reference/audit_script.html">audit_script()</a></code> to skip prose lines in <code>.Rmd</code> and <code>.qmd</code> files — only lines inside fenced <code>```{r}</code> code blocks are now parsed. Previously, inline backtick references like <code>`stats::sample()`</code> in prose were incorrectly detected as qualified calls, producing false positives when auditing vignettes.</p></li>
+<li><p>Added <code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> — compares <code>to_version</code> ceilings in the breaking-changes database against current CRAN releases. Returns a tidy <code>staleness_report</code> data frame with <code>"ok"</code>, <code>"stale"</code>, or <code>"unknown"</code> status per entry. A weekly GitHub Actions workflow opens an issue in <code>reproducr-db</code> automatically when stale entries are detected.</p></li>
 <li><p>Narrowed version windows for base R RNG entries (<code><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">stats::rnorm</a></code>, <code><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">stats::rbinom</a></code>, <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">stats::runif</a></code>, <code>stats::sample</code>) from <code>to_version = "4.9.9"</code> to <code>"3.6.9"</code>. Users on modern R (&gt;= 4.x) were being falsely flagged for a 2019 change they are all on the same side of.</p></li>
 <li><p>Narrowed version window for <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust</a></code> from <code>"4.9.9"</code> to <code>"4.0.9"</code> for the same reason.</p></li>
 <li><p>Added version window design principles to <code>R/breaking_changes_db.R</code> and expanded <code><a href="../articles/contributing-to-the-database.html">vignette("contributing-to-the-database")</a></code> with three rules for setting <code>to_version</code> and a quick-reference table.</p></li>
-</ul><hr></div>
+<li><p>Launched <a href="https://github.com/ndohpenngit/reproducr-db" class="external-link"><code>reproducr-db</code></a> — a companion repository for community-contributed breaking-change entries. All 29 existing entries are available as JSON files with a validation CI workflow on every PR.</p></li>
+<li><p>Added <code>jsonlite</code> to <code>Suggests</code> to support robust <code>renv.lock</code> parsing.</p></li>
+<li><p>Added spelling wordlist (<code>inst/WORDLIST</code>) — no spelling errors.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="reproducr-010">reproducr 0.1.0<a class="anchor" aria-label="anchor" href="#reproducr-010"></a></h2>
 <ul><li><p><code><a href="../reference/audit_script.html">audit_script()</a></code> — parse <code>.R</code>, <code>.Rmd</code>, and <code>.qmd</code> files to extract all qualified <code>pkg::fn</code> calls with version resolution from <code>renv.lock</code> or the installed library.</p></li>
