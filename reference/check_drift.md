@@ -22,7 +22,7 @@ check_drift(
 - outputs:
 
   A fully named list of current R objects — the same names used in the
-  [`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md)
+  [`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md)
   call being compared against.
 
 - against:
@@ -53,9 +53,9 @@ Also prints a summary to the console.
 
 ## See also
 
-[`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md)
+[`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md)
 to create a baseline;
-[`list_certs()`](https://reproducr-dev.github.io/reproducr/reference/list_certs.md)
+[`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md)
 to see available tags.
 
 ## Examples

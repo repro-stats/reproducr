@@ -40,7 +40,7 @@ x[i, j, ...]
 - audit:
 
   An `audit_report` object returned by
-  [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md).
+  [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md).
 
 - methods:
 
@@ -121,9 +121,9 @@ is scoped to versions where the breaking change is known to apply.
 
 ## See also
 
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 to generate the input;
-[`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+[`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
 to render the results; the `reproducr` GitHub repository to contribute
 new database entries.
 
@@ -147,14 +147,14 @@ print(risks)
 #>   MEDIUM:    1
 #>   LOW:       1
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file2c277633f0b4.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1a39faa19f0.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
 #>                     a fixed seed.
 #>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html
 #> 
-#> [LOW]     base::sort  (line 3 in file2c277633f0b4.R)
+#> [LOW]     base::sort  (line 3 in file1a39faa19f0.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C. Results may
 #>                     differ on machines with different LC_COLLATE or LC_TIME settings.

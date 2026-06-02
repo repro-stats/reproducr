@@ -1,16 +1,16 @@
 # Auditing scripts and scoring risk
 
 This vignette covers Tier 1 of the `reproducr` workflow in depth:
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 and
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md).
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md).
 If you are new to the package, read the [getting
-started](https://reproducr-dev.github.io/reproducr/articles/getting-started.md)
+started](https://ndohpenngit.github.io/reproducr/articles/getting-started.md)
 vignette first.
 
 ## How `audit_script()` detects calls
 
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 reads your R source files line by line and extracts every *qualified*
 function call — one that uses the `::` or `:::` namespace operator.
 
@@ -27,7 +27,7 @@ determine which package a bare
 source text alone, and guessing would produce false positives. Using
 explicit namespacing (`pkg::fn`) is itself a reproducibility best
 practice, and
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 rewards it.
 
 ### What gets skipped
@@ -70,7 +70,7 @@ When scanning a directory, `reproducr` automatically excludes `renv/`,
 
 ### Version resolution
 
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 resolves the version of every detected package from one of two sources,
 in order of preference:
 
@@ -82,7 +82,7 @@ in order of preference:
 
 2.  **Installed library** — if no `renv.lock` is present (or
     `renv = FALSE`),
-    [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+    [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
     calls
     [`installed.packages()`](https://rdrr.io/r/utils/installed.packages.html)
     to resolve versions from whatever is currently installed.
@@ -142,7 +142,7 @@ report$env
 
 # Files scanned
 report$paths
-#> [1] "/tmp/RtmpuII6Y3/file2d42614ab9ab.R"
+#> [1] "/tmp/RtmplWGb3v/file1b53493f6bda.R"
 
 # Programmatic summary
 s <- summary(report)
@@ -157,15 +157,15 @@ s$calls_per_pkg
 
 ## How `risk_score()` works
 
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 runs up to three independent checks on the calls detected by
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md).
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md).
 Each check is self-contained — they can be run in any combination.
 
 ### Check 1: `"changelog"` — the breaking-changes database
 
 This is the most powerful check.
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 looks up every detected `pkg::fn` call in an internal database of known
 cases where a package update silently changed a function’s behaviour
 without producing an error or warning.
@@ -208,7 +208,7 @@ The database currently covers breaking changes in: `dplyr`, `tidyr`,
 `data.table`, `lme4`, and base R (the R 3.6.0 RNG change and the R 4.0.0
 [`hclust()`](https://rdrr.io/r/stats/hclust.html) tie-breaking change).
 See the [contributing to the
-database](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.md)
+database](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.md)
 vignette to add new entries.
 
 ### Check 2: `"seed_check"` — missing `set.seed()`
@@ -348,7 +348,7 @@ c(high = nrow(high_only), medium_up = nrow(medium_up), all = nrow(all_items))
 
 ## Working with the results
 
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 returns a `risk_report` object that inherits from `data.frame`, so all
 standard data frame operations work directly:
 
@@ -365,7 +365,7 @@ risks[risks$check == "seed_check", ]
 #>   MEDIUM:    1
 #>   LOW:       0
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file2d4219d30c26.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1b536603ec20.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without

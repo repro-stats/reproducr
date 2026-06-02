@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/reproducr-dev/reproducr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/ndohpenngit/reproducr/blob/v0.1.1/DESCRIPTION)
 
 Penn N (2026). *reproducr: Behavioural Reproducibility Auditing for R
-Projects*. R package version 0.1.1.9000,
-<https://github.com/reproducr-dev/reproducr>.
+Projects*. R package version 0.1.1,
+<https://github.com/ndohpenngit/reproducr>.
 
     @Manual{,
       title = {reproducr: Behavioural Reproducibility Auditing for R Projects},
       author = {Ndoh Penn},
       year = {2026},
-      note = {R package version 0.1.1.9000},
-      url = {https://github.com/reproducr-dev/reproducr},
+      note = {R package version 0.1.1},
+      url = {https://github.com/ndohpenngit/reproducr},
     }

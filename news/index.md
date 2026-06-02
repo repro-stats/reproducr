@@ -1,8 +1,8 @@
 # Changelog
 
-## reproducr (development version)
-
 ## reproducr 0.1.1
+
+## reproducr 0.1.0.9002
 
 - Fixed `audit_script(renv = TRUE)` incorrectly falling back to the
   installed library when a valid `renv.lock` was present. The regex
@@ -10,21 +10,36 @@
   causing a length mismatch. Now uses `jsonlite` when available for
   robust JSON parsing, with a corrected regex fallback.
 
+------------------------------------------------------------------------
+
+## reproducr 0.1.0.9001
+
 - Fixed
-  [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+  [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
   to skip prose lines in `.Rmd` and `.qmd` files — only lines inside
   fenced ```` ```{r} ```` code blocks are now parsed. Previously, inline
   backtick references like `` `stats::sample()` `` in prose were
   incorrectly detected as qualified calls, producing false positives
   when auditing vignettes.
 
-- Added
-  [`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md)
+- Added explanatory text to the “See it in action” gallery section in
+  `README.md`.
+
+- Simplified the `reproducr` package audit workflow to use a placeholder
+  script — the package source has no analysis code to audit, and
+  vignettes intentionally demonstrate risky patterns as examples.
+
+------------------------------------------------------------------------
+
+## reproducr 0.1.0.9000
+
+- [`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
   — compares `to_version` ceilings in the breaking-changes database
   against current CRAN releases. Returns a tidy `staleness_report` data
   frame with `"ok"`, `"stale"`, or `"unknown"` status per entry. A
-  weekly GitHub Actions workflow opens an issue in `reproducr-db`
-  automatically when stale entries are detected.
+  weekly GitHub Actions workflow runs this automatically and opens a
+  GitHub issue when stale entries are detected
+  (`.github/workflows/db-staleness.yml`).
 
 - Narrowed version windows for base R RNG entries
   ([`stats::rnorm`](https://rdrr.io/r/stats/Normal.html),
@@ -40,48 +55,40 @@
 
 - Added version window design principles to `R/breaking_changes_db.R`
   and expanded
-  [`vignette("contributing-to-the-database")`](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.md)
+  [`vignette("contributing-to-the-database")`](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.md)
   with three rules for setting `to_version` and a quick-reference table.
 
-- Launched
-  [`reproducr-db`](https://github.com/reproducr-dev/reproducr-db) — a
-  companion repository for community-contributed breaking-change
-  entries. All 29 existing entries are available as JSON files with a
-  validation CI workflow on every PR.
-
-- Added `jsonlite` to `Suggests` to support robust `renv.lock` parsing.
-
-- Added spelling wordlist (`inst/WORDLIST`) — no spelling errors.
+------------------------------------------------------------------------
 
 ## reproducr 0.1.0
 
-- [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+- [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
   — parse `.R`, `.Rmd`, and `.qmd` files to extract all qualified
   `pkg::fn` calls with version resolution from `renv.lock` or the
   installed library.
 
-- [`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+- [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
   — three independent risk checks: `"changelog"` (curated database of
   known breaking changes), `"seed_check"` (flags stochastic functions
   without a nearby [`set.seed()`](https://rdrr.io/r/base/Random.html)),
   and `"locale_check"` (flags locale-sensitive operations).
 
-- [`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md)
+- [`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md)
   — hash and store analytical outputs as a signed baseline.
 
-- [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md)
+- [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md)
   — compare current outputs against a stored baseline; reports `"ok"`,
   `"drifted"`, `"missing"`, and `"new"` statuses.
 
-- [`list_certs()`](https://reproducr-dev.github.io/reproducr/reference/list_certs.md)
+- [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md)
   — inspect all certifications stored in a project’s `.reproducr.rds`
   file.
 
-- [`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+- [`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
   — render audit reports in three styles (`"minimal"`, `"academic"`,
   `"pharma"`) and three formats (`"text"`, `"md"`, `"html"`).
 
-- [`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md)
+- [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md)
   — generate a shields.io reproducibility status badge and optionally
   insert it into `README.md`.
 

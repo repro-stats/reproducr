@@ -1,7 +1,7 @@
 # Contributing to the breaking-changes database
 
 The breaking-changes database is the heart of
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)’s
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)’s
 `"changelog"` check. It is a curated list of cases where a package
 update silently changed a function’s *behaviour* — not its interface —
 in a way that can alter analytical results without producing an error.
@@ -358,7 +358,7 @@ test_that("risk_score() does NOT flag mypackage::myfun outside the window", {
 
 As packages release new versions, database entries may become stale —
 their `to_version` ceiling falls below the current CRAN release.
-[`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md)
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
 detects this automatically:
 
 ``` r
@@ -391,7 +391,7 @@ check_db_staleness(source = "installed")
 ```
 
 The `reproducr` repository runs
-[`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md)
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
 automatically every Monday via a GitHub Actions workflow and opens an
 issue when stale entries are found. If you notice a stale entry, opening
 a PR to update `to_version` is a valuable contribution even without

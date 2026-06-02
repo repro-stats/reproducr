@@ -2,7 +2,7 @@
 
 > The reproducibility badge reflects the status of the [example analysis
 > repos](#see-it-in-action). See those repos for a live demonstration of
-> [`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md)
+> [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md)
 > in a real analysis workflow.
 
 > **Know your R analysis will produce the same results tomorrow as it
@@ -53,7 +53,7 @@ library. No configuration required.
 
 # Development version from GitHub
 install.packages("remotes")
-remotes::install_github("reproducr-dev/reproducr")
+remotes::install_github("ndohpenngit/reproducr")
 ```
 
 ------------------------------------------------------------------------
@@ -73,12 +73,12 @@ supported.
 
 | Example | Domain | renv | Badge | Walkthrough |
 |----|----|----|----|----|
-| [reproducr-example](https://github.com/reproducr-dev/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/reproducr-dev/reproducr-example/blob/main/DEMO.md) |
-| [reproducr-example-clinical](https://github.com/reproducr-dev/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/reproducr-dev/reproducr-example-clinical/blob/main/DEMO.md) |
+| [reproducr-example](https://github.com/ndohpenngit/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md) |
+| [reproducr-example-clinical](https://github.com/ndohpenngit/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md) |
 
 Each `DEMO.md` walks through the complete pipeline with real output at
 every step — from
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 through to the pharma QC report and committed certification history.
 
 ------------------------------------------------------------------------
@@ -164,14 +164,14 @@ repro_badge(report, risks, output = "README")
 
 | Function | Tier | Purpose |
 |----|----|----|
-| [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md) | 1 | Parse a script and extract all `pkg::fn` calls with version info |
-| [`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md) | 1 | Check calls against the breaking-changes database |
-| [`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md) | 2 | Hash and store analytical outputs as a signed baseline |
-| [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md) | 2 | Compare current outputs against a stored baseline |
-| [`list_certs()`](https://reproducr-dev.github.io/reproducr/reference/list_certs.md) | 2 | Inspect all certifications in a project |
-| [`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md) | 3 | Render audit report (text / Markdown / HTML) |
-| [`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md) | 3 | Generate a shields.io reproducibility badge |
-| [`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md) | — | Check database entries against current CRAN versions |
+| [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md) | 1 | Parse a script and extract all `pkg::fn` calls with version info |
+| [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md) | 1 | Check calls against the breaking-changes database |
+| [`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md) | 2 | Hash and store analytical outputs as a signed baseline |
+| [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md) | 2 | Compare current outputs against a stored baseline |
+| [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md) | 2 | Inspect all certifications in a project |
+| [`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md) | 3 | Render audit report (text / Markdown / HTML) |
+| [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md) | 3 | Generate a shields.io reproducibility badge |
+| [`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md) | — | Check database entries against current CRAN versions |
 
 ### The three-tier workflow
 
@@ -190,7 +190,7 @@ regulated or peer-reviewed work.
 ## The breaking-changes database
 
 The heart of
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 is a curated database of known cases where a package update **silently
 changed function behaviour** — not errors, not deprecation warnings,
 just different results.
@@ -212,12 +212,12 @@ Current coverage:
 | `base R` | 5 | RNG change (R 3.6.0), [`hclust()`](https://rdrr.io/r/stats/hclust.html) tie-breaking (R 4.0.0) |
 
 The database is kept current via a weekly automated check — see
-[`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md).
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md).
 
 **Contributing:** Each entry is a plain R list in
 `R/breaking_changes_db.R`. Open a pull request to add new entries — see
 the [contributing
-guide](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html)
+guide](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html)
 for the schema.
 
 ------------------------------------------------------------------------
@@ -335,7 +335,7 @@ workflow:
 - Updates the reproducibility badge in your README
 
 See the [reports and badges
-vignette](https://reproducr-dev.github.io/reproducr/articles/reports-and-badges.html)
+vignette](https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html)
 for the complete GitHub Actions workflow.
 
 ------------------------------------------------------------------------
@@ -345,9 +345,9 @@ for the complete GitHub Actions workflow.
 ### Breaking-changes database
 
 The database powering
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 is maintained in a dedicated community repository —
-**[reproducr-db](https://github.com/reproducr-dev/reproducr-db)**.
+**[reproducr-db](https://github.com/ndohpenngit/reproducr-db)**.
 
 Contributing a new entry requires:
 
@@ -358,13 +358,13 @@ Contributing a new entry requires:
 5.  A URL reference (package `NEWS.md`, CRAN page, GitHub release)
 
 Each entry is a small JSON file — see the [reproducr-db
-README](https://github.com/reproducr-dev/reproducr-db#entry-format) for
+README](https://github.com/ndohpenngit/reproducr-db#entry-format) for
 the format and the [contributing
-guide](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html)
+guide](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html)
 for the version window design principles.
 
 ### Package development
 
 To contribute to `reproducr` itself — new features, bug fixes, or
 additional risk checks — open an issue or pull request on the [main
-repository](https://github.com/reproducr-dev/reproducr).
+repository](https://github.com/ndohpenngit/reproducr).

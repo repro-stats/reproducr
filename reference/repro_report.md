@@ -1,11 +1,11 @@
 # Generate a human-readable reproducibility report
 
 Renders a reproducibility audit report from an
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md)
 result and optionally a
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 result and
-[`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md)
+[`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md)
 result. Three style presets are available:
 
 - **`"minimal"`** â€” compact summary suitable for console review or
@@ -37,20 +37,20 @@ repro_report(
 - audit:
 
   An `audit_report` object from
-  [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md).
+  [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md).
   Required.
 
 - risks:
 
   A `risk_report` data frame from
-  [`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md).
+  [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md).
   Optional but strongly recommended â€” without it, the report cannot
   assess reproducibility.
 
 - drift:
 
   A `drift_report` data frame from
-  [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md).
+  [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md).
   Optional.
 
 - format:
@@ -76,10 +76,10 @@ file-based formats, the file is also written to disk.
 
 ## See also
 
-[`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md),
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md),
-[`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md),
-[`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md)
+[`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md),
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md),
+[`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md),
+[`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md)
 
 ## Examples
 
@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-02 18:47
+#> - Generated: 2026-06-02 18:52
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1

@@ -1,10 +1,10 @@
 # Certifying outputs and detecting drift
 
 This vignette covers Tier 2 of the `reproducr` workflow in depth:
-[`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md),
-[`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md),
+[`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md),
+[`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md),
 and
-[`list_certs()`](https://reproducr-dev.github.io/reproducr/reference/list_certs.md).
+[`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md).
 These three functions together form the *baseline and drift detection*
 system.
 
@@ -15,9 +15,9 @@ libraries (BLAS, LAPACK) get updated by system administrators. R itself
 changes RNG defaults between minor versions. Any of these can alter your
 numerical results without producing an error.
 
-[`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md)
+[`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md)
 and
-[`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md)
+[`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md)
 detect this. The idea is simple:
 
 1.  After a successful analysis run, hash the key outputs and store the
@@ -99,7 +99,7 @@ certify(
   file    = cert_file
 )
 #> Warning: Tag 'baseline-v1' already exists in
-#> '/tmp/Rtmpb3fxN9/file2d9648fef2db'. Overwriting.
+#> '/tmp/RtmpA4VxW8/file1b8e27b3a137'. Overwriting.
 #> reproducr: certified 1 output(s) [2026-06-02] under tag 'baseline-v1'
 ```
 
@@ -111,9 +111,9 @@ certify(
 
 list_certs(file = cert_file)
 #>               tag                timestamp r_version                      os
-#> 1     baseline-v1 2026-06-02T18:50:24+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 2 pre-peer-review 2026-06-02T18:50:24+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 3   post-revision 2026-06-02T18:50:24+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1     baseline-v1 2026-06-02T18:52:11+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 2 pre-peer-review 2026-06-02T18:52:11+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 3   post-revision 2026-06-02T18:52:11+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs script
 #> 1         1   <NA>
 #> 2         1   <NA>
@@ -205,8 +205,8 @@ print(demo_result)
 |----|----|
 | `ok` | Hash matches the baseline exactly |
 | `drifted` | Hash differs — output has changed |
-| `missing` | Present in baseline, not supplied to [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md) |
-| `new` | Supplied to [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md), not in baseline |
+| `missing` | Present in baseline, not supplied to [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md) |
+| `new` | Supplied to [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md), not in baseline |
 
 ### Using `"latest"`
 

@@ -18,7 +18,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Behavioural Reproducibility Auditing for R Projects">
 <meta name="description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows.">
 <meta property="og:description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows.">
-<meta property="og:image" content="https://reproducr-dev.github.io/reproducr/logo.svg">
+<meta property="og:image" content="https://ndohpenngit.github.io/reproducr/logo.svg">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/reproducr-dev/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ndohpenngit/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -100,7 +100,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Development version from GitHub</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"reproducr-dev/reproducr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ndohpenngit/reproducr"</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level2">
@@ -125,18 +125,18 @@
 </tr></thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/reproducr-dev/reproducr-example" class="external-link">reproducr-example</a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example" class="external-link">reproducr-example</a></td>
 <td>Ecology / penguins</td>
 <td>No</td>
-<td><a href="https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml" class="external-link"><img src="https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg" alt="reproducibility"></a></td>
-<td><a href="https://github.com/reproducr-dev/reproducr-example/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml" class="external-link"><img src="https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg" alt="reproducibility"></a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
 </tr>
 <tr>
-<td><a href="https://github.com/reproducr-dev/reproducr-example-clinical" class="external-link">reproducr-example-clinical</a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example-clinical" class="external-link">reproducr-example-clinical</a></td>
 <td>Clinical trials / oncology</td>
 <td>Yes</td>
-<td><a href="https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml" class="external-link"><img src="https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg" alt="reproducibility"></a></td>
-<td><a href="https://github.com/reproducr-dev/reproducr-example-clinical/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml" class="external-link"><img src="https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg" alt="reproducibility"></a></td>
+<td><a href="https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md" class="external-link">DEMO.md</a></td>
 </tr>
 </tbody>
 </table>
@@ -147,7 +147,7 @@
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reproducr-dev/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ndohpenngit/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Step 1: Audit your script</span></span>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/audit_script.html">audit_script</a></span><span class="op">(</span><span class="st">"analysis.R"</span><span class="op">)</span></span>
@@ -367,7 +367,7 @@ risk_score()               check_drift()                    repro_badge()</code>
 </tbody>
 </table>
 <p>The database is kept current via a weekly automated check — see <code><a href="reference/check_db_staleness.html">check_db_staleness()</a></code>.</p>
-<p><strong>Contributing:</strong> Each entry is a plain R list in <code>R/breaking_changes_db.R</code>. Open a pull request to add new entries — see the <a href="https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html">contributing guide</a> for the schema.</p>
+<p><strong>Contributing:</strong> Each entry is a plain R list in <code>R/breaking_changes_db.R</code>. Open a pull request to add new entries — see the <a href="https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html">contributing guide</a> for the schema.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -467,7 +467,7 @@ risk_score()               check_drift()                    repro_badge()</code>
 <li>Checks for drift against the last certified run</li>
 <li>Updates the reproducibility badge in your README</li>
 </ul>
-<p>See the <a href="https://reproducr-dev.github.io/reproducr/articles/reports-and-badges.html">reports and badges vignette</a> for the complete GitHub Actions workflow.</p>
+<p>See the <a href="https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html">reports and badges vignette</a> for the complete GitHub Actions workflow.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -476,7 +476,7 @@ risk_score()               check_drift()                    repro_badge()</code>
 <div class="section level3">
 <h3 id="breaking-changes-database">Breaking-changes database<a class="anchor" aria-label="anchor" href="#breaking-changes-database"></a>
 </h3>
-<p>The database powering <code><a href="reference/risk_score.html">risk_score()</a></code> is maintained in a dedicated community repository — <strong><a href="https://github.com/reproducr-dev/reproducr-db" class="external-link">reproducr-db</a></strong>.</p>
+<p>The database powering <code><a href="reference/risk_score.html">risk_score()</a></code> is maintained in a dedicated community repository — <strong><a href="https://github.com/ndohpenngit/reproducr-db" class="external-link">reproducr-db</a></strong>.</p>
 <p>Contributing a new entry requires:</p>
 <ol style="list-style-type: decimal">
 <li>A <code>pkg::fn</code> key</li>
@@ -485,20 +485,20 @@ risk_score()               check_drift()                    repro_badge()</code>
 <li>A plain-English description of the breaking change</li>
 <li>A URL reference (package <code>NEWS.md</code>, CRAN page, GitHub release)</li>
 </ol>
-<p>Each entry is a small JSON file — see the <a href="https://github.com/reproducr-dev/reproducr-db#entry-format" class="external-link">reproducr-db README</a> for the format and the <a href="https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html">contributing guide</a> for the version window design principles.</p>
+<p>Each entry is a small JSON file — see the <a href="https://github.com/ndohpenngit/reproducr-db#entry-format" class="external-link">reproducr-db README</a> for the format and the <a href="https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html">contributing guide</a> for the version window design principles.</p>
 </div>
 <div class="section level3">
 <h3 id="package-development">Package development<a class="anchor" aria-label="anchor" href="#package-development"></a>
 </h3>
-<p>To contribute to <code>reproducr</code> itself — new features, bug fixes, or additional risk checks — open an issue or pull request on the <a href="https://github.com/reproducr-dev/reproducr" class="external-link">main repository</a>.</p>
+<p>To contribute to <code>reproducr</code> itself — new features, bug fixes, or additional risk checks — open an issue or pull request on the <a href="https://github.com/ndohpenngit/reproducr" class="external-link">main repository</a>.</p>
 </div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/reproducr-dev/reproducr/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/reproducr-dev/reproducr/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/ndohpenngit/reproducr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/ndohpenngit/reproducr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -527,9 +527,9 @@ risk_score()               check_drift()                    repro_badge()</code>
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://reproducr-dev.github.io/reproducr/"><img src="https://img.shields.io/badge/reproducibility-reproducible-brightgreen" alt="reproducibility"></a></li>
+<li><a href="https://ndohpenngit.github.io/reproducr/"><img src="https://img.shields.io/badge/reproducibility-reproducible-brightgreen" alt="reproducibility"></a></li>
 <li><a href="https://cran.r-project.org" class="external-link"><img src="https://img.shields.io/badge/CRAN-not%20yet-lightgrey" alt="CRAN status"></a></li>
-<li><a href="https://github.com/reproducr-dev/reproducr/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/reproducr-dev/reproducr/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 

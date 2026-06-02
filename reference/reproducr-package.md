@@ -35,14 +35,14 @@ outputs as baselines, and detects numerical drift across runs.
 |  |  |
 |----|----|
 | Function | Purpose |
-| [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md) | Parse a script and extract all `pkg::fn` calls |
-| [`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md) | Check calls against the breaking-changes database |
-| [`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md) | Hash and store analytical outputs as a baseline |
-| [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md) | Compare current outputs against a stored baseline |
-| [`list_certs()`](https://reproducr-dev.github.io/reproducr/reference/list_certs.md) | List all certifications in a `.reproducr` file |
-| [`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md) | Render a human-readable audit report |
-| [`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md) | Generate a reproducibility status badge |
-| [`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md) | Check database entries against current CRAN versions |
+| [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md) | Parse a script and extract all `pkg::fn` calls |
+| [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md) | Check calls against the breaking-changes database |
+| [`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md) | Hash and store analytical outputs as a baseline |
+| [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md) | Compare current outputs against a stored baseline |
+| [`list_certs()`](https://ndohpenngit.github.io/reproducr/reference/list_certs.md) | List all certifications in a `.reproducr` file |
+| [`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md) | Render a human-readable audit report |
+| [`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md) | Generate a reproducibility status badge |
+| [`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md) | Check database entries against current CRAN versions |
 
 ## The breaking-changes database
 
@@ -50,11 +50,11 @@ The internal database covers known silent breaking changes in: `dplyr`,
 `tidyr`, `ggplot2`, `readr`, `purrr`, `stringr`, `broom`, `data.table`,
 `lme4`, `lubridate`, and base R. Community contributions are welcome —
 see
-[`vignette("contributing-to-the-database")`](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.md).
+[`vignette("contributing-to-the-database")`](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.md).
 
 The database is kept current via a weekly GitHub Actions workflow that
 calls
-[`check_db_staleness()`](https://reproducr-dev.github.io/reproducr/reference/check_db_staleness.md)
+[`check_db_staleness()`](https://ndohpenngit.github.io/reproducr/reference/check_db_staleness.md)
 and opens an issue automatically when any entry's `to_version` ceiling
 falls below the current CRAN release.
 
@@ -62,9 +62,9 @@ falls below the current CRAN release.
 
 Useful links:
 
-- <https://github.com/reproducr-dev/reproducr>
+- <https://github.com/ndohpenngit/reproducr>
 
-- Report bugs at <https://github.com/reproducr-dev/reproducr/issues>
+- Report bugs at <https://github.com/ndohpenngit/reproducr/issues>
 
 ## Author
 

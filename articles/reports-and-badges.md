@@ -1,9 +1,9 @@
 # Generating reports and badges
 
 This vignette covers Tier 3 of the `reproducr` workflow:
-[`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+[`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
 and
-[`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md).
+[`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md).
 These functions turn audit results into documents and status indicators
 for external consumption.
 
@@ -11,7 +11,7 @@ for external consumption.
 
 ## `repro_report()` — generating reports
 
-[`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+[`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
 combines an `audit_report`, an optional `risk_report`, and an optional
 `drift_report` into a single human-readable document. It has two
 orthogonal dimensions:
@@ -42,7 +42,7 @@ clean_risks  <- risk_score(clean_report)
 cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-02 18:50
+#> - Generated: 2026-06-02 18:52
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -55,7 +55,7 @@ cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> > REPRODUCIBLE: No significant risks detected.
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-02 18:50
+#> - **Generated:** 2026-06-02 18:52
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -81,7 +81,7 @@ quick console review.
 cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-02 18:50
+#> - Generated: 2026-06-02 18:52
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -96,13 +96,13 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [LOW] base::sort
-#> - File: file2e42113ae296.R, line 5
+#> - File: file1c387cac96df.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-02 18:50
+#> - **Generated:** 2026-06-02 18:52
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -117,7 +117,7 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file2e42113ae296.R, line 5
+#> - **File:** file1c387cac96df.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -138,7 +138,7 @@ cat(repro_report(report, risks, drift = drift,
                  format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-02 18:50
+#> - Generated: 2026-06-02 18:52
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -153,7 +153,7 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [LOW] base::sort
-#> - File: file2e42113ae296.R, line 5
+#> - File: file1c387cac96df.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -163,7 +163,7 @@ cat(repro_report(report, risks, drift = drift,
 #> - OK coefs
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-02 18:50
+#> - **Generated:** 2026-06-02 18:52
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -178,7 +178,7 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file2e42113ae296.R, line 5
+#> - **File:** file1c387cac96df.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -258,7 +258,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - /tmp/RtmpyRFTtW/file2e42113ae296.R
+#> - /tmp/RtmpS0W8hM/file1c387cac96df.R
 #> 
 #> ## 3. Package inventory
 #> 
@@ -274,7 +274,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | LOW |
-#> | File | file2e42113ae296.R, line 5 |
+#> | File | file1c387cac96df.R, line 5 |
 #> | Check method | locale_check |
 #> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
@@ -313,7 +313,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - `/tmp/RtmpyRFTtW/file2e42113ae296.R`
+#> - `/tmp/RtmpS0W8hM/file1c387cac96df.R`
 #> 
 #> ## 3. Package inventory
 #> 
@@ -329,7 +329,7 @@ cat(repro_report(report, risks, drift = drift,
 #> | Field | Value |
 #> |---|---|
 #> | Severity | **LOW** |
-#> | File | file2e42113ae296.R, line 5 |
+#> | File | file1c387cac96df.R, line 5 |
 #> | Check method | locale_check |
 #> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
 #> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
@@ -365,7 +365,7 @@ The pharma style includes:
 ## Format: `"md"` and `"html"`
 
 For `"md"` and `"html"` formats,
-[`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+[`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
 writes to a file. If `output_file` is not specified, it defaults to
 `"reproducr_report.md"` or `"reproducr_report.html"` in the working
 directory.
@@ -377,7 +377,7 @@ repro_report(report, risks,
              format      = "md",
              style       = "minimal",
              output_file = md_file)
-#> reproducr: report written to '/tmp/RtmpyRFTtW/file2e424f89ae82.md'
+#> reproducr: report written to '/tmp/RtmpS0W8hM/file1c38636cc49c.md'
 
 # Inspect the raw Markdown
 cat(readLines(md_file, warn = FALSE), sep = "\n")
@@ -390,7 +390,7 @@ repro_report(report, risks, drift = drift,
              format      = "html",
              style       = "pharma",
              output_file = html_file)
-#> reproducr: report written to '/tmp/RtmpyRFTtW/file2e42401f84a6.html'
+#> reproducr: report written to '/tmp/RtmpS0W8hM/file1c3871e536d8.html'
 
 # The file is self-contained — open it in a browser
 # browseURL(html_file)
@@ -424,7 +424,7 @@ for (sty in styles) {
 
 ## `repro_badge()` — status badges
 
-[`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md)
+[`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md)
 generates a [shields.io](https://shields.io) badge reflecting the
 current reproducibility status of the project. The badge is designed to
 sit in a README and update automatically via CI.
@@ -442,21 +442,21 @@ sit in a README and update automatically via CI.
 
 # Reproducible — clean script, no risks
 clean_badge <- repro_badge(clean_report, clean_risks, output = "markdown")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 cat(clean_badge, "\n")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 
 # Unknown — no risks supplied
 unknown_badge <- repro_badge(report, output = "markdown")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-unknown-lightgrey)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-unknown-lightgrey)](https://ndohpenngit.github.io/reproducr/)
 cat(unknown_badge, "\n")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-unknown-lightgrey)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-unknown-lightgrey)](https://ndohpenngit.github.io/reproducr/)
 
 # With risks — colour depends on highest severity
 risk_badge <- repro_badge(report, risks, output = "markdown")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 cat(risk_badge, "\n")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 ```
 
 ### Inserting into `README.md`
@@ -474,11 +474,11 @@ writeLines(c(
 
 # Insert badge at the top
 repro_badge(report, risks, output = "README", readme_path = readme)
-#> reproducr: badge updated in '/tmp/RtmpyRFTtW/file2e427b7db8a0.md'
+#> reproducr: badge updated in '/tmp/RtmpS0W8hM/file1c383208b810.md'
 
 # See the result
 cat(readLines(readme, warn = FALSE), sep = "\n")
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 #> 
 #> # myanalysis
 #> 
@@ -494,7 +494,7 @@ The badge is wrapped in HTML comment markers:
 ```
 
 This makes subsequent calls idempotent — running
-[`repro_badge()`](https://reproducr-dev.github.io/reproducr/reference/repro_badge.md)
+[`repro_badge()`](https://ndohpenngit.github.io/reproducr/reference/repro_badge.md)
 again replaces the existing badge rather than inserting a second one. It
 is safe to call on every CI push.
 

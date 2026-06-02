@@ -19,7 +19,7 @@ where no set.seed() appears within 50 lines above the call.
 "locale_check" — flags functions whose output is locale-sensitive
 (sort(), format(), tolower(), etc.).
 
-'><meta property="og:image" content="https://reproducr-dev.github.io/reproducr/logo.svg"></head><body>
+'><meta property="og:image" content="https://ndohpenngit.github.io/reproducr/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -27,7 +27,7 @@ where no set.seed() appears within 50 lines above the call.
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@ where no set.seed() appears within 50 lines above the call.
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/reproducr-dev/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ndohpenngit/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -56,7 +56,7 @@ where no set.seed() appears within 50 lines above the call.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Score function calls for reproducibility risk</h1>
-      <small class="dont-index">Source: <a href="https://github.com/reproducr-dev/reproducr/blob/main/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ndohpenngit/reproducr/blob/v0.1.1/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
       <div class="d-none name"><code>risk_score.Rd</code></div>
     </div>
 
@@ -193,14 +193,14 @@ entries.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   MEDIUM:    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   LOW:       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file2c277633f0b4.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file1a39faa19f0.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : seed_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     above this call (line 2). Output will differ across runs without</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     a fixed seed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file2c277633f0b4.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file1a39faa19f0.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : locale_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : sort() output is locale-sensitive. Current locale: C. Results may</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     differ on machines with different LC_COLLATE or LC_TIME settings.</span>

@@ -113,9 +113,9 @@ See the contributing vignette for guidance on setting `to_version`.
 
 ## See also
 
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 which uses the database at runtime;
-[`vignette("contributing-to-the-database")`](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.md)
+[`vignette("contributing-to-the-database")`](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.md)
 for the database schema and version window design principles.
 
 ## Examples

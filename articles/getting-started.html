@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/reproducr-dev/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ndohpenngit/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -67,7 +67,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Getting started with reproducr</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/reproducr-dev/reproducr/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ndohpenngit/reproducr/blob/v0.1.1/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -124,7 +124,7 @@ resolves which version of each package is in use.</p>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/audit_script.html">audit_script</a></span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -- reproducr audit report [2026-06-02 18:50] --</span></span>
+<span><span class="co">#&gt; -- reproducr audit report [2026-06-02 18:52] --</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Files scanned:     1</span></span>
 <span><span class="co">#&gt;   Packages found:    3</span></span>
@@ -136,12 +136,12 @@ resolves which version of each package is in use.</p>
 <span><span class="co">#&gt;   Next step: risks &lt;- risk_score(report)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span>
-<span><span class="co">#&gt;                                file line   pkg        fn pkg_version</span></span>
-<span><span class="co">#&gt; 1 /tmp/RtmpztlB0V/file2e06ad5028e.R    3 dplyr    filter        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 /tmp/RtmpztlB0V/file2e06ad5028e.R    4 dplyr summarise        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 /tmp/RtmpztlB0V/file2e06ad5028e.R    4 dplyr         n        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 /tmp/RtmpztlB0V/file2e06ad5028e.R    6 stats     rnorm       4.6.0</span></span>
-<span><span class="co">#&gt; 5 /tmp/RtmpztlB0V/file2e06ad5028e.R    7  base      sort       4.6.0</span></span></code></pre></div>
+<span><span class="co">#&gt;                                 file line   pkg        fn pkg_version</span></span>
+<span><span class="co">#&gt; 1 /tmp/RtmpIIgQ05/file1bfe558a706a.R    3 dplyr    filter        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 /tmp/RtmpIIgQ05/file1bfe558a706a.R    4 dplyr summarise        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 /tmp/RtmpIIgQ05/file1bfe558a706a.R    4 dplyr         n        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 /tmp/RtmpIIgQ05/file1bfe558a706a.R    6 stats     rnorm       4.6.0</span></span>
+<span><span class="co">#&gt; 5 /tmp/RtmpIIgQ05/file1bfe558a706a.R    7  base      sort       4.6.0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="scoring-for-risk">Scoring for risk<a class="anchor" aria-label="anchor" href="#scoring-for-risk"></a>
@@ -158,7 +158,7 @@ checks:</p>
 <span><span class="co">#&gt;   MEDIUM:    0</span></span>
 <span><span class="co">#&gt;   LOW:       1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file2e06ad5028e.R)</span></span>
+<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file1bfe558a706a.R)</span></span>
 <span><span class="co">#&gt;          Check    : locale_check</span></span>
 <span><span class="co">#&gt;          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.</span></span>
 <span><span class="co">#&gt;                     Results may differ on machines with different LC_COLLATE or</span></span>
@@ -185,8 +185,8 @@ output varies by system locale</li>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># As a plain data frame for downstream use</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                file line       call pkg_version risk</span></span>
-<span><span class="co">#&gt; 1 /tmp/RtmpztlB0V/file2e06ad5028e.R    7 base::sort       4.6.0  low</span></span>
+<span><span class="co">#&gt;                                 file line       call pkg_version risk</span></span>
+<span><span class="co">#&gt; 1 /tmp/RtmpIIgQ05/file1bfe558a706a.R    7 base::sort       4.6.0  low</span></span>
 <span><span class="co">#&gt;          check</span></span>
 <span><span class="co">#&gt; 1 locale_check</span></span>
 <span><span class="co">#&gt;                                                                                                                                 description</span></span>
@@ -222,9 +222,9 @@ output varies by system locale</li>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1 baseline-v1 2026-06-02T18:50:29+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
-<span><span class="co">#&gt;   n_outputs                            script</span></span>
-<span><span class="co">#&gt; 1         3 /tmp/RtmpztlB0V/file2e06ad5028e.R</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 baseline-v1 2026-06-02T18:52:16+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt;   n_outputs                             script</span></span>
+<span><span class="co">#&gt; 1         3 /tmp/RtmpIIgQ05/file1bfe558a706a.R</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="checking-for-drift">Checking for drift<a class="anchor" aria-label="anchor" href="#checking-for-drift"></a>
@@ -285,15 +285,15 @@ output varies by system locale</li>
 <span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">badge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repro_badge.html">repro_badge</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, output <span class="op">=</span> <span class="st">"markdown"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)</span></span>
+<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">badge</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)</span></span></code></pre></div>
+<span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="the-full-pipeline">The full pipeline<a class="anchor" aria-label="anchor" href="#the-full-pipeline"></a>
 </h2>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/reproducr-dev/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ndohpenngit/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Tier 1</span></span>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/audit_script.html">audit_script</a></span><span class="op">(</span><span class="st">"analysis.R"</span><span class="op">)</span></span>

@@ -33,18 +33,18 @@ repro_badge(
 - audit:
 
   An `audit_report` from
-  [`audit_script()`](https://reproducr-dev.github.io/reproducr/reference/audit_script.md).
+  [`audit_script()`](https://ndohpenngit.github.io/reproducr/reference/audit_script.md).
 
 - risks:
 
   A `risk_report` from
-  [`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md).
+  [`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md).
   Optional.
 
 - drift:
 
   A `drift_report` from
-  [`check_drift()`](https://reproducr-dev.github.io/reproducr/reference/check_drift.md).
+  [`check_drift()`](https://ndohpenngit.github.io/reproducr/reference/check_drift.md).
   Optional.
 
 - output:
@@ -70,7 +70,7 @@ report <- audit_script(script, renv = FALSE, verbose = FALSE)
 risks  <- risk_score(report)
 
 badge <- repro_badge(report, risks)
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/) 
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/) 
 cat(badge)
-#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
+#> [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
 ```

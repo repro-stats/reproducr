@@ -92,11 +92,11 @@ reproducibility best practice.
 
 ## See also
 
-[`risk_score()`](https://reproducr-dev.github.io/reproducr/reference/risk_score.md)
+[`risk_score()`](https://ndohpenngit.github.io/reproducr/reference/risk_score.md)
 to check detected calls against the breaking-changes database;
-[`repro_report()`](https://reproducr-dev.github.io/reproducr/reference/repro_report.md)
+[`repro_report()`](https://ndohpenngit.github.io/reproducr/reference/repro_report.md)
 to render the full audit;
-[`certify()`](https://reproducr-dev.github.io/reproducr/reference/certify.md)
+[`certify()`](https://ndohpenngit.github.io/reproducr/reference/certify.md)
 to lock a set of outputs as a baseline.
 
 ## Examples
@@ -114,7 +114,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-02 18:47] --
+#> -- reproducr audit report [2026-06-02 18:52] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    2
@@ -128,8 +128,8 @@ print(report)
 
 # See the detected calls as a data frame
 report$calls
-#>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpSFfu4t/file2c27798f3505.R    2 dplyr    filter        <NA>
-#> 2 /tmp/RtmpSFfu4t/file2c27798f3505.R    3 dplyr summarise        <NA>
-#> 3 /tmp/RtmpSFfu4t/file2c27798f3505.R    4 stats     rnorm       4.6.0
+#>                                file line   pkg        fn pkg_version
+#> 1 /tmp/RtmpVjdZcj/file1a39ba17643.R    2 dplyr    filter        <NA>
+#> 2 /tmp/RtmpVjdZcj/file1a39ba17643.R    3 dplyr summarise        <NA>
+#> 3 /tmp/RtmpVjdZcj/file1a39ba17643.R    4 stats     rnorm       4.6.0
 ```

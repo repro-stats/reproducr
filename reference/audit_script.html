@@ -5,7 +5,7 @@ The resulting audit_report object is the entry point for the rest of the
 reproducr workflow."><meta property="og:description" content="Parses one or more R source files and extracts every qualified
 package::function call, resolving the installed version of each package.
 The resulting audit_report object is the entry point for the rest of the
-reproducr workflow."><meta property="og:image" content="https://reproducr-dev.github.io/reproducr/logo.svg"></head><body>
+reproducr workflow."><meta property="og:image" content="https://ndohpenngit.github.io/reproducr/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@ reproducr workflow."><meta property="og:image" content="https://reproducr-dev.gi
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@ reproducr workflow."><meta property="og:image" content="https://reproducr-dev.gi
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/reproducr-dev/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ndohpenngit/reproducr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -42,7 +42,7 @@ reproducr workflow."><meta property="og:image" content="https://reproducr-dev.gi
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Audit an R script for reproducibility risks</h1>
-      <small class="dont-index">Source: <a href="https://github.com/reproducr-dev/reproducr/blob/main/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ndohpenngit/reproducr/blob/v0.1.1/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
       <div class="d-none name"><code>audit_script.Rd</code></div>
     </div>
 
@@ -159,7 +159,7 @@ a set of outputs as a baseline.</p></div>
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu">audit_script</span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-02 18:47] --</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-02 18:52] --</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Files scanned:     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Packages found:    2</span>
@@ -173,10 +173,10 @@ a set of outputs as a baseline.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># See the detected calls as a data frame</span></span></span>
 <span class="r-in"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                 file line   pkg        fn pkg_version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/RtmpSFfu4t/file2c27798f3505.R    2 dplyr    filter        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/RtmpSFfu4t/file2c27798f3505.R    3 dplyr summarise        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/RtmpSFfu4t/file2c27798f3505.R    4 stats     rnorm       4.6.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                file line   pkg        fn pkg_version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/RtmpVjdZcj/file1a39ba17643.R    2 dplyr    filter        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/RtmpVjdZcj/file1a39ba17643.R    3 dplyr summarise        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/RtmpVjdZcj/file1a39ba17643.R    4 stats     rnorm       4.6.0</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
