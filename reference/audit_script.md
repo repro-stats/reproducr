@@ -114,7 +114,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-02 17:38] --
+#> -- reproducr audit report [2026-06-02 18:11] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    2
@@ -129,7 +129,7 @@ print(report)
 # See the detected calls as a data frame
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpJRFpxs/file1a394d7ed2dc.R    2 dplyr    filter        <NA>
-#> 2 /tmp/RtmpJRFpxs/file1a394d7ed2dc.R    3 dplyr summarise        <NA>
-#> 3 /tmp/RtmpJRFpxs/file1a394d7ed2dc.R    4 stats     rnorm       4.6.0
+#> 1 /tmp/Rtmpss3bOH/file19aa7b24088f.R    2 dplyr    filter        <NA>
+#> 2 /tmp/Rtmpss3bOH/file19aa7b24088f.R    3 dplyr summarise        <NA>
+#> 3 /tmp/Rtmpss3bOH/file19aa7b24088f.R    4 stats     rnorm       4.6.0
 ```
