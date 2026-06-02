@@ -12,3 +12,4 @@
 ^pkgdown$
 ^docs$
 ^data-raw/$
+^data-raw$
