@@ -157,7 +157,7 @@ repro_badge <- function(audit,
   )
   # Linked badge: [![alt](img)](link) -- standard tidyverse convention
   badge_md <- sprintf(
-    "[![reproducibility](%s)](https://ndohpenngit.github.io/reproducr/)",
+    "[![reproducibility](%s)](https://reproducr-dev.github.io/reproducr/)",
     badge_url
   )
 

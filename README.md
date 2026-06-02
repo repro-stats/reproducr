@@ -1,9 +1,9 @@
-# reproducr <a href="https://ndohpenngit.github.io/reproducr/"><img src="man/figures/logo.svg" align="right" height="120" alt="reproducr website" /></a>
+# reproducr <a href="https://reproducr-dev.github.io/reproducr/"><img src="man/figures/logo.svg" align="right" height="120" alt="reproducr website" /></a>
 
 <!-- badges: start -->
-[![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)
+[![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)
 [![CRAN status](https://img.shields.io/badge/CRAN-not%20yet-lightgrey)](https://cran.r-project.org)
-[![R-CMD-check](https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/ndohpenngit/reproducr/actions/workflows/R-CMD-check.yml)
+[![R-CMD-check](https://github.com/reproducr-dev/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/reproducr-dev/reproducr/actions/workflows/R-CMD-check.yml)
 <!-- badges: end -->
 
 > The reproducibility badge reflects the status of the [example analysis repos](#see-it-in-action). See those repos for a live demonstration of `repro_badge()` in a real analysis workflow.
@@ -39,7 +39,7 @@ Package updates change function behaviour silently. Stochastic code without a fi
 ```r
 # Development version from GitHub
 install.packages("remotes")
-remotes::install_github("ndohpenngit/reproducr")
+remotes::install_github("reproducr-dev/reproducr")
 ```
 
 ---
@@ -57,8 +57,8 @@ environment first. Both approaches are fully supported.
 
 | Example | Domain | renv | Badge | Walkthrough |
 |---|---|---|---|---|
-| [reproducr-example](https://github.com/ndohpenngit/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example/blob/main/DEMO.md) |
-| [reproducr-example-clinical](https://github.com/ndohpenngit/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/ndohpenngit/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/ndohpenngit/reproducr-example-clinical/blob/main/DEMO.md) |
+| [reproducr-example](https://github.com/reproducr-dev/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/reproducr-dev/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/reproducr-dev/reproducr-example/blob/main/DEMO.md) |
+| [reproducr-example-clinical](https://github.com/reproducr-dev/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/reproducr-dev/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/reproducr-dev/reproducr-example-clinical/blob/main/DEMO.md) |
 
 Each `DEMO.md` walks through the complete pipeline with real output at every
 step — from `audit_script()` through to the pharma QC report and committed
@@ -192,7 +192,7 @@ Current coverage:
 
 The database is kept current via a weekly automated check — see `check_db_staleness()`.
 
-**Contributing:** Each entry is a plain R list in `R/breaking_changes_db.R`. Open a pull request to add new entries — see the [contributing guide](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html) for the schema.
+**Contributing:** Each entry is a plain R list in `R/breaking_changes_db.R`. Open a pull request to add new entries — see the [contributing guide](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html) for the schema.
 
 ---
 
@@ -288,7 +288,7 @@ repro_report(report, risks, drift,
 - Checks for drift against the last certified run
 - Updates the reproducibility badge in your README
 
-See the [reports and badges vignette](https://ndohpenngit.github.io/reproducr/articles/reports-and-badges.html) for the complete GitHub Actions workflow.
+See the [reports and badges vignette](https://reproducr-dev.github.io/reproducr/articles/reports-and-badges.html) for the complete GitHub Actions workflow.
 
 ---
 
@@ -297,7 +297,7 @@ See the [reports and badges vignette](https://ndohpenngit.github.io/reproducr/ar
 ### Breaking-changes database
 
 The database powering `risk_score()` is maintained in a dedicated community
-repository — **[reproducr-db](https://github.com/ndohpenngit/reproducr-db)**.
+repository — **[reproducr-db](https://github.com/reproducr-dev/reproducr-db)**.
 
 Contributing a new entry requires:
 
@@ -308,13 +308,13 @@ Contributing a new entry requires:
 5. A URL reference (package `NEWS.md`, CRAN page, GitHub release)
 
 Each entry is a small JSON file — see the
-[reproducr-db README](https://github.com/ndohpenngit/reproducr-db#entry-format)
+[reproducr-db README](https://github.com/reproducr-dev/reproducr-db#entry-format)
 for the format and the
-[contributing guide](https://ndohpenngit.github.io/reproducr/articles/contributing-to-the-database.html)
+[contributing guide](https://reproducr-dev.github.io/reproducr/articles/contributing-to-the-database.html)
 for the version window design principles.
 
 ### Package development
 
 To contribute to `reproducr` itself — new features, bug fixes, or
 additional risk checks — open an issue or pull request on the
-[main repository](https://github.com/ndohpenngit/reproducr).
+[main repository](https://github.com/reproducr-dev/reproducr).

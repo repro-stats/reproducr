@@ -88,7 +88,7 @@ test_that("repro_badge() replaces an existing badge — produces exactly one bad
   writeLines(
     c("# Project",
       "<!-- badges: start -->",
-      "[![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://ndohpenngit.github.io/reproducr/)",
+      "[![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://reproducr-dev.github.io/reproducr/)",
       "<!-- badges: end -->",
       "Other content."),
     readme

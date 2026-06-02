@@ -31,7 +31,7 @@ jobs:
         run: |
           Rscript -e "
             install.packages('remotes')
-            remotes::install_github('ndohpenngit/reproducr',
+            remotes::install_github('reproducr-dev/reproducr',
                                     quiet        = TRUE,
                                     force        = TRUE,
                                     dependencies = TRUE)
@@ -58,7 +58,7 @@ jobs:
               body <- paste0(
                 '## Breaking-changes database staleness alert\n\n',
                 'The following entries in ',
-                '[reproducr-db](https://github.com/ndohpenngit/reproducr-db) ',
+                '[reproducr-db](https://github.com/reproducr-dev/reproducr-db) ',
                 'have a \`to_version\` below the current CRAN release.\n\n',
                 'For each entry, determine whether:\n',
                 '- The breaking change **still applies** ',
@@ -68,14 +68,14 @@ jobs:
                 '- The entry should be **closed** ',
                   '(ecosystem has moved on)\n\n',
                 'See the [version window design principles]',
-                '(https://github.com/ndohpenngit/reproducr-db#version-window-design-principles) ',
+                '(https://github.com/reproducr-dev/reproducr-db#version-window-design-principles) ',
                 'for guidance.\n\n',
                 '| Entry | \`to_version\` | Current CRAN |\n',
                 '|---|---|---|\n',
                 paste(rows, collapse = '\n'),
                 '\n\n---\n',
                 '_Opened automatically by the ',
-                '[db-staleness workflow](https://github.com/ndohpenngit/reproducr/actions/workflows/db-staleness.yml) ',
+                '[db-staleness workflow](https://github.com/reproducr-dev/reproducr/actions/workflows/db-staleness.yml) ',
                 'in the reproducr package._'
               )
               writeLines(body, 'staleness_issue_body.md')
@@ -92,14 +92,14 @@ jobs:
         uses: peter-evans/create-issue-from-file@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ndohpenngit/reproducr-db
+          repository: reproducr-dev/reproducr-db
           title: >
             Database staleness: ${{ steps.staleness.outputs.n_stale }}
             entries need review
           content-filepath: staleness_issue_body.md
           labels: |
             stale-entry
-          assignees: ndohpenngit
+          assignees: reproducr-dev
 
       - name: Report clean status
         if: steps.staleness.outputs.has_stale == 'false'

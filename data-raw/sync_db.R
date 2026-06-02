@@ -24,7 +24,7 @@ if (!dir.exists(entries_path)) {
   stop(
     "reproducr-db not found at: ", entries_path, "\n",
     "Clone it with:\n",
-    "  git clone https://github.com/ndohpenngit/reproducr-db ../reproducr-db\n",
+    "  git clone https://github.com/reproducr-dev/reproducr-db ../reproducr-db\n",
     "Or set REPRODUCR_DB_PATH to the correct path."
   )
 }
