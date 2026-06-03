@@ -8,6 +8,8 @@ on:
 jobs:
   check-staleness:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: read
       issues: write         # Required to open issues in reproducr-db
@@ -87,8 +89,22 @@ jobs:
             }
           "
 
-      - name: Open issue in reproducr-db for stale entries
+      - name: Check for existing stale issue
+        id: check_existing
         if: steps.staleness.outputs.has_stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.CROSS_REPO_PAT }}
+        run: |
+          existing=$(gh issue list \
+            --repo reproducr-dev/reproducr-db \
+            --label stale-entry \
+            --state open \
+            --json number \
+            --jq length)
+          echo "existing=$existing" >> $GITHUB_OUTPUT
+
+      - name: Open issue in reproducr-db for stale entries
+        if: steps.staleness.outputs.has_stale == 'true' && steps.check_existing.outputs.existing == '0'
         uses: peter-evans/create-issue-from-file@v5
         with:
           token: ${{ secrets.CROSS_REPO_PAT }}
