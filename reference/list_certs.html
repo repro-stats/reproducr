@@ -74,14 +74,14 @@ Returns an empty data frame if no certifications exist.</p>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="certify.html">certify</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"v1"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 1 output(s) [2026-06-02] under tag 'v1'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 1 output(s) [2026-06-03] under tag 'v1'</span>
 <span class="r-in"><span><span class="fu"><a href="certify.html">certify</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"v2"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 1 output(s) [2026-06-02] under tag 'v2'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 1 output(s) [2026-06-03] under tag 'v2'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">list_certs</span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   tag                timestamp r_version                      os n_outputs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  v1 2026-06-02T19:23:12+0000     4.6.0 Linux 6.17.0-1015-azure         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  v2 2026-06-02T19:23:12+0000     4.6.0 Linux 6.17.0-1015-azure         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  v1 2026-06-03T08:12:36+0000     4.6.0 Linux 6.17.0-1015-azure         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  v2 2026-06-03T08:12:36+0000     4.6.0 Linux 6.17.0-1015-azure         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   script</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   &lt;NA&gt;</span>

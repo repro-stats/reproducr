@@ -29,14 +29,14 @@ cert_file <- tempfile()
 model <- lm(mpg ~ wt, data = mtcars)
 
 certify(list(coefs = coef(model)), tag = "v1", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-02] under tag 'v1'
+#> reproducr: certified 1 output(s) [2026-06-03] under tag 'v1'
 certify(list(coefs = coef(model)), tag = "v2", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-02] under tag 'v2'
+#> reproducr: certified 1 output(s) [2026-06-03] under tag 'v2'
 
 list_certs(file = cert_file)
 #>   tag                timestamp r_version                      os n_outputs
-#> 1  v1 2026-06-02T19:23:12+0000     4.6.0 Linux 6.17.0-1015-azure         1
-#> 2  v2 2026-06-02T19:23:12+0000     4.6.0 Linux 6.17.0-1015-azure         1
+#> 1  v1 2026-06-03T08:12:36+0000     4.6.0 Linux 6.17.0-1015-azure         1
+#> 2  v2 2026-06-03T08:12:36+0000     4.6.0 Linux 6.17.0-1015-azure         1
 #>   script
 #> 1   <NA>
 #> 2   <NA>
