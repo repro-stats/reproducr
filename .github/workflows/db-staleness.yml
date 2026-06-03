@@ -12,7 +12,7 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: read
-      issues: write         # Required to open issues in reproducr-db
+      issues: write         # Required to open/update issues in reproducr-db
 
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
                 '|---|---|---|\n',
                 paste(rows, collapse = '\n'),
                 '\n\n---\n',
-                '_Opened automatically by the ',
+                '_Last updated automatically by the ',
                 '[db-staleness workflow](https://github.com/reproducr-dev/reproducr/actions/workflows/db-staleness.yml) ',
                 'in the reproducr package._'
               )
@@ -89,22 +89,21 @@ jobs:
             }
           "
 
-      - name: Check for existing stale issue
-        id: check_existing
-        if: steps.staleness.outputs.has_stale == 'true'
+      - name: Find existing stale issue
+        id: find_issue
         env:
           GH_TOKEN: ${{ secrets.CROSS_REPO_PAT }}
         run: |
-          existing=$(gh issue list \
+          issue_number=$(gh issue list \
             --repo reproducr-dev/reproducr-db \
             --label stale-entry \
             --state open \
             --json number \
-            --jq length)
-          echo "existing=$existing" >> $GITHUB_OUTPUT
+            --jq '.[0].number // empty')
+          echo "issue_number=${issue_number}" >> $GITHUB_OUTPUT
 
-      - name: Open issue in reproducr-db for stale entries
-        if: steps.staleness.outputs.has_stale == 'true' && steps.check_existing.outputs.existing == '0'
+      - name: Create new issue if none exists
+        if: steps.staleness.outputs.has_stale == 'true' && steps.find_issue.outputs.issue_number == ''
         uses: peter-evans/create-issue-from-file@v5
         with:
           token: ${{ secrets.CROSS_REPO_PAT }}
@@ -117,7 +116,30 @@ jobs:
             stale-entry
           assignees: ndohpenngit
 
+      - name: Update existing issue with latest results
+        if: steps.staleness.outputs.has_stale == 'true' && steps.find_issue.outputs.issue_number != ''
+        env:
+          GH_TOKEN: ${{ secrets.CROSS_REPO_PAT }}
+        run: |
+          gh issue edit ${{ steps.find_issue.outputs.issue_number }} \
+            --repo reproducr-dev/reproducr-db \
+            --title "Database staleness: ${{ steps.staleness.outputs.n_stale }} entries need review" \
+            --body-file staleness_issue_body.md
+
+          gh issue comment ${{ steps.find_issue.outputs.issue_number }} \
+            --repo reproducr-dev/reproducr-db \
+            --body "🔄 Updated by the weekly staleness check — ${{ steps.staleness.outputs.n_stale }} entries still need review."
+
+      - name: Close issue if all entries are now current
+        if: steps.staleness.outputs.has_stale == 'false' && steps.find_issue.outputs.issue_number != ''
+        env:
+          GH_TOKEN: ${{ secrets.CROSS_REPO_PAT }}
+        run: |
+          gh issue close ${{ steps.find_issue.outputs.issue_number }} \
+            --repo reproducr-dev/reproducr-db \
+            --comment "✅ All database entries are now current. Closing automatically."
+
       - name: Report clean status
-        if: steps.staleness.outputs.has_stale == 'false'
+        if: steps.staleness.outputs.has_stale == 'false' && steps.find_issue.outputs.issue_number == ''
         run: |
           echo "All database entries are current. No issues opened."
