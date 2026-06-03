@@ -98,7 +98,7 @@ risks  <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-03 10:18
+#> - Generated: 2026-06-03 11:42
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1

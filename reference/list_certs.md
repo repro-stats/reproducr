@@ -35,8 +35,8 @@ certify(list(coefs = coef(model)), tag = "v2", file = cert_file)
 
 list_certs(file = cert_file)
 #>   tag                timestamp r_version                      os n_outputs
-#> 1  v1 2026-06-03T10:18:36+0000     4.6.0 Linux 6.17.0-1015-azure         1
-#> 2  v2 2026-06-03T10:18:36+0000     4.6.0 Linux 6.17.0-1015-azure         1
+#> 1  v1 2026-06-03T11:42:41+0000     4.6.0 Linux 6.17.0-1015-azure         1
+#> 2  v2 2026-06-03T11:42:41+0000     4.6.0 Linux 6.17.0-1015-azure         1
 #>   script
 #> 1   <NA>
 #> 2   <NA>
