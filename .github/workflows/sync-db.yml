@@ -1,9 +1,9 @@
 name: Sync breaking-changes database
 
 on:
-  repository_dispatch:
-    types: [db-updated]
-  workflow_dispatch:
+  workflow_dispatch:   # manual only — disabled until sync_db.R is fixed
+  # repository_dispatch:
+  #   types: [db-updated]
 
 jobs:
   sync:
