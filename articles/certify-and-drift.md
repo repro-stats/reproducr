@@ -8,12 +8,40 @@ and
 These three functions together form the *baseline and drift detection*
 system.
 
-## The problem they solve
+## The problem they solve — a real scenario
 
-Packages change hands. Maintainers push silent fixes. Platform-level
-libraries (BLAS, LAPACK) get updated by system administrators. R itself
-changes RNG defaults between minor versions. Any of these can alter your
-numerical results without producing an error.
+### Scenario — The revision drift problem
+
+You submit a paper in March. Before submission you run the analysis and
+note the key results: hazard ratio 0.582 (95% CI: 0.446–0.760, p \<
+0.001).
+
+In May a reviewer asks for a revision. While working on the response you
+upgrade your packages — including `lme4`, which adjusted its default
+optimizer tolerances between versions 1.1.29 and 1.1.30. You re-run the
+analysis: hazard ratio 0.591 (95% CI: 0.452–0.768).
+
+The numbers are slightly different. No error was thrown. The code is
+identical. Without a record of what the March run produced, you would
+not know whether the change came from your revision or from the package
+upgrade.
+
+    [DRIFTED] hr:       0.582 → 0.591
+    [DRIFTED] ci_lower: 0.446 → 0.452
+    [DRIFTED] ci_upper: 0.760 → 0.768
+
+With
+[`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
+and
+[`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md),
+this is caught immediately and you can investigate before submitting to
+the reviewer.
+
+More broadly, packages change hands, maintainers push silent fixes,
+platform-level libraries (BLAS, LAPACK) get updated by system
+administrators, and R itself changes RNG defaults between minor
+versions. Any of these can alter your numerical results without
+producing an error.
 
 [`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
 and
@@ -52,7 +80,7 @@ certify(
   script = "analysis.R",
   file   = cert_file
 )
-#> reproducr: certified 6 output(s) [2026-06-04] under tag 'baseline-v1'
+#> reproducr: certified 6 output(s) [2026-06-05] under tag 'baseline-v1'
 ```
 
 ### Choosing what to certify
@@ -79,14 +107,14 @@ certify(
   tag     = "pre-peer-review",
   file    = cert_file
 )
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'pre-peer-review'
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'pre-peer-review'
 
 certify(
   outputs = list(coefs = coef(model)),
   tag     = "post-revision",
   file    = cert_file
 )
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'post-revision'
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'post-revision'
 ```
 
 Passing a duplicate tag overwrites the existing record with a warning:
@@ -99,8 +127,8 @@ certify(
   file    = cert_file
 )
 #> Warning: Tag 'baseline-v1' already exists in
-#> '/tmp/Rtmpcmrat2/file1b5d610d0847'. Overwriting.
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'baseline-v1'
+#> '/tmp/Rtmpdf4kcV/file1b9450cbf1b6'. Overwriting.
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'baseline-v1'
 ```
 
 ------------------------------------------------------------------------
@@ -111,9 +139,9 @@ certify(
 
 list_certs(file = cert_file)
 #>               tag                timestamp r_version                      os
-#> 1     baseline-v1 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 2 pre-peer-review 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 3   post-revision 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1     baseline-v1 2026-06-05T08:30:55+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 2 pre-peer-review 2026-06-05T08:30:54+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 3   post-revision 2026-06-05T08:30:54+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs script
 #> 1         1   <NA>
 #> 2         1   <NA>
@@ -165,7 +193,7 @@ certify(
   tag  = "four-statuses",
   file = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-04] under tag 'four-statuses'
+#> reproducr: certified 3 output(s) [2026-06-05] under tag 'four-statuses'
 
 demo_result <- check_drift(
   outputs = list(
@@ -213,11 +241,11 @@ print(demo_result)
 ``` r
 
 certify(outputs = list(x = 1L), tag = "run-1", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'run-1'
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'run-1'
 certify(outputs = list(x = 1L), tag = "run-2", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'run-2'
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'run-2'
 certify(outputs = list(x = 1L), tag = "run-3", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-04] under tag 'run-3'
+#> reproducr: certified 1 output(s) [2026-06-05] under tag 'run-3'
 
 check_drift(outputs = list(x = 1L), against = "latest", file = cert_file)
 #> reproducr: comparing against latest tag: 'run-3'

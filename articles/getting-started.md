@@ -20,6 +20,87 @@ workflow:
 It works with your existing setup. If you use `renv`, `reproducr` reads
 your lockfile automatically. No configuration required.
 
+------------------------------------------------------------------------
+
+## Why this matters — real failure modes
+
+These are not hypothetical. Each scenario describes a class of problem
+that occurs routinely in research and regulated workflows, produces no
+error, and is invisible without explicit tooling.
+
+### Scenario 1 — The collaborator upgrade problem
+
+You write an analysis in January using dplyr 1.0.4 and share it with a
+colleague who has dplyr 1.1.2.
+
+``` r
+
+results <- mtcars |>
+  dplyr::group_by(cyl) |>
+  dplyr::summarise(mean_mpg = mean(mpg))
+
+# You then chain a further operation:
+results |> dplyr::mutate(rank = dplyr::row_number())
+```
+
+In dplyr 1.0.x, `summarise()` retained grouping by default. In dplyr
+1.1.x it drops the last grouping level. Your colleague’s `mutate()` now
+operates on ungrouped data — the `rank` column is computed differently.
+No error. No warning. Different numbers.
+
+`reproducr` flags this immediately:
+
+    [HIGH] dplyr::summarise
+           In dplyr 1.1.0, summarise() changed its default grouping behaviour...
+
+### Scenario 2 — The server deployment problem
+
+You develop a model locally on R 3.5.3 and deploy to a production server
+running R 3.6.2.
+
+``` r
+
+set.seed(42)
+train_idx <- base::sample(1:nrow(data), 0.8 * nrow(data))
+```
+
+R 3.6.0 changed the default RNG algorithm for
+[`sample()`](https://rdrr.io/r/base/sample.html). The same seed now
+produces a different train/test split. Your model is trained on
+different data than you validated locally. Accuracy metrics differ
+silently across environments.
+
+`reproducr` flags this:
+
+    [HIGH] stats::sample
+           In R 3.6.0, the default RNG algorithm changed...
+
+### Scenario 3 — The renv false sense of security
+
+You use `renv` to lock your environment and restore it six months later
+on a new machine. Everything installs correctly but results differ.
+
+`renv` locked `readr 2.0.1`. Your original analysis was written with
+`readr 1.4.0`. The lockfile captured the version you were *already on*
+when you ran `renv::init()` — past the breaking change. You never
+compared against pre-2.0 output.
+
+``` r
+
+data <- readr::read_csv("clinical_data.csv")
+# Column "patient_id" now parses as character instead of double.
+# Downstream merge silently drops rows.
+```
+
+`renv` cannot detect this because it only sees versions, not behaviour.
+`reproducr` sees the function call and flags it:
+
+    [HIGH] readr::read_csv
+           In readr 2.0.0, read_csv() switched to the vroom backend.
+           Column type guessing changed...
+
+------------------------------------------------------------------------
+
 ## Tier 1: Scan and score
 
 ### Auditing a script
@@ -46,7 +127,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-04 21:23] --
+#> -- reproducr audit report [2026-06-05 08:31] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    3
@@ -62,11 +143,11 @@ print(report)
 
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpKJeH1S/file1bce2ad49199.R    3 dplyr    filter        <NA>
-#> 2 /tmp/RtmpKJeH1S/file1bce2ad49199.R    4 dplyr summarise        <NA>
-#> 3 /tmp/RtmpKJeH1S/file1bce2ad49199.R    4 dplyr         n        <NA>
-#> 4 /tmp/RtmpKJeH1S/file1bce2ad49199.R    6 stats     rnorm       4.6.0
-#> 5 /tmp/RtmpKJeH1S/file1bce2ad49199.R    7  base      sort       4.6.0
+#> 1 /tmp/RtmpKmBDyS/file1c056646b504.R    3 dplyr    filter        <NA>
+#> 2 /tmp/RtmpKmBDyS/file1c056646b504.R    4 dplyr summarise        <NA>
+#> 3 /tmp/RtmpKmBDyS/file1c056646b504.R    4 dplyr         n        <NA>
+#> 4 /tmp/RtmpKmBDyS/file1c056646b504.R    6 stats     rnorm       4.6.0
+#> 5 /tmp/RtmpKmBDyS/file1c056646b504.R    7  base      sort       4.6.0
 ```
 
 ### Scoring for risk
@@ -86,7 +167,7 @@ print(risks)
 #>   MEDIUM:    0
 #>   LOW:       1
 #> 
-#> [LOW]     base::sort  (line 7 in file1bce2ad49199.R)
+#> [LOW]     base::sort  (line 7 in file1c056646b504.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.
 #>                     Results may differ on machines with different LC_COLLATE or
@@ -115,7 +196,7 @@ seed_issues <- risk_score(report, methods = "seed_check")
 # As a plain data frame for downstream use
 as.data.frame(risks)
 #>                                 file line       call pkg_version risk
-#> 1 /tmp/RtmpKJeH1S/file1bce2ad49199.R    7 base::sort       4.6.0  low
+#> 1 /tmp/RtmpKmBDyS/file1c056646b504.R    7 base::sort       4.6.0  low
 #>          check
 #> 1 locale_check
 #>                                                                                                                                 description
@@ -147,16 +228,16 @@ certify(
   script = script,
   file   = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-04] under tag 'baseline-v1'
+#> reproducr: certified 3 output(s) [2026-06-05] under tag 'baseline-v1'
 ```
 
 ``` r
 
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-06-04T21:23:58+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1 baseline-v1 2026-06-05T08:31:00+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs                             script
-#> 1         3 /tmp/RtmpKJeH1S/file1bce2ad49199.R
+#> 1         3 /tmp/RtmpKmBDyS/file1c056646b504.R
 ```
 
 ### Checking for drift

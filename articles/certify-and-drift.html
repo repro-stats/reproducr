@@ -78,12 +78,33 @@ depth: <code><a href="../reference/certify.html">certify()</a></code>, <code><a 
 <code><a href="../reference/list_certs.html">list_certs()</a></code>. These three functions together form the
 <em>baseline and drift detection</em> system.</p>
 <div class="section level2">
-<h2 id="the-problem-they-solve">The problem they solve<a class="anchor" aria-label="anchor" href="#the-problem-they-solve"></a>
+<h2 id="the-problem-they-solve-a-real-scenario">The problem they solve — a real scenario<a class="anchor" aria-label="anchor" href="#the-problem-they-solve-a-real-scenario"></a>
 </h2>
-<p>Packages change hands. Maintainers push silent fixes. Platform-level
-libraries (BLAS, LAPACK) get updated by system administrators. R itself
-changes RNG defaults between minor versions. Any of these can alter your
-numerical results without producing an error.</p>
+<div class="section level3">
+<h3 id="scenario-the-revision-drift-problem">Scenario — The revision drift problem<a class="anchor" aria-label="anchor" href="#scenario-the-revision-drift-problem"></a>
+</h3>
+<p>You submit a paper in March. Before submission you run the analysis
+and note the key results: hazard ratio 0.582 (95% CI: 0.446–0.760, p
+&lt; 0.001).</p>
+<p>In May a reviewer asks for a revision. While working on the response
+you upgrade your packages — including <code>lme4</code>, which adjusted
+its default optimizer tolerances between versions 1.1.29 and 1.1.30. You
+re-run the analysis: hazard ratio 0.591 (95% CI: 0.452–0.768).</p>
+<p>The numbers are slightly different. No error was thrown. The code is
+identical. Without a record of what the March run produced, you would
+not know whether the change came from your revision or from the package
+upgrade.</p>
+<pre><code>[DRIFTED] hr:       0.582 → 0.591
+[DRIFTED] ci_lower: 0.446 → 0.452
+[DRIFTED] ci_upper: 0.760 → 0.768</code></pre>
+<p>With <code><a href="../reference/certify.html">certify()</a></code> and <code><a href="../reference/check_drift.html">check_drift()</a></code>, this is
+caught immediately and you can investigate before submitting to the
+reviewer.</p>
+<p>More broadly, packages change hands, maintainers push silent fixes,
+platform-level libraries (BLAS, LAPACK) get updated by system
+administrators, and R itself changes RNG defaults between minor
+versions. Any of these can alter your numerical results without
+producing an error.</p>
 <p><code><a href="../reference/certify.html">certify()</a></code> and <code><a href="../reference/check_drift.html">check_drift()</a></code> detect this.
 The idea is simple:</p>
 <ol style="list-style-type: decimal">
@@ -95,6 +116,7 @@ and compare the new hashes against the stored ones.</li>
 </ol>
 <hr>
 </div>
+</div>
 <div class="section level2">
 <h2 id="certify-creating-a-baseline">
 <code>certify()</code> — creating a baseline<a class="anchor" aria-label="anchor" href="#certify-creating-a-baseline"></a>
@@ -104,7 +126,7 @@ and compare the new hashes against the stored ones.</li>
 </h3>
 <p>Pass a fully named list of any R objects you want to protect. Common
 choices:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">cyl</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
@@ -120,7 +142,7 @@ choices:</p>
 <span>  script <span class="op">=</span> <span class="st">"analysis.R"</span>,</span>
 <span>  file   <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 6 output(s) [2026-06-04] under tag 'baseline-v1'</span></span></code></pre></div>
+<span><span class="co">#&gt; reproducr: certified 6 output(s) [2026-06-05] under tag 'baseline-v1'</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="choosing-what-to-certify">Choosing what to certify<a class="anchor" aria-label="anchor" href="#choosing-what-to-certify"></a>
@@ -146,31 +168,31 @@ design, such as <code><a href="https://rdrr.io/r/base/proc.time.html" class="ext
 </h3>
 <p>Every certification requires a <code>tag</code> — a human-readable
 label:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  tag     <span class="op">=</span> <span class="st">"pre-peer-review"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'pre-peer-review'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'pre-peer-review'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  tag     <span class="op">=</span> <span class="st">"post-revision"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'post-revision'</span></span></code></pre></div>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'post-revision'</span></span></code></pre></div>
 <p>Passing a duplicate tag overwrites the existing record with a
 warning:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  tag     <span class="op">=</span> <span class="st">"baseline-v1"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Tag 'baseline-v1' already exists in</span></span>
-<span><span class="co">#&gt; '/tmp/Rtmpcmrat2/file1b5d610d0847'. Overwriting.</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'baseline-v1'</span></span></code></pre></div>
+<span><span class="co">#&gt; '/tmp/Rtmpdf4kcV/file1b9450cbf1b6'. Overwriting.</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'baseline-v1'</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -178,12 +200,12 @@ warning:</p>
 <h2 id="list_certs-inspecting-the-store">
 <code>list_certs()</code> — inspecting the store<a class="anchor" aria-label="anchor" href="#list_certs-inspecting-the-store"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1     baseline-v1 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
-<span><span class="co">#&gt; 2 pre-peer-review 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
-<span><span class="co">#&gt; 3   post-revision 2026-06-04T21:23:53+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 1     baseline-v1 2026-06-05T08:30:55+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 2 pre-peer-review 2026-06-05T08:30:54+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 3   post-revision 2026-06-05T08:30:54+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt;   n_outputs script</span></span>
 <span><span class="co">#&gt; 1         1   &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 2         1   &lt;NA&gt;</span></span>
@@ -197,7 +219,7 @@ warning:</p>
 <div class="section level3">
 <h3 id="basic-usage">Basic usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">cyl</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span></span>
@@ -224,7 +246,7 @@ warning:</p>
 <div class="section level3">
 <h3 id="the-four-statuses">The four statuses<a class="anchor" aria-label="anchor" href="#the-four-statuses"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    stays_same  <span class="op">=</span> <span class="fl">42L</span>,</span>
@@ -234,7 +256,7 @@ warning:</p>
 <span>  tag  <span class="op">=</span> <span class="st">"four-statuses"</span>,</span>
 <span>  file <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-04] under tag 'four-statuses'</span></span>
+<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-05] under tag 'four-statuses'</span></span>
 <span></span>
 <span><span class="va">demo_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -297,13 +319,13 @@ warning:</p>
 <div class="section level3">
 <h3 id="using-latest">Using <code>"latest"</code><a class="anchor" aria-label="anchor" href="#using-latest"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-1"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'run-1'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'run-1'</span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-2"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'run-2'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'run-2'</span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-3"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-04] under tag 'run-3'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-05] under tag 'run-3'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, against <span class="op">=</span> <span class="st">"latest"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr: comparing against latest tag: 'run-3'</span></span>
@@ -319,7 +341,7 @@ warning:</p>
 <div class="section level3">
 <h3 id="using-drift-results-programmatically">Using drift results programmatically<a class="anchor" aria-label="anchor" href="#using-drift-results-programmatically"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="va">current_outputs</span>, against <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">n_drifted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">status</span> <span class="op">==</span> <span class="st">"drifted"</span><span class="op">)</span></span>
@@ -340,7 +362,7 @@ warning:</p>
 <div class="section level3">
 <h3 id="at-submission">At submission<a class="anchor" aria-label="anchor" href="#at-submission"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    primary_coef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
@@ -355,7 +377,7 @@ warning:</p>
 <div class="section level3">
 <h3 id="after-reviewer-comments">After reviewer comments<a class="anchor" aria-label="anchor" href="#after-reviewer-comments"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    primary_coef <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>

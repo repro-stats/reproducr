@@ -219,7 +219,7 @@ components are:</p>
 <span></span>
 <span><span class="co"># Files scanned</span></span>
 <span><span class="va">report</span><span class="op">$</span><span class="va">paths</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpbJxp1y/file1b2313ad1577.R"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpzAzsuw/file1b586a8004c9.R"</span></span>
 <span></span>
 <span><span class="co"># Programmatic summary</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
@@ -355,6 +355,24 @@ on the same OS with the same locale will produce identical results. The
 risk materialises when code is moved to a server in a different country,
 or when a Docker container has a different <code>LC_ALL</code>
 setting.</p>
+<p><strong>Scenario — The international collaboration
+problem</strong></p>
+<p>Your analysis runs correctly on your Brussels workstation. A
+collaborator in the US runs the exact same code and gets different
+patient group orderings.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sorted_ids</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">patient_ids</span><span class="op">)</span></span>
+<span><span class="co"># "é" sorts after "z" under LC_COLLATE=en_US.UTF-8</span></span>
+<span><span class="co"># but between "e" and "f" under LC_COLLATE=fr_BE.UTF-8</span></span></code></pre></div>
+<p>The downstream merge uses <code>sorted_ids</code> as a key. The
+groupings differ. Table 2 in the paper is different in the two labs —
+with no error thrown anywhere. <code>reproducr</code> flags
+<code><a href="https://rdrr.io/r/base/sort.html" class="external-link">base::sort()</a></code> as locale-sensitive so you know to pin the
+locale explicitly:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Pin locale for reproducible sorting</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/locales.html" class="external-link">Sys.setlocale</a></span><span class="op">(</span><span class="st">"LC_COLLATE"</span>, <span class="st">"C"</span><span class="op">)</span></span>
+<span><span class="va">sorted_ids</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">patient_ids</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -362,7 +380,7 @@ setting.</p>
 <h2 id="combining-checks-and-filtering">Combining checks and filtering<a class="anchor" aria-label="anchor" href="#combining-checks-and-filtering"></a>
 </h2>
 <p>All three checks run by default. You can select any subset:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">full_script</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".R"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"x &lt;- dplyr::summarise(mtcars, n = dplyr::n())"</span>,</span>
@@ -388,7 +406,7 @@ setting.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">other_risks</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>Filter by minimum severity with <code>min_risk</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Only items worth acting on immediately</span></span>
 <span><span class="va">high_only</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span>, min_risk <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span></span>
@@ -409,7 +427,7 @@ setting.</p>
 <p><code><a href="../reference/risk_score.html">risk_score()</a></code> returns a <code>risk_report</code> object
 that inherits from <code>data.frame</code>, so all standard data frame
 operations work directly:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Standard subsetting</span></span>
@@ -421,7 +439,7 @@ operations work directly:</p>
 <span><span class="co">#&gt;   MEDIUM:    1</span></span>
 <span><span class="co">#&gt;   LOW:       0</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1b2312df2cbc.R)</span></span>
+<span><span class="co">#&gt; [MEDIUM]  stats::rnorm  (line 2 in file1b585b404e05.R)</span></span>
 <span><span class="co">#&gt;          Check    : seed_check</span></span>
 <span><span class="co">#&gt;          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span></span>
 <span><span class="co">#&gt;                     above this call (line 2). Output will differ across runs without</span></span>
@@ -439,7 +457,7 @@ operations work directly:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "data.frame"</span></span></code></pre></div>
 <p>You can pipe results into any tidy workflow:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span> <span class="op">|&gt;</span></span>

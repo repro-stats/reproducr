@@ -98,6 +98,74 @@ reports</li>
 <p>It works with your existing setup. If you use <code>renv</code>,
 <code>reproducr</code> reads your lockfile automatically. No
 configuration required.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="why-this-matters-real-failure-modes">Why this matters — real failure modes<a class="anchor" aria-label="anchor" href="#why-this-matters-real-failure-modes"></a>
+</h2>
+<p>These are not hypothetical. Each scenario describes a class of
+problem that occurs routinely in research and regulated workflows,
+produces no error, and is invisible without explicit tooling.</p>
+<div class="section level3">
+<h3 id="scenario-1-the-collaborator-upgrade-problem">Scenario 1 — The collaborator upgrade problem<a class="anchor" aria-label="anchor" href="#scenario-1-the-collaborator-upgrade-problem"></a>
+</h3>
+<p>You write an analysis in January using dplyr 1.0.4 and share it with
+a colleague who has dplyr 1.1.2.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">group_by</span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">summarise</span><span class="op">(</span>mean_mpg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># You then chain a further operation:</span></span>
+<span><span class="va">results</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">mutate</span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>In dplyr 1.0.x, <code>summarise()</code> retained grouping by
+default. In dplyr 1.1.x it drops the last grouping level. Your
+colleague’s <code>mutate()</code> now operates on ungrouped data — the
+<code>rank</code> column is computed differently. No error. No warning.
+Different numbers.</p>
+<p><code>reproducr</code> flags this immediately:</p>
+<pre><code>[HIGH] dplyr::summarise
+       In dplyr 1.1.0, summarise() changed its default grouping behaviour...</code></pre>
+</div>
+<div class="section level3">
+<h3 id="scenario-2-the-server-deployment-problem">Scenario 2 — The server deployment problem<a class="anchor" aria-label="anchor" href="#scenario-2-the-server-deployment-problem"></a>
+</h3>
+<p>You develop a model locally on R 3.5.3 and deploy to a production
+server running R 3.6.2.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">train_idx</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, <span class="fl">0.8</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>R 3.6.0 changed the default RNG algorithm for <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code>.
+The same seed now produces a different train/test split. Your model is
+trained on different data than you validated locally. Accuracy metrics
+differ silently across environments.</p>
+<p><code>reproducr</code> flags this:</p>
+<pre><code>[HIGH] stats::sample
+       In R 3.6.0, the default RNG algorithm changed...</code></pre>
+</div>
+<div class="section level3">
+<h3 id="scenario-3-the-renv-false-sense-of-security">Scenario 3 — The renv false sense of security<a class="anchor" aria-label="anchor" href="#scenario-3-the-renv-false-sense-of-security"></a>
+</h3>
+<p>You use <code>renv</code> to lock your environment and restore it six
+months later on a new machine. Everything installs correctly but results
+differ.</p>
+<p><code>renv</code> locked <code>readr 2.0.1</code>. Your original
+analysis was written with <code>readr 1.4.0</code>. The lockfile
+captured the version you were <em>already on</em> when you ran
+<code>renv::init()</code> — past the breaking change. You never compared
+against pre-2.0 output.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu">read_csv</span><span class="op">(</span><span class="st">"clinical_data.csv"</span><span class="op">)</span></span>
+<span><span class="co"># Column "patient_id" now parses as character instead of double.</span></span>
+<span><span class="co"># Downstream merge silently drops rows.</span></span></code></pre></div>
+<p><code>renv</code> cannot detect this because it only sees versions,
+not behaviour. <code>reproducr</code> sees the function call and flags
+it:</p>
+<pre><code>[HIGH] readr::read_csv
+       In readr 2.0.0, read_csv() switched to the vroom backend.
+       Column type guessing changed...</code></pre>
+<hr>
+</div>
 </div>
 <div class="section level2">
 <h2 id="tier-1-scan-and-score">Tier 1: Scan and score<a class="anchor" aria-label="anchor" href="#tier-1-scan-and-score"></a>
@@ -108,7 +176,7 @@ configuration required.</p>
 <p>The entry point is <code><a href="../reference/audit_script.html">audit_script()</a></code>. It reads your R
 source files, extracts every qualified <code>pkg::fn</code> call, and
 resolves which version of each package is in use.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a small example script</span></span>
 <span><span class="va">script</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".R"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -124,7 +192,7 @@ resolves which version of each package is in use.</p>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/audit_script.html">audit_script</a></span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; -- reproducr audit report [2026-06-04 21:23] --</span></span>
+<span><span class="co">#&gt; -- reproducr audit report [2026-06-05 08:31] --</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Files scanned:     1</span></span>
 <span><span class="co">#&gt;   Packages found:    3</span></span>
@@ -134,21 +202,21 @@ resolves which version of each package is in use.</p>
 <span><span class="co">#&gt;   Versions from:     installed library</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Next step: risks &lt;- risk_score(report)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span>
 <span><span class="co">#&gt;                                 file line   pkg        fn pkg_version</span></span>
-<span><span class="co">#&gt; 1 /tmp/RtmpKJeH1S/file1bce2ad49199.R    3 dplyr    filter        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 /tmp/RtmpKJeH1S/file1bce2ad49199.R    4 dplyr summarise        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 /tmp/RtmpKJeH1S/file1bce2ad49199.R    4 dplyr         n        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 /tmp/RtmpKJeH1S/file1bce2ad49199.R    6 stats     rnorm       4.6.0</span></span>
-<span><span class="co">#&gt; 5 /tmp/RtmpKJeH1S/file1bce2ad49199.R    7  base      sort       4.6.0</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 /tmp/RtmpKmBDyS/file1c056646b504.R    3 dplyr    filter        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 /tmp/RtmpKmBDyS/file1c056646b504.R    4 dplyr summarise        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 /tmp/RtmpKmBDyS/file1c056646b504.R    4 dplyr         n        &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 /tmp/RtmpKmBDyS/file1c056646b504.R    6 stats     rnorm       4.6.0</span></span>
+<span><span class="co">#&gt; 5 /tmp/RtmpKmBDyS/file1c056646b504.R    7  base      sort       4.6.0</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="scoring-for-risk">Scoring for risk<a class="anchor" aria-label="anchor" href="#scoring-for-risk"></a>
 </h3>
 <p>Pass the report to <code><a href="../reference/risk_score.html">risk_score()</a></code> to run three independent
 checks:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -158,7 +226,7 @@ checks:</p>
 <span><span class="co">#&gt;   MEDIUM:    0</span></span>
 <span><span class="co">#&gt;   LOW:       1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file1bce2ad49199.R)</span></span>
+<span><span class="co">#&gt; [LOW]     base::sort  (line 7 in file1c056646b504.R)</span></span>
 <span><span class="co">#&gt;          Check    : locale_check</span></span>
 <span><span class="co">#&gt;          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.</span></span>
 <span><span class="co">#&gt;                     Results may differ on machines with different LC_COLLATE or</span></span>
@@ -176,17 +244,17 @@ functions without a nearby <code><a href="https://rdrr.io/r/base/Random.html" cl
 <strong><code>"locale_check"</code></strong> — flags functions whose
 output varies by system locale</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># High-severity only</span></span>
 <span><span class="va">high_risks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span>, min_risk <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Just the seed check</span></span>
 <span><span class="va">seed_issues</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/risk_score.html">risk_score</a></span><span class="op">(</span><span class="va">report</span>, methods <span class="op">=</span> <span class="st">"seed_check"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># As a plain data frame for downstream use</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                 file line       call pkg_version risk</span></span>
-<span><span class="co">#&gt; 1 /tmp/RtmpKJeH1S/file1bce2ad49199.R    7 base::sort       4.6.0  low</span></span>
+<span><span class="co">#&gt; 1 /tmp/RtmpKmBDyS/file1c056646b504.R    7 base::sort       4.6.0  low</span></span>
 <span><span class="co">#&gt;          check</span></span>
 <span><span class="co">#&gt; 1 locale_check</span></span>
 <span><span class="co">#&gt;                                                                                                                                 description</span></span>
@@ -203,7 +271,7 @@ output varies by system locale</li>
 </h3>
 <p>After running an analysis, certify the key outputs using
 <code><a href="../reference/certify.html">certify()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cert_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
@@ -218,19 +286,19 @@ output varies by system locale</li>
 <span>  script <span class="op">=</span> <span class="va">script</span>,</span>
 <span>  file   <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-04] under tag 'baseline-v1'</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-05] under tag 'baseline-v1'</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1 baseline-v1 2026-06-04T21:23:58+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 1 baseline-v1 2026-06-05T08:31:00+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
 <span><span class="co">#&gt;   n_outputs                             script</span></span>
-<span><span class="co">#&gt; 1         3 /tmp/RtmpKJeH1S/file1bce2ad49199.R</span></span></code></pre></div>
+<span><span class="co">#&gt; 1         3 /tmp/RtmpKmBDyS/file1c056646b504.R</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="checking-for-drift">Checking for drift<a class="anchor" aria-label="anchor" href="#checking-for-drift"></a>
 </h3>
 <p>After any environment change, re-run <code><a href="../reference/check_drift.html">check_drift()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    coefs     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>,</span>
@@ -248,7 +316,7 @@ output varies by system locale</li>
 <span><span class="co">#&gt;   Drifted  : 0</span></span>
 <span><span class="co">#&gt;   Missing  : 0</span></span>
 <span><span class="co">#&gt;   New      : 0</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Different model — shows drift</span></span>
 <span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span></span>
@@ -273,9 +341,9 @@ output varies by system locale</li>
 <div class="section level2">
 <h2 id="tier-3-report-and-export">Tier 3: Report and export<a class="anchor" aria-label="anchor" href="#tier-3-report-and-export"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="../reference/repro_report.html">repro_report</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, format <span class="op">=</span> <span class="st">"text"</span>, style <span class="op">=</span> <span class="st">"academic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Methods paragraph (reproducr)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -283,7 +351,7 @@ output varies by system locale</li>
 <span><span class="co">#&gt; # Methods paragraph (reproducr)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">badge</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repro_badge.html">repro_badge</a></span><span class="op">(</span><span class="va">report</span>, <span class="va">risks</span>, output <span class="op">=</span> <span class="st">"markdown"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://repro-stats.github.io/reproducr/)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">badge</span><span class="op">)</span></span>
@@ -292,7 +360,7 @@ output varies by system locale</li>
 <div class="section level2">
 <h2 id="the-full-pipeline">The full pipeline<a class="anchor" aria-label="anchor" href="#the-full-pipeline"></a>
 </h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/repro-stats/reproducr" class="external-link">reproducr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Tier 1</span></span>

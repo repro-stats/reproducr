@@ -142,7 +142,7 @@ report$env
 
 # Files scanned
 report$paths
-#> [1] "/tmp/RtmpbJxp1y/file1b2313ad1577.R"
+#> [1] "/tmp/RtmpzAzsuw/file1b586a8004c9.R"
 
 # Programmatic summary
 s <- summary(report)
@@ -292,6 +292,32 @@ OS with the same locale will produce identical results. The risk
 materialises when code is moved to a server in a different country, or
 when a Docker container has a different `LC_ALL` setting.
 
+**Scenario — The international collaboration problem**
+
+Your analysis runs correctly on your Brussels workstation. A
+collaborator in the US runs the exact same code and gets different
+patient group orderings.
+
+``` r
+
+sorted_ids <- base::sort(patient_ids)
+# "é" sorts after "z" under LC_COLLATE=en_US.UTF-8
+# but between "e" and "f" under LC_COLLATE=fr_BE.UTF-8
+```
+
+The downstream merge uses `sorted_ids` as a key. The groupings differ.
+Table 2 in the paper is different in the two labs — with no error thrown
+anywhere. `reproducr` flags
+[`base::sort()`](https://rdrr.io/r/base/sort.html) as locale-sensitive
+so you know to pin the locale explicitly:
+
+``` r
+
+# Pin locale for reproducible sorting
+Sys.setlocale("LC_COLLATE", "C")
+sorted_ids <- base::sort(patient_ids)
+```
+
 ------------------------------------------------------------------------
 
 ## Combining checks and filtering
@@ -365,7 +391,7 @@ risks[risks$check == "seed_check", ]
 #>   MEDIUM:    1
 #>   LOW:       0
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file1b2312df2cbc.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1b585b404e05.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
