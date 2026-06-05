@@ -1,5 +1,26 @@
 # Changelog
 
+## reproducr 0.1.1.9002
+
+- [`repro_report()`](https://repro-stats.github.io/reproducr/reference/repro_report.md)
+  HTML output now uses `commonmark` for proper Markdown rendering —
+  tables, headers, and code blocks render correctly in all browsers.
+  Falls back gracefully with a message if `commonmark` is not installed.
+  Added `commonmark` to `Suggests`.
+
+- [`repro_badge()`](https://repro-stats.github.io/reproducr/reference/repro_badge.md)
+  moved to its own file (`R/repro_badge.R`) – previously it was defined
+  in `R/repro_report.R`.
+
+- Risk register in the `"pharma"` report style is now a compact summary
+  table rather than individual cards – more readable in regulated
+  workflows.
+
+- Fixed non-ASCII characters (em dashes) across all R source files –
+  `certify.R`, `utils.R`, `check_db_staleness.R`, `reproducr-package.R`,
+  `audit_script.R`, `risk_score.R`, `repro_report.R`. Resolves
+  `R CMD check` WARNING on Windows and win-builder.
+
 ## reproducr 0.1.1.9001
 
 - Added `reproducr-cmc` to the gallery — CMC statistical package

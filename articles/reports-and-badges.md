@@ -42,7 +42,7 @@ clean_risks  <- risk_score(clean_report)
 cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-05 21:42
+#> - Generated: 2026-06-05 22:12
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -55,7 +55,7 @@ cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 #> > REPRODUCIBLE: No significant risks detected.
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-05 21:42
+#> - **Generated:** 2026-06-05 22:12
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -81,7 +81,7 @@ quick console review.
 cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-05 21:42
+#> - Generated: 2026-06-05 22:12
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -96,13 +96,13 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [LOW] base::sort
-#> - File: file1c39520aa77d.R, line 5
+#> - File: file1c36480f5ea1.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-05 21:42
+#> - **Generated:** 2026-06-05 22:12
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -117,7 +117,7 @@ cat(repro_report(report, risks, format = "text", style = "minimal"))
 #> ## Risks
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file1c39520aa77d.R, line 5
+#> - **File:** file1c36480f5ea1.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -138,7 +138,7 @@ cat(repro_report(report, risks, drift = drift,
                  format = "text", style = "minimal"))
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-05 21:42
+#> - Generated: 2026-06-05 22:12
 #> - R version: 4.6.0
 #> - Platform: Linux 6.17.0-1015-azure
 #> - Files scanned: 1
@@ -153,7 +153,7 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [LOW] base::sort
-#> - File: file1c39520aa77d.R, line 5
+#> - File: file1c36480f5ea1.R, line 5
 #> - Check: locale_check
 #> - Details: sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - Reference: <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -163,7 +163,7 @@ cat(repro_report(report, risks, drift = drift,
 #> - OK coefs
 #> # reproducr audit report
 #> 
-#> - **Generated:** 2026-06-05 21:42
+#> - **Generated:** 2026-06-05 22:12
 #> - **R version:** 4.6.0
 #> - **Platform:** Linux 6.17.0-1015-azure
 #> - **Files scanned:** 1
@@ -178,7 +178,7 @@ cat(repro_report(report, risks, drift = drift,
 #> ## Risks
 #> 
 #> ### [LOW] `base::sort`
-#> - **File:** file1c39520aa77d.R, line 5
+#> - **File:** file1c36480f5ea1.R, line 5
 #> - **Check:** locale_check
 #> - **Details:** sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings.
 #> - **Reference:** <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html>
@@ -258,7 +258,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - /tmp/RtmpqgTE0g/file1c39520aa77d.R
+#> - /tmp/Rtmp56uUhp/file1c36480f5ea1.R
 #> 
 #> ## 3. Package inventory
 #> 
@@ -270,14 +270,9 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 4. Risk register
 #> 
-#> ### Risk 1: base::sort
-#> | Field | Value |
-#> |---|---|
-#> | Severity | LOW |
-#> | File | file1c39520aa77d.R, line 5 |
-#> | Check method | locale_check |
-#> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
-#> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
+#> | # | Call | Severity | File | Check | Description |
+#> |---|---|---|---|---|---|
+#> | 1 | base::sort | LOW | file1c36480f5ea1.R:5 | locale_check | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE ... |
 #> 
 #> ## 5. Drift assessment
 #> 
@@ -313,7 +308,7 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 2. Files audited
 #> 
-#> - `/tmp/RtmpqgTE0g/file1c39520aa77d.R`
+#> - `/tmp/Rtmp56uUhp/file1c36480f5ea1.R`
 #> 
 #> ## 3. Package inventory
 #> 
@@ -325,14 +320,9 @@ cat(repro_report(report, risks, drift = drift,
 #> 
 #> ## 4. Risk register
 #> 
-#> ### Risk 1: `base::sort`
-#> | Field | Value |
-#> |---|---|
-#> | Severity | **LOW** |
-#> | File | file1c39520aa77d.R, line 5 |
-#> | Check method | locale_check |
-#> | Description | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE or LC_TIME settings. |
-#> | Reference | <https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html> |
+#> | # | Call | Severity | File | Check | Description |
+#> |---|---|---|---|---|---|
+#> | 1 | `base::sort` | **LOW** | file1c36480f5ea1.R:5 | locale_check | sort() output is locale-sensitive. Current locale: C.UTF-8. Results may differ on machines with different LC_COLLATE ... |
 #> 
 #> ## 5. Drift assessment
 #> 
@@ -377,7 +367,7 @@ repro_report(report, risks,
              format      = "md",
              style       = "minimal",
              output_file = md_file)
-#> reproducr: report written to '/tmp/RtmpqgTE0g/file1c3945dc32eb.md'
+#> reproducr: report written to '/tmp/Rtmp56uUhp/file1c361e9474d0.md'
 
 # Inspect the raw Markdown
 cat(readLines(md_file, warn = FALSE), sep = "\n")
@@ -390,7 +380,7 @@ repro_report(report, risks, drift = drift,
              format      = "html",
              style       = "pharma",
              output_file = html_file)
-#> reproducr: report written to '/tmp/RtmpqgTE0g/file1c393fec811b.html'
+#> reproducr: report written to '/tmp/Rtmp56uUhp/file1c361fd6a057.html'
 
 # The file is self-contained — open it in a browser
 # browseURL(html_file)
@@ -474,7 +464,7 @@ writeLines(c(
 
 # Insert badge at the top
 repro_badge(report, risks, output = "README", readme_path = readme)
-#> reproducr: badge updated in '/tmp/RtmpqgTE0g/file1c39631020dd.md'
+#> reproducr: badge updated in '/tmp/Rtmp56uUhp/file1c3612084663.md'
 
 # See the result
 cat(readLines(readme, warn = FALSE), sep = "\n")

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,13 @@
       <small>Source: <a href="https://github.com/repro-stats/reproducr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.1.9002" id="reproducr-0119002">reproducr 0.1.1.9002<a class="anchor" aria-label="anchor" href="#reproducr-0119002"></a></h2>
+<ul><li><p><code><a href="../reference/repro_report.html">repro_report()</a></code> HTML output now uses <code>commonmark</code> for proper Markdown rendering — tables, headers, and code blocks render correctly in all browsers. Falls back gracefully with a message if <code>commonmark</code> is not installed. Added <code>commonmark</code> to <code>Suggests</code>.</p></li>
+<li><p><code><a href="../reference/repro_badge.html">repro_badge()</a></code> moved to its own file (<code>R/repro_badge.R</code>) – previously it was defined in <code>R/repro_report.R</code>.</p></li>
+<li><p>Risk register in the <code>"pharma"</code> report style is now a compact summary table rather than individual cards – more readable in regulated workflows.</p></li>
+<li><p>Fixed non-ASCII characters (em dashes) across all R source files – <code>certify.R</code>, <code>utils.R</code>, <code>check_db_staleness.R</code>, <code>reproducr-package.R</code>, <code>audit_script.R</code>, <code>risk_score.R</code>, <code>repro_report.R</code>. Resolves <code>R CMD check</code> WARNING on Windows and win-builder.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1.9001" id="reproducr-0119001">reproducr 0.1.1.9001<a class="anchor" aria-label="anchor" href="#reproducr-0119001"></a></h2>
 <ul><li><p>Added <code>reproducr-cmc</code> to the gallery — CMC statistical package covering dissolution f2, ICH Q1E stability shelf-life, and ICH Q2(R1) assay method validation. Pharma-style QC report, <code>renv</code> locked, 20 certified outputs.</p></li>
