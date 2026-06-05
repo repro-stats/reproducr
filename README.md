@@ -6,7 +6,7 @@
 [![R-CMD-check](https://github.com/repro-stats/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/repro-stats/reproducr/actions/workflows/R-CMD-check.yml)
 <!-- badges: end -->
 
-> The reproducibility badge reflects the status of the [example analysis repos](#see-it-in-action). See those repos for a live demonstration of `repro_badge()` in a real analysis workflow.
+> The reproducibility badge reflects the status of the [gallery repos](#gallery). See those repos for a live demonstration of `repro_badge()` in a real analysis workflow.
 
 > **Know your R analysis will produce the same results tomorrow as it does today.**
 
@@ -44,25 +44,22 @@ remotes::install_github("repro-stats/reproducr")
 
 ---
 
-## See it in action
+## Gallery
 
-The best way to understand `reproducr` is to see it running on a real analysis.
-The companion repositories below each demonstrate the full three-tier workflow
-on a realistic dataset, with CI that audits on every push, certifies outputs,
-detects drift, and updates the badge automatically.
+Real-world pipelines demonstrating the full `reproducr` workflow across
+different domains, environments, and regulatory contexts. Each repository
+is a complete, independently runnable analysis with CI that audits on every
+push, certifies outputs, detects drift, and updates the badge automatically.
 
-They also show that `reproducr` is environment-agnostic — the ecology example
-runs without `renv`, while the clinical trial example uses `renv` to lock the
-environment first. Both approaches are fully supported.
+| Example | Domain | Audience | renv | Report style | Badge | Walkthrough |
+|---|---|---|---|---|---|---|
+| [reproducr-ecology](https://github.com/repro-stats/reproducr-ecology) | Ecology / penguins | General R users | No | minimal | [![reproducibility](https://github.com/repro-stats/reproducr-ecology/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/repro-stats/reproducr-ecology/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/repro-stats/reproducr-ecology/blob/main/DEMO.md) |
+| [reproducr-clinical](https://github.com/repro-stats/reproducr-clinical) | Clinical trials / oncology | Biostatisticians, pharma | Yes | pharma | [![reproducibility](https://github.com/repro-stats/reproducr-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/repro-stats/reproducr-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/repro-stats/reproducr-clinical/blob/main/DEMO.md) |
+| [reproducr-rwe](https://github.com/repro-stats/reproducr-rwe) | Real world evidence | Epidemiologists, HEOR | Yes | academic | [![reproducibility](https://github.com/repro-stats/reproducr-rwe/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/repro-stats/reproducr-rwe/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/repro-stats/reproducr-rwe/blob/main/DEMO.md) |
 
-| Example | Domain | renv | Badge | Walkthrough |
-|---|---|---|---|---|
-| [reproducr-example](https://github.com/repro-stats/reproducr-example) | Ecology / penguins | No | [![reproducibility](https://github.com/repro-stats/reproducr-example/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/repro-stats/reproducr-example/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/repro-stats/reproducr-example/blob/main/DEMO.md) |
-| [reproducr-example-clinical](https://github.com/repro-stats/reproducr-example-clinical) | Clinical trials / oncology | Yes | [![reproducibility](https://github.com/repro-stats/reproducr-example-clinical/actions/workflows/reproducr-audit.yml/badge.svg)](https://github.com/repro-stats/reproducr-example-clinical/actions/workflows/reproducr-audit.yml) | [DEMO.md](https://github.com/repro-stats/reproducr-example-clinical/blob/main/DEMO.md) |
-
-Each `DEMO.md` walks through the complete pipeline with real output at every
-step — from `audit_script()` through to the pharma QC report and committed
-certification history.
+Together they demonstrate that `reproducr` is environment-agnostic — it works
+with or without `renv`, across domains, and at any level of regulatory rigour.
+Each `DEMO.md` walks through the complete pipeline with real output at every step.
 
 ---
 
@@ -178,7 +175,7 @@ Current coverage:
 
 | Package | Entries | Examples |
 |---|---|---|
-| `dplyr` | 4 | `summarise()` grouping change (v1.1.0), `across()` naming (v1.1.0) |
+| `dplyr` | 5 | `summarise()` grouping change (v1.1.0), `across()` naming (v1.1.0) |
 | `tidyr` | 3 | `nest()` interface rewrite (v1.0.0), `pivot_wider()` duplicate handling (v1.2.0) |
 | `ggplot2` | 3 | Default colour scale change (v3.4.0), `aes()` scoping (v3.5.0) |
 | `readr` | 2 | vroom backend switch, column type guessing (v2.0.0) |
@@ -188,11 +185,12 @@ Current coverage:
 | `broom` | 1 | Column renaming (v0.8.0) |
 | `data.table` | 2 | `fread()` type detection, `melt()` factor→character |
 | `lme4` | 1 | Optimizer tolerance change |
+| `caret` | 1 | `train()` interface changes (v7.0.0) |
+| `rstan` | 2 | Array syntax change (v2.26), `extract()` permutation default |
 | `base R` | 5 | RNG change (R 3.6.0), `hclust()` tie-breaking (R 4.0.0) |
 
 The database is kept current via a weekly automated check — see `check_db_staleness()`.
-
-**Contributing:** Each entry is a plain R list in `R/breaking_changes_db.R`. Open a pull request to add new entries — see the [contributing guide](https://repro-stats.github.io/reproducr/articles/contributing-to-the-database.html) for the schema.
+Community contributions are welcome via **[reproducr-db](https://github.com/repro-stats/reproducr-db)**.
 
 ---
 
