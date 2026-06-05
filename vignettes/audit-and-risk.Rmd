@@ -242,6 +242,28 @@ the same locale will produce identical results. The risk materialises when code
 is moved to a server in a different country, or when a Docker container has a
 different `LC_ALL` setting.
 
+**Scenario — The international collaboration problem**
+
+Your analysis runs correctly on your Brussels workstation. A collaborator in
+the US runs the exact same code and gets different patient group orderings.
+
+```r
+sorted_ids <- base::sort(patient_ids)
+# "é" sorts after "z" under LC_COLLATE=en_US.UTF-8
+# but between "e" and "f" under LC_COLLATE=fr_BE.UTF-8
+```
+
+The downstream merge uses `sorted_ids` as a key. The groupings differ. Table 2
+in the paper is different in the two labs — with no error thrown anywhere.
+`reproducr` flags `base::sort()` as locale-sensitive so you know to pin the
+locale explicitly:
+
+```r
+# Pin locale for reproducible sorting
+Sys.setlocale("LC_COLLATE", "C")
+sorted_ids <- base::sort(patient_ids)
+```
+
 ---
 
 ## Combining checks and filtering

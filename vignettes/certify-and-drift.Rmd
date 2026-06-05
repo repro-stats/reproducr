@@ -20,12 +20,35 @@ This vignette covers Tier 2 of the `reproducr` workflow in depth:
 `certify()`, `check_drift()`, and `list_certs()`. These three functions
 together form the *baseline and drift detection* system.
 
-## The problem they solve
+## The problem they solve — a real scenario
 
-Packages change hands. Maintainers push silent fixes. Platform-level libraries
-(BLAS, LAPACK) get updated by system administrators. R itself changes RNG
-defaults between minor versions. Any of these can alter your numerical results
-without producing an error.
+### Scenario — The revision drift problem
+
+You submit a paper in March. Before submission you run the analysis and note
+the key results: hazard ratio 0.582 (95% CI: 0.446–0.760, p < 0.001).
+
+In May a reviewer asks for a revision. While working on the response you
+upgrade your packages — including `lme4`, which adjusted its default optimizer
+tolerances between versions 1.1.29 and 1.1.30. You re-run the analysis:
+hazard ratio 0.591 (95% CI: 0.452–0.768).
+
+The numbers are slightly different. No error was thrown. The code is
+identical. Without a record of what the March run produced, you would not
+know whether the change came from your revision or from the package upgrade.
+
+```
+[DRIFTED] hr:       0.582 → 0.591
+[DRIFTED] ci_lower: 0.446 → 0.452
+[DRIFTED] ci_upper: 0.760 → 0.768
+```
+
+With `certify()` and `check_drift()`, this is caught immediately and you can
+investigate before submitting to the reviewer.
+
+More broadly, packages change hands, maintainers push silent fixes,
+platform-level libraries (BLAS, LAPACK) get updated by system administrators,
+and R itself changes RNG defaults between minor versions. Any of these can
+alter your numerical results without producing an error.
 
 `certify()` and `check_drift()` detect this. The idea is simple:
 

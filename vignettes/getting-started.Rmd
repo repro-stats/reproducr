@@ -20,7 +20,9 @@ library(reproducr)
 
 You finish an analysis. The code runs. The numbers look right. But are they stable?
 
-Package updates change function behaviour silently. Stochastic code without a fixed seed produces different results on every run. Results certified last month may drift this month — with no error and no warning.
+Package updates change function behaviour silently. Stochastic code without a fixed seed
+produces different results on every run. Results certified last month may drift this month
+— with no error and no warning.
 
 `reproducr` makes these risks visible and trackable via a three-tier workflow:
 
@@ -28,15 +30,94 @@ Package updates change function behaviour silently. Stochastic code without a fi
 2. **Baseline & drift** — certify outputs and detect changes over time
 3. **Report & export** — generate human-readable audit reports
 
-It works with your existing setup. If you use `renv`, `reproducr` reads your lockfile automatically. No configuration required.
+It works with your existing setup. If you use `renv`, `reproducr` reads your lockfile
+automatically. No configuration required.
+
+---
+
+## Why this matters — real failure modes
+
+These are not hypothetical. Each scenario describes a class of problem that occurs
+routinely in research and regulated workflows, produces no error, and is invisible without
+explicit tooling.
+
+### Scenario 1 — The collaborator upgrade problem
+
+You write an analysis in January using dplyr 1.0.4 and share it with a colleague who has
+dplyr 1.1.2.
+
+```r
+results <- mtcars |>
+  dplyr::group_by(cyl) |>
+  dplyr::summarise(mean_mpg = mean(mpg))
+
+# You then chain a further operation:
+results |> dplyr::mutate(rank = dplyr::row_number())
+```
+
+In dplyr 1.0.x, `summarise()` retained grouping by default. In dplyr 1.1.x it drops the
+last grouping level. Your colleague's `mutate()` now operates on ungrouped data — the
+`rank` column is computed differently. No error. No warning. Different numbers.
+
+`reproducr` flags this immediately:
+
+```
+[HIGH] dplyr::summarise
+       In dplyr 1.1.0, summarise() changed its default grouping behaviour...
+```
+
+### Scenario 2 — The server deployment problem
+
+You develop a model locally on R 3.5.3 and deploy to a production server running R 3.6.2.
+
+```r
+set.seed(42)
+train_idx <- base::sample(1:nrow(data), 0.8 * nrow(data))
+```
+
+R 3.6.0 changed the default RNG algorithm for `sample()`. The same seed now produces a
+different train/test split. Your model is trained on different data than you validated
+locally. Accuracy metrics differ silently across environments.
+
+`reproducr` flags this:
+
+```
+[HIGH] stats::sample
+       In R 3.6.0, the default RNG algorithm changed...
+```
+
+### Scenario 3 — The renv false sense of security
+
+You use `renv` to lock your environment and restore it six months later on a new machine.
+Everything installs correctly but results differ.
+
+`renv` locked `readr 2.0.1`. Your original analysis was written with `readr 1.4.0`. The
+lockfile captured the version you were *already on* when you ran `renv::init()` — past
+the breaking change. You never compared against pre-2.0 output.
+
+```r
+data <- readr::read_csv("clinical_data.csv")
+# Column "patient_id" now parses as character instead of double.
+# Downstream merge silently drops rows.
+```
+
+`renv` cannot detect this because it only sees versions, not behaviour. `reproducr` sees
+the function call and flags it:
+
+```
+[HIGH] readr::read_csv
+       In readr 2.0.0, read_csv() switched to the vroom backend.
+       Column type guessing changed...
+```
+
+---
 
 ## Tier 1: Scan and score
 
 ### Auditing a script
 
-The entry point is `audit_script()`. It reads your R source files, extracts
-every qualified `pkg::fn` call, and resolves which version of each package is
-in use.
+The entry point is `audit_script()`. It reads your R source files, extracts every
+qualified `pkg::fn` call, and resolves which version of each package is in use.
 
 ```{r audit}
 # Create a small example script
