@@ -302,6 +302,7 @@ risks_forced <- risk_score(report_forced, methods = "changelog")
 as.data.frame(risks_forced)[, c("call", "pkg_version", "risk")]
 #>               call pkg_version risk
 #> 1 dplyr::summarise       1.1.0 high
+#> 2 dplyr::summarise       1.1.0 high
 ```
 
 ------------------------------------------------------------------------

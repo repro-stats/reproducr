@@ -2,6 +2,11 @@
 
 ## reproducr 0.1.1.9001
 
+- Added `reproducr-cmc` to the gallery — CMC statistical package
+  covering dissolution f2, ICH Q1E stability shelf-life, and ICH Q2(R1)
+  assay method validation. Pharma-style QC report, `renv` locked, 20
+  certified outputs.
+
 - [`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
   now skips entries marked `closed = TRUE` in the database. These are
   intentionally closed version windows (e.g. historical base R changes)
