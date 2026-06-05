@@ -1,6 +1,11 @@
+CMC
 CMD
+HEOR
+ICH
 ORCID
 Walkthrough
+cmc
+db
 dplyr
 etc
 ggplot
@@ -8,7 +13,8 @@ io
 lockfile
 md
 readr
+regex
 renv
+rwe
 tidyverse
 timezone
-â
