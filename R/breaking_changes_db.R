@@ -954,8 +954,25 @@
       ),
       reference = "https://tidyr.tidyverse.org/news/index.html"
     )
-  )
+  ),
 
+  # ---- nlme --------------------------------------------------------------
+
+  "nlme::lme" = list(
+    list(
+      from_version = "3.1.152",
+      to_version   = "3.1.169",
+      risk         = "medium",
+      description  = paste0(
+        "In nlme 3.1.153+, the default optimizer control parameters for lme() ",
+        "were updated. Mixed models close to convergence boundaries may return ",
+        "slightly different variance component estimates across versions. ",
+        "Intermediate precision CV and random effect estimates are sensitive ",
+        "to these changes."
+      ),
+      reference = "https://cran.r-project.org/web/packages/nlme/news/news.html"
+    )
+  )
 )
 
 # ---- internal helpers ---------------------------------------------------
