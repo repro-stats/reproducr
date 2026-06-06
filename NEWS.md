@@ -1,32 +1,12 @@
-# reproducr 0.1.1.9002
+# reproducr 0.1.2
 
-* `repro_report()` HTML output now uses `commonmark` for proper Markdown
-  rendering — tables, headers, and code blocks render correctly in all
-  browsers. Falls back gracefully with a message if `commonmark` is not
-  installed. Added `commonmark` to `Suggests`.
+## Breaking-changes database
 
-* `repro_badge()` moved to its own file (`R/repro_badge.R`) -- previously
-  it was defined in `R/repro_report.R`.
-
-* Risk register in the `"pharma"` report style is now a compact summary
-  table rather than individual cards -- more readable in regulated workflows.
-
-* Fixed non-ASCII characters (em dashes) across all R source files --
-  `certify.R`, `utils.R`, `check_db_staleness.R`, `reproducr-package.R`,
-  `audit_script.R`, `risk_score.R`, `repro_report.R`. Resolves
-  `R CMD check` WARNING on Windows and win-builder.
-
-# reproducr 0.1.1.9001
-
-* Added `reproducr-cmc` to the gallery — CMC statistical package covering
-  dissolution f2, ICH Q1E stability shelf-life, and ICH Q2(R1) assay method
-  validation. Pharma-style QC report, `renv` locked, 20 certified outputs.
-
-* `check_db_staleness()` now skips entries marked `closed = TRUE` in the
-  database. These are intentionally closed version windows (e.g. historical
-  base R changes) that should not be flagged as stale. Five base R entries
-  (`stats::sample`, `stats::rnorm`, `stats::runif`, `stats::rbinom`,
-  `stats::hclust`) are now marked closed in `reproducr-db`.
+* `check_db_staleness()` now skips entries marked `closed = TRUE` -- these
+  are intentionally closed version windows (e.g. historical base R changes)
+  that should not be flagged as stale. Five base R entries (`stats::sample`,
+  `stats::rnorm`, `stats::runif`, `stats::rbinom`, `stats::hclust`) are now
+  marked closed in `reproducr-db`.
 
 * Updated 19 stale `to_version` ceilings in `reproducr-db` to cover current
   CRAN releases (`dplyr`, `ggplot2`, `tidyr`, `purrr`, `readr`, `stringr`,
@@ -37,8 +17,34 @@
 
 * Added `closed` and `closed_reason` fields to the `reproducr-db` JSON schema.
 
+## Reports and badges
+
+* `repro_report()` HTML output now uses `commonmark` for proper Markdown
+  rendering -- tables, headers, and code blocks render correctly in all
+  browsers. Falls back gracefully with a message if `commonmark` is not
+  installed. Added `commonmark` to `Suggests`.
+
+* Risk register in the `"pharma"` report style is now a compact summary
+  table rather than individual cards -- more readable in regulated workflows.
+
+* `repro_badge()` moved to its own file (`R/repro_badge.R`).
+
+## Bug fixes
+
+* Fixed non-ASCII characters (em dashes) across all R source files --
+  `certify.R`, `utils.R`, `check_db_staleness.R`, `reproducr-package.R`,
+  `audit_script.R`, `risk_score.R`, `repro_report.R`. Resolves `R CMD check`
+  WARNING on Windows.
+
+## Infrastructure
+
 * Migrated all repositories to the
   [`repro-stats`](https://github.com/repro-stats) GitHub organisation.
+
+* Added `reproducr-cmc` to the gallery -- a CMC statistical package covering
+  dissolution f2 (ICH Q1B), stability shelf-life (ICH Q1E), and assay method
+  validation (ICH Q2(R1)). Pharma-style QC report, `renv` locked, 20
+  certified outputs.
 
 # reproducr 0.1.1
 
@@ -48,13 +54,13 @@
   Now uses `jsonlite` when available for robust JSON parsing, with a corrected
   regex fallback.
 
-* Fixed `audit_script()` to skip prose lines in `.Rmd` and `.qmd` files —
+* Fixed `audit_script()` to skip prose lines in `.Rmd` and `.qmd` files --
   only lines inside fenced ` ```{r} ` code blocks are now parsed. Previously,
   inline backtick references like `` `stats::sample()` `` in prose were
   incorrectly detected as qualified calls, producing false positives when
   auditing vignettes.
 
-* Added `check_db_staleness()` — compares `to_version` ceilings in the
+* Added `check_db_staleness()` -- compares `to_version` ceilings in the
   breaking-changes database against current CRAN releases. Returns a tidy
   `staleness_report` data frame with `"ok"`, `"stale"`, or `"unknown"`
   status per entry. A weekly GitHub Actions workflow opens an issue in
@@ -72,38 +78,38 @@
   expanded `vignette("contributing-to-the-database")` with three rules for
   setting `to_version` and a quick-reference table.
 
-* Launched [`reproducr-db`](https://github.com/repro-stats/reproducr-db) —
+* Launched [`reproducr-db`](https://github.com/repro-stats/reproducr-db) --
   a companion repository for community-contributed breaking-change entries.
   All 29 existing entries are available as JSON files with a validation CI
   workflow on every PR.
 
 * Added `jsonlite` to `Suggests` to support robust `renv.lock` parsing.
 
-* Added spelling wordlist (`inst/WORDLIST`) — no spelling errors.
+* Added spelling wordlist (`inst/WORDLIST`) -- no spelling errors.
 
 # reproducr 0.1.0
 
-* `audit_script()` — parse `.R`, `.Rmd`, and `.qmd` files to extract all
+* `audit_script()` -- parse `.R`, `.Rmd`, and `.qmd` files to extract all
   qualified `pkg::fn` calls with version resolution from `renv.lock` or the
   installed library.
 
-* `risk_score()` — three independent risk checks: `"changelog"` (curated
+* `risk_score()` -- three independent risk checks: `"changelog"` (curated
   database of known breaking changes), `"seed_check"` (flags stochastic
   functions without a nearby `set.seed()`), and `"locale_check"` (flags
   locale-sensitive operations).
 
-* `certify()` — hash and store analytical outputs as a signed baseline.
+* `certify()` -- hash and store analytical outputs as a signed baseline.
 
-* `check_drift()` — compare current outputs against a stored baseline;
+* `check_drift()` -- compare current outputs against a stored baseline;
   reports `"ok"`, `"drifted"`, `"missing"`, and `"new"` statuses.
 
-* `list_certs()` — inspect all certifications stored in a project's
+* `list_certs()` -- inspect all certifications stored in a project's
   `.reproducr.rds` file.
 
-* `repro_report()` — render audit reports in three styles (`"minimal"`,
+* `repro_report()` -- render audit reports in three styles (`"minimal"`,
   `"academic"`, `"pharma"`) and three formats (`"text"`, `"md"`, `"html"`).
 
-* `repro_badge()` — generate a shields.io reproducibility status badge and
+* `repro_badge()` -- generate a shields.io reproducibility status badge and
   optionally insert it into `README.md`.
 
 * Initial breaking-changes database covering `dplyr`, `tidyr`, `ggplot2`,
