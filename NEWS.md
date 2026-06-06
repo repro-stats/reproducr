@@ -1,3 +1,13 @@
+# reproducr 0.1.3
+
+* Added `CONTRIBUTING.md` with guidelines for contributing to the package
+  and to the breaking-changes database (`reproducr-db`).
+
+* Added `LICENSE` and `LICENSE.md` files for the MIT licence.
+
+* `CONTRIBUTING.md` and `LICENSE.md` added to `.Rbuildignore` -- present
+  in the GitHub repository but excluded from the CRAN tarball.
+  
 # reproducr 0.1.2
 
 ## Breaking-changes database
