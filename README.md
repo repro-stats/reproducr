@@ -162,7 +162,7 @@ Tier 1 — Scan & score          Tier 2 — Baseline & drift       Tier 3 — Re
 audit_script()                 certify()                       repro_report()
      │                              │                               │
      ▼                              ▼                               ▼
-risk_score()               check_drift()                    repro_badge()
+risk_score()                   check_drift()                   repro_badge()
 ```
 
 Use Tier 1 alone for a quick scan, or build the full pipeline for regulated or peer-reviewed work.
