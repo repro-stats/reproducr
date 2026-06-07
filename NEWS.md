@@ -1,13 +1,36 @@
+# reproducr 0.1.5
+
+# reproducr 0.1.4
+
+* Fixed invalid relative URI in `README.md` -- `CODE_OF_CONDUCT.md`link now use correct GitHub URLs. Resolves CRAN
+  pre-check NOTE: "Found the following (possibly) invalid file URI".
+
 # reproducr 0.1.3
 
 * Added `CONTRIBUTING.md` with guidelines for contributing to the package
   and to the breaking-changes database (`reproducr-db`).
 
+* Added `CODE_OF_CONDUCT.md` (Contributor Covenant).
+
 * Added `LICENSE` and `LICENSE.md` files for the MIT licence.
 
-* `CONTRIBUTING.md` and `LICENSE.md` added to `.Rbuildignore` -- present
-  in the GitHub repository but excluded from the CRAN tarball.
-  
+* Fixed bug in `.resolve_current_versions()` where packages appearing in
+  multiple library paths caused a "more elements supplied than there are
+  to replace" error. Now takes only the first match.
+
+* Improved test coverage from 82% to 86%. Added `tests/testthat/test-utils.R`
+  covering `.parse_renv_lock()`, `.hash_object()`, `.renv_lock_exists()`,
+  `.get_os()`, `.pad()`, and `.version_in_window()`.
+
+* `CONTRIBUTING.md`, `LICENSE.md`, `CODE_OF_CONDUCT.md`, and `codecov.yml`
+  added to `.Rbuildignore` -- present in the GitHub repository but excluded
+  from the CRAN tarball.
+
+* Added Codecov integration -- coverage badge now shown in README.
+
+* Added GitHub issue templates (bug report, feature request, database entry
+  suggestion) and PR template.
+
 # reproducr 0.1.2
 
 ## Breaking-changes database

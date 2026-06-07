@@ -6,17 +6,14 @@
 
 ## Test environments
 * macOS 26.5, R 4.4.2 (local)
-* Windows (R-devel, win-builder): 0 errors, 0 warnings, 2 notes
+* Windows (R-devel, win-builder): 0 errors, 0 warnings, 1 note
 
 ## Downstream dependencies
 None.
 
 ## Resubmission notes
-This is a resubmission of v0.1.2 (previously submitted 2026-06-06).
-Changes since v0.1.2:
+This is a resubmission of v0.1.3 (previously submitted 2026-06-07).
+Changes since v0.1.3:
 
-* Fixed bug in `.resolve_current_versions()` where packages appearing in
-  multiple library paths caused a "more elements supplied than there are
-  to replace" error. Now takes only the first match.
-
-* Added MIT LICENSE file and LICENSE.md (previously missing).
+* Fixed invalid relative URI in README.md -- CODE_OF_CONDUCT.md link now use absolute GitHub URLs. Resolves CRAN
+  pre-check NOTE: "Found the following (possibly) invalid file URI".
