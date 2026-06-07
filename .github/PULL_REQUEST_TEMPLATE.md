@@ -1,6 +1,9 @@
 ## What does this PR do?
 Brief description of the change.
 
+## Related issues
+<!-- Closes #XX -->
+
 ## Type of change
 - [ ] Bug fix
 - [ ] New feature

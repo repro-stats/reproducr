@@ -1,27 +1,34 @@
 ---
 name: Bug report
-about: Something isn't working as expected
+about: Something is broken or producing unexpected output
 title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## Description
+## What happened?
 A clear description of the bug.
 
-## Reproducible example
+## Minimal reproducible example
+
 ```r
 library(reproducr)
-# minimal code to reproduce the issue
+
+script <- tempfile(fileext = ".R")
+writeLines("x <- dplyr::filter(mtcars, cyl == 4)", script)
+
+report <- audit_script(script, renv = FALSE)
+# What goes wrong?
 ```
 
 ## Expected behaviour
-What you expected to happen.
+What did you expect?
 
 ## Actual behaviour
-What actually happened. Include the full error message if applicable.
+What actually happened? Include the full error message.
 
 ## Environment
-- reproducr version:
+- reproducr version: `packageVersion("reproducr")`
 - R version:
 - OS:
+- Using renv: Yes / No
