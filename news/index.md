@@ -4,7 +4,12 @@
 
 - Fixed remaining relative URI in `README.md` – `CODE_OF_CONDUCT.md`
   link now uses the full absolute GitHub URL. Resolves CRAN pre-check
-  NOTE: “Found the following (possibly) invalid file URI”.
+  NOTE.
+
+- Fixed `db-staleness.yml` to filter issues by title prefix
+  `"Database staleness:"` in addition to the `stale-entry` label –
+  prevents the workflow from incorrectly closing manually created issues
+  that share the label. Schedule updated to `02:00 UTC` (04:00 CEST).
 
 ## reproducr 0.1.4
 
