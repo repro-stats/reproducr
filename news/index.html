@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,10 +40,23 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.5" id="reproducr-015">reproducr 0.1.5<a class="anchor" aria-label="anchor" href="#reproducr-015"></a></h2>
+<ul><li>Fixed remaining relative URI in <code>README.md</code> – <code>CODE_OF_CONDUCT.md</code> link now uses the full absolute GitHub URL. Resolves CRAN pre-check NOTE: “Found the following (possibly) invalid file URI”.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.4" id="reproducr-014">reproducr 0.1.4<a class="anchor" aria-label="anchor" href="#reproducr-014"></a></h2>
+<ul><li>Fixed invalid relative URIs in <code>README.md</code> – <code>CODE_OF_CONDUCT.md</code> and <code>CONTRIBUTING.md</code> links now use absolute GitHub URLs. Resolves CRAN pre-check NOTE: “Found the following (possibly) invalid file URI”.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.3" id="reproducr-013">reproducr 0.1.3<a class="anchor" aria-label="anchor" href="#reproducr-013"></a></h2>
 <ul><li><p>Added <code>CONTRIBUTING.md</code> with guidelines for contributing to the package and to the breaking-changes database (<code>reproducr-db</code>).</p></li>
+<li><p>Added <code>CODE_OF_CONDUCT.md</code> (Contributor Covenant).</p></li>
 <li><p>Added <code>LICENSE</code> and <code>LICENSE.md</code> files for the MIT licence.</p></li>
-<li><p><code>CONTRIBUTING.md</code> and <code>LICENSE.md</code> added to <code>.Rbuildignore</code> – present in the GitHub repository but excluded from the CRAN tarball.</p></li>
+<li><p>Fixed bug in <code>.resolve_current_versions()</code> where packages appearing in multiple library paths caused a “more elements supplied than there are to replace” error. Now takes only the first match.</p></li>
+<li><p>Improved test coverage from 82% to 86%. Added <code>tests/testthat/test-utils.R</code> covering <code>.parse_renv_lock()</code>, <code>.hash_object()</code>, <code>.renv_lock_exists()</code>, <code>.get_os()</code>, <code>.pad()</code>, and <code>.version_in_window()</code>.</p></li>
+<li><p><code>CONTRIBUTING.md</code>, <code>LICENSE.md</code>, <code>CODE_OF_CONDUCT.md</code>, and <code>codecov.yml</code> added to <code>.Rbuildignore</code> – present in the GitHub repository but excluded from the CRAN tarball.</p></li>
+<li><p>Added Codecov integration – coverage badge now shown in README.</p></li>
+<li><p>Added GitHub issue templates (bug report, feature request, database entry suggestion) and PR template.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="reproducr-012">reproducr 0.1.2<a class="anchor" aria-label="anchor" href="#reproducr-012"></a></h2>

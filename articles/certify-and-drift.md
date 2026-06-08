@@ -80,7 +80,7 @@ certify(
   script = "analysis.R",
   file   = cert_file
 )
-#> reproducr: certified 6 output(s) [2026-06-07] under tag 'baseline-v1'
+#> reproducr: certified 6 output(s) [2026-06-08] under tag 'baseline-v1'
 ```
 
 ### Choosing what to certify
@@ -107,14 +107,14 @@ certify(
   tag     = "pre-peer-review",
   file    = cert_file
 )
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'pre-peer-review'
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'pre-peer-review'
 
 certify(
   outputs = list(coefs = coef(model)),
   tag     = "post-revision",
   file    = cert_file
 )
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'post-revision'
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'post-revision'
 ```
 
 Passing a duplicate tag overwrites the existing record with a warning:
@@ -127,8 +127,8 @@ certify(
   file    = cert_file
 )
 #> Warning: Tag 'baseline-v1' already exists in
-#> '/tmp/RtmplinzyB/file1be81b31d0e3'. Overwriting.
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'baseline-v1'
+#> '/tmp/RtmplEd0Gv/file1c02199de635'. Overwriting.
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'baseline-v1'
 ```
 
 ------------------------------------------------------------------------
@@ -139,9 +139,9 @@ certify(
 
 list_certs(file = cert_file)
 #>               tag                timestamp r_version                      os
-#> 1     baseline-v1 2026-06-07T00:56:33+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 2 pre-peer-review 2026-06-07T00:56:33+0000     4.6.0 Linux 6.17.0-1015-azure
-#> 3   post-revision 2026-06-07T00:56:33+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1     baseline-v1 2026-06-08T11:49:27+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 2 pre-peer-review 2026-06-08T11:49:27+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 3   post-revision 2026-06-08T11:49:27+0000     4.6.0 Linux 6.17.0-1015-azure
 #>   n_outputs script
 #> 1         1   <NA>
 #> 2         1   <NA>
@@ -193,7 +193,7 @@ certify(
   tag  = "four-statuses",
   file = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-07] under tag 'four-statuses'
+#> reproducr: certified 3 output(s) [2026-06-08] under tag 'four-statuses'
 
 demo_result <- check_drift(
   outputs = list(
@@ -241,11 +241,11 @@ print(demo_result)
 ``` r
 
 certify(outputs = list(x = 1L), tag = "run-1", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'run-1'
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'run-1'
 certify(outputs = list(x = 1L), tag = "run-2", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'run-2'
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'run-2'
 certify(outputs = list(x = 1L), tag = "run-3", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-07] under tag 'run-3'
+#> reproducr: certified 1 output(s) [2026-06-08] under tag 'run-3'
 
 check_drift(outputs = list(x = 1L), against = "latest", file = cert_file)
 #> reproducr: comparing against latest tag: 'run-3'
