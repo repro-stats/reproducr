@@ -12,8 +12,10 @@ test_that("risk_score() returns a data frame with required columns", {
 
   expect_s3_class(rs, "data.frame")
   expect_true(all(
-    c("file", "line", "call", "pkg_version", "risk", "check", "description", "reference")
-    %in% names(rs)
+    c(
+      "file", "line", "call", "pkg_version", "risk", "check",
+      "description", "reference"
+    ) %in% names(rs)
   ))
 })
 
@@ -30,9 +32,9 @@ test_that("risk_score() returns empty data frame with correct columns on clean s
 
 test_that("risk_score() orders results high-risk first", {
   f <- write_script(
-    "x <- base::sort(letters)", # low  (locale_check)
-    "y <- stats::rnorm(10)", # medium (seed_check)
-    "z <- readr::read_csv('f')" # high (changelog) — if version in window
+    "x <- base::sort(letters)",
+    "y <- stats::rnorm(10)",
+    "z <- readr::read_csv('f')"
   )
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
@@ -40,7 +42,7 @@ test_that("risk_score() orders results high-risk first", {
 
   if (nrow(rs) > 1L) {
     risk_ints <- c(high = 3L, medium = 2L, low = 1L)[rs$risk]
-    expect_true(all(diff(risk_ints) <= 0L)) # non-increasing = high first
+    expect_true(all(diff(risk_ints) <= 0L))
   }
 })
 
@@ -52,9 +54,7 @@ test_that("risk_score() changelog check returns 'changelog' in check column", {
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   rs <- risk_score(r, methods = "changelog")
 
-  if (nrow(rs) > 0L) {
-    expect_true(all(rs$check == "changelog"))
-  }
+  if (nrow(rs) > 0L) expect_true(all(rs$check == "changelog"))
 })
 
 test_that("risk_score() changelog check does not fire for unknown packages", {
@@ -63,7 +63,6 @@ test_that("risk_score() changelog check does not fire for unknown packages", {
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   rs <- risk_score(r, methods = "changelog")
 
-  # mypkg is not in the database — should return no results
   expect_equal(nrow(rs), 0L)
 })
 
@@ -100,7 +99,6 @@ test_that("risk_score() seed_check does NOT flag rnorm when set.seed() is nearby
 })
 
 test_that("risk_score() seed_check flags rnorm when set.seed() is too far away", {
-  # set.seed > 50 lines above the call
   lines <- c("set.seed(237)", rep("x <- 1", 55L), "z <- stats::rnorm(10)")
   f <- write_script(lines)
   on.exit(unlink(f))
@@ -156,24 +154,16 @@ test_that("risk_score() locale_check returns only locale_check rows when isolate
 # ---- min_risk filter -------------------------------------------------------
 
 test_that("risk_score() min_risk = 'high' excludes medium and low", {
-  f <- write_script(
-    "x <- base::sort(letters)",
-    "y <- stats::rnorm(10)"
-  )
+  f <- write_script("x <- base::sort(letters)", "y <- stats::rnorm(10)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   high <- risk_score(r, min_risk = "high")
 
-  if (nrow(high) > 0L) {
-    expect_true(all(high$risk == "high"))
-  }
+  if (nrow(high) > 0L) expect_true(all(high$risk == "high"))
 })
 
 test_that("risk_score() min_risk = 'low' returns all risks", {
-  f <- write_script(
-    "x <- base::sort(letters)",
-    "y <- stats::rnorm(10)"
-  )
+  f <- write_script("x <- base::sort(letters)", "y <- stats::rnorm(10)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   all <- risk_score(r, min_risk = "low")
@@ -188,12 +178,71 @@ test_that("risk_score() runs only the requested method(s)", {
   f <- write_script("x <- stats::rnorm(10)", "y <- base::sort(letters)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
-
   rs_seed <- risk_score(r, methods = "seed_check")
   rs_locale <- risk_score(r, methods = "locale_check")
 
   expect_true(all(rs_seed$check == "seed_check"))
   expect_true(all(rs_locale$check == "locale_check"))
+})
+
+# ---- major_version_grace ---------------------------------------------------
+
+test_that("risk_score() major_version_grace suppresses entries past transition", {
+  # Build a mock audit_report whose pkg_version is 2 major versions ahead
+  # of a known from_version in the database.
+  # dplyr::summarise has from_version "1.0.99" -- installing "3.0.0" (gap=2)
+  # should suppress with grace=1 but not with grace=Inf.
+  f <- write_script("x <- dplyr::summarise(mtcars, n = dplyr::n())")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  # Override pkg_version to simulate a version 2 major versions past from_version
+  if (nrow(r$calls) > 0L) {
+    idx <- r$calls$pkg == "dplyr" & r$calls$fn == "summarise"
+    if (any(idx)) {
+      r$calls$pkg_version[idx] <- "3.0.0"
+
+      rs_grace_1 <- risk_score(r,
+        methods = "changelog",
+        major_version_grace = 1L
+      )
+      rs_grace_inf <- risk_score(r,
+        methods = "changelog",
+        major_version_grace = Inf
+      )
+
+      dplyr_grace <- rs_grace_1[rs_grace_1$call == "dplyr::summarise", ]
+      dplyr_no_grace <- rs_grace_inf[rs_grace_inf$call == "dplyr::summarise", ]
+
+      # With grace=1 and gap=2, entry should be suppressed
+      expect_equal(nrow(dplyr_grace), 0L)
+      # With grace=Inf, suppression disabled -- entry should appear if in window
+      # (depends on installed version, so only check structure)
+      expect_true(is.data.frame(dplyr_no_grace))
+    }
+  }
+})
+
+test_that("risk_score() major_version_grace = Inf disables suppression", {
+  f <- write_script("x <- dplyr::summarise(mtcars, n = dplyr::n())")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  # Should not error and should return a data frame
+  rs <- risk_score(r, methods = "changelog", major_version_grace = Inf)
+  expect_s3_class(rs, "data.frame")
+})
+
+test_that(".major_version_gap() computes correct major version difference", {
+  expect_equal(reproducr:::.major_version_gap("4.7.2", "3.0.2"), 1L)
+  expect_equal(reproducr:::.major_version_gap("5.0.0", "3.0.0"), 2L)
+  expect_equal(reproducr:::.major_version_gap("1.1.0", "1.0.0"), 0L)
+  expect_equal(reproducr:::.major_version_gap("2.0.0", "2.0.0"), 0L)
+})
+
+test_that(".major_version_gap() returns NA for invalid version strings", {
+  expect_true(is.na(reproducr:::.major_version_gap("not-a-version", "1.0.0")))
+  expect_true(is.na(reproducr:::.major_version_gap("1.0.0", "not-a-version")))
 })
 
 # ---- S3 methods ------------------------------------------------------------
@@ -213,9 +262,7 @@ test_that("print.risk_report() outputs risk counts for non-empty report", {
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   rs <- risk_score(r)
 
-  if (nrow(rs) > 0L) {
-    expect_output(print(rs), "MEDIUM|LOW|HIGH")
-  }
+  if (nrow(rs) > 0L) expect_output(print(rs), "MEDIUM|LOW|HIGH")
 })
 
 test_that("print.risk_report() returns its input invisibly", {

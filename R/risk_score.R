@@ -17,13 +17,13 @@
 #'   `"changelog"`, `"seed_check"`, `"locale_check"`. Default: all three.
 #' @param min_risk `character(1)`. Minimum risk level to include in the output.
 #'   One of `"low"` (show all), `"medium"`, or `"high"`. Default `"low"`.
-#' @param major_version_grace `integer(1)`. Number of full major versions the
-#'   installed package must be *ahead* of `from_version` before the entry is
-#'   suppressed entirely. When the installed version is this many or more major
-#'   versions newer than `from_version`, the user is already past the
-#'   breaking-change transition and the flag is a false positive -- the entry
-#'   is silently dropped from the results. Set to `Inf` to disable. Default
-#'   `1L`.
+#' @param major_version_grace `integer(1)` or `Inf`. Number of full major
+#'   versions the installed package must be *ahead* of `from_version` before
+#'   the entry is suppressed entirely. When the installed version is this many
+#'   or more major versions newer than `from_version`, the user is already past
+#'   the breaking-change transition and the flag is a false positive -- the
+#'   entry is silently dropped from the results. Set to `Inf` to disable.
+#'   Default `1L`.
 #'
 #' @return A `data.frame` of class `c("risk_report", "data.frame")` with one
 #'   row per flagged call. Columns:
@@ -97,7 +97,12 @@ risk_score <- function(audit,
     c("changelog", "seed_check", "locale_check"),
     several.ok = TRUE
   )
-  major_version_grace <- as.integer(major_version_grace)
+  # Accept Inf to disable grace; otherwise coerce to integer
+  major_version_grace <- if (is.infinite(major_version_grace)) {
+    Inf
+  } else {
+    as.integer(major_version_grace)
+  }
 
   min_int <- .risk_int(min_risk)
   results <- list()
@@ -125,10 +130,11 @@ risk_score <- function(audit,
         # If the installed version is >= major_version_grace major versions
         # ahead of from_version, the user is already past the transition.
         # Suppress entirely -- this is a false positive, not a real risk.
-        # The database staleness check (check_db_staleness) handles the
-        # maintenance concern of identifying entries with windows too wide.
         major_gap <- .major_version_gap(inst_ver, entry$from_version)
-        if (!is.na(major_gap) && major_gap >= major_version_grace) next
+        if (!is.na(major_gap) && !is.infinite(major_version_grace) &&
+          major_gap >= major_version_grace) {
+          next
+        }
         # ---------------------------------------------------------------------
 
         entry_int <- .risk_int(entry$risk)
@@ -373,7 +379,7 @@ as.data.frame.risk_report <- function(x, ...) {
     {
       iv <- package_version(as.character(installed))
       fv <- package_version(as.character(from_ver))
-      iv[[1L]][[1L]] - fv[[1L]][[1L]]
+      unclass(iv)[[1L]][1L] - unclass(fv)[[1L]][1L]
     },
     error = function(e) NA_integer_
   )

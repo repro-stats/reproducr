@@ -18,8 +18,8 @@ test_that("repro_report() returns invisibly for text format", {
   f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
-
   ret <- withVisible(repro_report(r, format = "text", style = "minimal"))
+
   expect_false(ret$visible)
 })
 
@@ -53,6 +53,50 @@ test_that("repro_report() minimal style contains verdict", {
   expect_true(grepl("REPRODUCIBLE|CAUTION|AT RISK|UNKNOWN", out))
 })
 
+test_that("repro_report() minimal style includes risk section when risks present", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_risks <- data.frame(
+    call = "dplyr::summarise",
+    file = f,
+    line = 1L,
+    pkg = "dplyr",
+    fn = "summarise",
+    pkg_version = "1.1.0",
+    risk = "medium",
+    check = "changelog",
+    description = "test risk entry",
+    reference = "https://example.com",
+    stringsAsFactors = FALSE
+  )
+  class(mock_risks) <- c("risk_report", "data.frame")
+
+  out <- repro_report(report, mock_risks, format = "text", style = "minimal")
+  expect_true(grepl("Risks|MEDIUM", out, ignore.case = TRUE))
+})
+
+test_that("repro_report() minimal style includes drift section when drift present", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_drift <- data.frame(
+    output = "result1",
+    status = "drifted",
+    note = "hash changed",
+    stringsAsFactors = FALSE
+  )
+  class(mock_drift) <- c("drift_report", "data.frame")
+
+  out <- repro_report(report,
+    drift = mock_drift, format = "text",
+    style = "minimal"
+  )
+  expect_true(grepl("Drift|DRIFTED|drifted", out, ignore.case = TRUE))
+})
+
 # ---- academic style --------------------------------------------------------
 
 test_that("repro_report() academic style contains 'R (version'", {
@@ -73,14 +117,41 @@ test_that("repro_report() academic style mentions detected packages", {
   expect_true(grepl("dplyr", out))
 })
 
+test_that("repro_report() academic style with risks mentions concern count", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_risks <- data.frame(
+    call = "dplyr::filter", file = f, line = 1L,
+    pkg = "dplyr", fn = "filter", pkg_version = "1.1.0",
+    risk = "high", check = "changelog",
+    description = "test", reference = "https://example.com",
+    stringsAsFactors = FALSE
+  )
+  class(mock_risks) <- c("risk_report", "data.frame")
+
+  out <- repro_report(report, mock_risks, format = "text", style = "academic")
+  expect_true(grepl("concern|risk|potential", out, ignore.case = TRUE))
+})
+
+test_that("repro_report() academic style with no calls handles gracefully", {
+  f <- write_script("x <- 1 + 1")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+  out <- repro_report(report, format = "text", style = "academic")
+
+  expect_true(grepl("no qualified", out, ignore.case = TRUE))
+})
+
 test_that("repro_report() academic style is a single prose paragraph", {
   f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   out <- repro_report(r, format = "text", style = "academic")
-
   lines <- strsplit(trimws(out), "\n")[[1]]
   lines <- lines[nchar(trimws(lines)) > 0L]
+
   expect_true(length(lines) >= 2L)
 })
 
@@ -113,6 +184,54 @@ test_that("repro_report() pharma style contains 'Execution environment'", {
   expect_true(grepl("Execution environment|execution environment", out))
 })
 
+test_that("repro_report() pharma style with risks shows risk register entries", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_risks <- data.frame(
+    call = "dplyr::filter", file = f, line = 1L,
+    pkg = "dplyr", fn = "filter", pkg_version = "1.1.0",
+    risk = "high", check = "changelog",
+    description = paste(rep("x", 130L), collapse = ""),
+    reference = "https://example.com",
+    stringsAsFactors = FALSE
+  )
+  class(mock_risks) <- c("risk_report", "data.frame")
+
+  out <- repro_report(report, mock_risks, format = "text", style = "pharma")
+  expect_true(grepl("HIGH|dplyr::filter", out))
+})
+
+test_that("repro_report() pharma style with drift shows drift assessment", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_drift <- data.frame(
+    output = "result1",
+    status = "ok",
+    note = "",
+    stringsAsFactors = FALSE
+  )
+  class(mock_drift) <- c("drift_report", "data.frame")
+
+  out <- repro_report(report,
+    drift = mock_drift, format = "text",
+    style = "pharma"
+  )
+  expect_true(grepl("Drift assessment|drift", out, ignore.case = TRUE))
+})
+
+test_that("repro_report() pharma style with no calls shows no calls message", {
+  f <- write_script("x <- 1 + 1")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+  out <- repro_report(report, format = "text", style = "pharma")
+
+  expect_true(grepl("No qualified|no qualified", out, ignore.case = TRUE))
+})
+
 # ---- HTML format -----------------------------------------------------------
 
 test_that("repro_report() html format writes a valid HTML file", {
@@ -136,6 +255,18 @@ test_that("repro_report() html format file has non-zero size", {
 
   repro_report(r, format = "html", style = "pharma", output_file = out)
   expect_true(file.info(out)$size > 0L)
+})
+
+test_that("repro_report() html academic style renders correctly", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  out <- tempfile(fileext = ".html")
+  on.exit(unlink(c(f, out)))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  repro_report(r, format = "html", style = "academic", output_file = out)
+  expect_true(file.exists(out))
+  content <- paste(readLines(out, warn = FALSE), collapse = "")
+  expect_true(grepl("<!DOCTYPE html>", content, fixed = TRUE))
 })
 
 # ---- Markdown format -------------------------------------------------------
@@ -181,17 +312,10 @@ test_that("repro_report() shows AT RISK verdict for high-risk report", {
   on.exit(unlink(f))
   report <- audit_script(f, renv = FALSE, verbose = FALSE)
 
-  # Build a mock high-risk report directly -- risk_score() may return 0 rows
-  # if no installed package version falls in a known window
   mock_risks <- data.frame(
-    call = "dplyr::summarise",
-    file = f,
-    line = 1L,
-    pkg = "dplyr",
-    fn = "summarise",
-    pkg_version = "1.1.0",
-    risk = "high",
-    check = "changelog",
+    call = "dplyr::summarise", file = f, line = 1L,
+    pkg = "dplyr", fn = "summarise", pkg_version = "1.1.0",
+    risk = "high", check = "changelog",
     description = "test high risk entry",
     reference = "https://example.com",
     stringsAsFactors = FALSE
@@ -209,14 +333,9 @@ test_that("repro_report() shows CAUTION verdict for medium-risk report", {
   report <- audit_script(f, renv = FALSE, verbose = FALSE)
 
   mock_risks <- data.frame(
-    call = "dplyr::summarise",
-    file = f,
-    line = 1L,
-    pkg = "dplyr",
-    fn = "summarise",
-    pkg_version = "1.1.0",
-    risk = "medium",
-    check = "changelog",
+    call = "dplyr::summarise", file = f, line = 1L,
+    pkg = "dplyr", fn = "summarise", pkg_version = "1.1.0",
+    risk = "medium", check = "changelog",
     description = "test medium risk entry",
     reference = "https://example.com",
     stringsAsFactors = FALSE
@@ -236,6 +355,24 @@ test_that("repro_report() shows UNKNOWN verdict when risks is NULL", {
   out <- repro_report(report, risks = NULL, format = "text", style = "minimal")
   expect_type(out, "character")
   expect_true(grepl("unknown|UNKNOWN", out, ignore.case = TRUE))
+})
+
+test_that("repro_report() AT RISK when drift detected", {
+  f <- write_script("x <- dplyr::filter(mtcars, cyl == 4)")
+  on.exit(unlink(f))
+  report <- audit_script(f, renv = FALSE, verbose = FALSE)
+
+  mock_drift <- data.frame(
+    output = "result1", status = "drifted", note = "hash changed",
+    stringsAsFactors = FALSE
+  )
+  class(mock_drift) <- c("drift_report", "data.frame")
+
+  out <- repro_report(report,
+    risks = NULL, drift = mock_drift,
+    format = "text", style = "minimal"
+  )
+  expect_true(grepl("AT RISK", out))
 })
 
 # ---- all styles and formats ------------------------------------------------
@@ -276,4 +413,24 @@ test_that("repro_report() renders all styles and formats without error", {
     output_file = html_out2
   )
   expect_true(file.exists(html_out2))
+})
+
+# ---- .md_to_html internals -------------------------------------------------
+
+test_that(".md_to_html produces valid HTML with title", {
+  md <- "# Test\n\nHello world.\n"
+  result <- reproducr:::.md_to_html(md, title = "My Report")
+  expect_true(grepl("<!DOCTYPE html>", result, fixed = TRUE))
+  expect_true(grepl("My Report", result, fixed = TRUE))
+  expect_true(grepl("<body>", result, fixed = TRUE))
+})
+
+test_that(".md_to_html produces complete HTML document structure", {
+  md <- "# Heading\n\nSome text.\n\n## Subheading\n\nMore text.\n"
+  result <- reproducr:::.md_to_html(md, title = "Test Report")
+
+  expect_true(grepl("<!DOCTYPE html>", result, fixed = TRUE))
+  expect_true(grepl("<title>Test Report</title>", result, fixed = TRUE))
+  expect_true(grepl("</html>", result, fixed = TRUE))
+  expect_true(grepl("<style>", result, fixed = TRUE))
 })

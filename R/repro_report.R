@@ -369,7 +369,9 @@ repro_report <- function(audit,
 .md_to_html <- function(md, title = "reproducr Report") {
   # Use commonmark if available for proper Markdown -> HTML conversion
   if (requireNamespace("commonmark", quietly = TRUE)) {
-    body <- commonmark::markdown_html(md, extensions = TRUE)
+    body <- paste(commonmark::markdown_html(md, extensions = TRUE),
+      collapse = "\n"
+    )
   } else {
     message(
       "reproducr: install 'commonmark' for properly rendered HTML tables: ",
