@@ -50,4 +50,5 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
         shell: Rscript {0}
         run: |
-          covr::codecov(quiet = FALSE)
+          covr::codecov(quiet = FALSE, token = "${{ secrets.CODECOV_TOKEN }}")
+          
