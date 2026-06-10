@@ -1,4 +1,4 @@
-# reproducr 0.1.5
+# reproducr 0.2.0
 
 * `risk_score()` gains a `major_version_grace` parameter (default `1L`) --
   when the installed version is one or more major versions ahead of an
@@ -13,6 +13,8 @@
   window floor may be too wide and the entry may need its `from_version`
   raised or the entry closed. New status values: `"stale_ceiling"` (the
   previous `"stale"` status, renamed for clarity) and `"stale_floor"`.
+  
+# reproducr 0.1.5
 
 * Fixed remaining relative URI in `README.md` -- `CODE_OF_CONDUCT.md` link
   now uses the full absolute GitHub URL. Resolves CRAN pre-check NOTE:

@@ -5,12 +5,12 @@
 #' in the breaking-changes database against the current version of that
 #' package on CRAN. Two types of staleness are detected:
 #'
-#' - **`to_version` stale** -- the package has released a new version above
-#'   the ceiling. The window may need extending.
-#' - **`from_version` stale** -- the installed/current version is so far
-#'   ahead of `from_version` that the window captures users who are already
-#'   well past the breaking-change transition. The entry may need closing
-#'   or the window narrowing.
+#' - **`stale_ceiling`** -- the package has released a new version above
+#'   the `to_version` ceiling. The window may need extending.
+#' - **`stale_floor`** -- the current CRAN version is so far ahead of
+#'   `from_version` that the window captures users who are already well
+#'   past the breaking-change transition. The entry may need closing or
+#'   the `from_version` floor raising.
 #'
 #' This function is primarily intended for use by `reproducr` maintainers
 #' and contributors. It is also run as a scheduled GitHub Actions workflow
@@ -31,10 +31,10 @@
 #'       what is installed on the current machine.}
 #'   }
 #'   Default `"cran"`.
-#' @param from_version_major_threshold `integer(1)`. Number of full major
-#'   versions the current CRAN release must be *ahead* of `from_version`
-#'   before the entry is flagged as having a stale `from_version` floor.
-#'   Default `1L`. Set to `Inf` to disable this check.
+#' @param from_version_major_threshold `integer(1)` or `Inf`. Number of full
+#'   major versions the current CRAN release must be *ahead* of `from_version`
+#'   before the entry is flagged as having a stale floor. Set to `Inf` to
+#'   disable this check. Default `1L`.
 #'
 #' @return A `data.frame` of class `c("staleness_report", "data.frame")`
 #'   with one row per database entry. Columns:
@@ -47,20 +47,11 @@
 #'     \item{`current_version`}{The current version on CRAN or installed.}
 #'     \item{`status`}{One of `"ok"`, `"stale_ceiling"`, `"stale_floor"`,
 #'       or `"unknown"`.}
-#'     \item{`gap`}{The version difference as a string. `NA` when status
-#'       is `"ok"` or `"unknown"`.}
+#'     \item{`gap`}{Description of the version gap. `NA` when status is
+#'       `"ok"` or `"unknown"`.}
 #'   }
-#'   Rows are ordered: stale first, then ok, then unknown.
-#'
-#' @section Staleness types:
-#' \describe{
-#'   \item{`stale_ceiling`}{`to_version` is below current CRAN release --
-#'     the window ceiling may need raising.}
-#'   \item{`stale_floor`}{`from_version` is so old relative to the current
-#'     CRAN release (by `from_version_major_threshold` major versions) that
-#'     the window captures users who are already well past the transition.
-#'     The entry may need closing or the `from_version` floor raising.}
-#' }
+#'   Rows are ordered: stale_ceiling first, stale_floor second, then ok,
+#'   then unknown.
 #'
 #' @seealso
 #' [reproducr::risk_score()] which uses the database at runtime;
@@ -90,7 +81,12 @@ check_db_staleness <- function(packages = NULL,
                                source = "cran",
                                from_version_major_threshold = 1L) {
   source <- match.arg(source, c("cran", "installed"))
-  from_version_major_threshold <- as.integer(from_version_major_threshold)
+  # Accept Inf to disable floor check; otherwise coerce to integer
+  from_version_major_threshold <- if (is.infinite(from_version_major_threshold)) {
+    Inf
+  } else {
+    as.integer(from_version_major_threshold)
+  }
 
   # Collect all unique packages tracked in the database
   all_keys <- .list_db_keys()
@@ -152,14 +148,11 @@ check_db_staleness <- function(packages = NULL,
       ceiling_status <- .assess_staleness(curr_ver, to_ver)
 
       # ---- from_version (floor) staleness ----------------------------------
-      # Flag when current CRAN version is >= threshold major versions ahead
-      # of from_version -- indicates the window is capturing users who are
-      # already well past the breaking-change transition.
       floor_status <- .assess_floor_staleness(
         curr_ver, from_ver, from_version_major_threshold
       )
 
-      # Combine: ceiling staleness takes precedence for reporting
+      # Combine: ceiling staleness takes precedence
       status <- if (ceiling_status == "stale") {
         "stale_ceiling"
       } else if (floor_status == "stale") {
@@ -174,7 +167,7 @@ check_db_staleness <- function(packages = NULL,
         sprintf("to_version %s -> current %s", to_ver, curr_ver)
       } else if (status == "stale_floor" && !is.na(curr_ver)) {
         sprintf(
-          "from_version %s << current %s (>= %d major versions behind)",
+          "from_version %s << current %s (>= %d major version(s) behind)",
           from_ver, curr_ver, from_version_major_threshold
         )
       } else {
@@ -256,10 +249,10 @@ print.staleness_report <- function(x, ...) {
   n_unknown <- sum(x$status == "unknown", na.rm = TRUE)
 
   cat("\n-- reproducr database staleness report --\n\n")
-  cat(sprintf("  %-20s %d\n", "STALE CEILING:", n_stale_ceiling))
-  cat(sprintf("  %-20s %d\n", "STALE FLOOR:", n_stale_floor))
-  cat(sprintf("  %-20s %d\n", "OK:", n_ok))
-  cat(sprintf("  %-20s %d\n", "UNKNOWN:", n_unknown))
+  cat(sprintf("  %-22s %d\n", "STALE CEILING:", n_stale_ceiling))
+  cat(sprintf("  %-22s %d\n", "STALE FLOOR:", n_stale_floor))
+  cat(sprintf("  %-22s %d\n", "OK:", n_ok))
+  cat(sprintf("  %-22s %d\n", "UNKNOWN:", n_unknown))
   cat("\n")
 
   if (n_stale_ceiling > 0L) {
@@ -374,18 +367,21 @@ print.staleness_report <- function(x, ...) {
 
 #' Assess from_version (floor) staleness
 #'
-#' Returns "stale" when the current version is >= threshold major versions
-#' ahead of from_version, indicating the window may be too wide.
+#' Returns "stale" when current_ver is >= threshold major versions ahead of
+#' from_ver, indicating the window may be too wide.
 #' @noRd
 .assess_floor_staleness <- function(current_ver, from_ver, threshold) {
-  if (is.na(current_ver) || is.infinite(threshold)) {
+  if (is.na(current_ver)) {
+    return("ok")
+  }
+  if (is.infinite(threshold)) {
     return("ok")
   }
   tryCatch(
     {
       cv <- package_version(as.character(current_ver))
       fv <- package_version(as.character(from_ver))
-      major_gap <- cv[[1L]][[1L]] - fv[[1L]][[1L]]
+      major_gap <- unclass(cv)[[1L]][1L] - unclass(fv)[[1L]][1L]
       if (!is.na(major_gap) && major_gap >= threshold) "stale" else "ok"
     },
     error = function(e) "unknown"
