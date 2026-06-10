@@ -10,7 +10,8 @@
 risk_score(
   audit,
   methods = c("changelog", "seed_check", "locale_check"),
-  min_risk = "low"
+  min_risk = "low",
+  major_version_grace = 1L
 )
 
 \method{print}{risk_report}(x, ...)
@@ -27,6 +28,14 @@ risk_score(
 
 \item{min_risk}{\code{character(1)}. Minimum risk level to include in the output.
 One of \code{"low"} (show all), \code{"medium"}, or \code{"high"}. Default \code{"low"}.}
+
+\item{major_version_grace}{\code{integer(1)} or \code{Inf}. Number of full major
+versions the installed package must be \emph{ahead} of \code{from_version} before
+the entry is suppressed entirely. When the installed version is this many
+or more major versions newer than \code{from_version}, the user is already past
+the breaking-change transition and the flag is a false positive -- the
+entry is silently dropped from the results. Set to \code{Inf} to disable.
+Default \code{1L}.}
 
 \item{x}{A \code{risk_report} object (for \code{print}, \code{as.data.frame}, and \code{[}).}
 
@@ -77,6 +86,16 @@ a call is flagged only if the installed version is \emph{greater than}
 versions where the breaking change is known to apply.
 }
 
+\section{Major version grace}{
+
+When an installed version is \code{major_version_grace} or more major versions
+ahead of \code{from_version}, the entry is suppressed entirely. The user is
+already past the breaking-change transition -- flagging it at any severity
+would be a false positive. The database staleness check
+(\code{\link[=check_db_staleness]{check_db_staleness()}}) handles the maintenance concern of
+identifying entries whose \code{from_version} floor is too old.
+}
+
 \examples{
 script <- tempfile(fileext = ".R")
 writeLines(c(
@@ -86,7 +105,7 @@ writeLines(c(
 ), script)
 
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report)
+risks <- risk_score(report)
 print(risks)
 
 # High-severity items only
@@ -97,7 +116,8 @@ risk_score(report, methods = "changelog")
 
 }
 \seealso{
-\code{\link[=audit_script]{audit_script()}} to generate the input; \code{\link[=repro_report]{repro_report()}} to render
-the results; the \code{reproducr} GitHub repository to contribute new database
-entries.
+\code{\link[=audit_script]{audit_script()}} to generate the input;
+\code{\link[=repro_report]{repro_report()}} to render the results;
+\code{\link[=check_db_staleness]{check_db_staleness()}} to identify database entries with
+windows that are too wide.
 }

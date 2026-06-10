@@ -183,9 +183,9 @@ certify(
     r_squared = summary(model)$r.squared,
     n_obs     = nrow(mtcars)
   ),
-  tag    = "baseline-v1",
+  tag = "baseline-v1",
   script = script,
-  file   = cert_file
+  file = cert_file
 )
 ```
 
@@ -205,7 +205,7 @@ result <- check_drift(
     n_obs     = nrow(mtcars)
   ),
   against = "baseline-v1",
-  file    = cert_file
+  file = cert_file
 )
 ```
 

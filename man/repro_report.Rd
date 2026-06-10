@@ -57,7 +57,7 @@ writeLines(c(
 ), script)
 
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report)
+risks <- risk_score(report)
 
 # Console summary
 repro_report(report, risks, format = "text", style = "minimal")

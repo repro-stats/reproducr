@@ -62,9 +62,9 @@ certify(
     r_squared = summary(model)$r.squared,
     n_obs     = nrow(mtcars)
   ),
-  tag    = "baseline-v1",
+  tag = "baseline-v1",
   script = "analysis.R",
-  file   = cert_file
+  file = cert_file
 )
 
 # See what is stored

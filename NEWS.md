@@ -1,12 +1,28 @@
+# reproducr 0.2.0
+
+* `risk_score()` gains a `major_version_grace` parameter (default `1L`) --
+  when the installed version is one or more major versions ahead of an
+  entry's `from_version`, the entry is suppressed entirely. This prevents
+  historically wide version windows (e.g. a major package rewrite from
+  several years ago) from generating false-positive flags for users who
+  are already well past the breaking-change transition.
+
+* `check_db_staleness()` gains a `from_version_major_threshold` parameter
+  (default `1L`) -- flags database entries where the current CRAN release
+  is one or more major versions ahead of `from_version`, indicating the
+  window floor may be too wide and the entry may need its `from_version`
+  raised or the entry closed. New status values: `"stale_ceiling"` (the
+  previous `"stale"` status, renamed for clarity) and `"stale_floor"`.
+  
 # reproducr 0.1.5
 
 * Fixed remaining relative URI in `README.md` -- `CODE_OF_CONDUCT.md` link
-  now uses the full absolute GitHub URL. Resolves CRAN pre-check NOTE.
+  now uses the full absolute GitHub URL. Resolves CRAN pre-check NOTE:
+  "Found the following (possibly) invalid file URI".
 
-* Fixed `db-staleness.yml` to filter issues by title prefix
-  `"Database staleness:"` in addition to the `stale-entry` label -- prevents
-  the workflow from incorrectly closing manually created issues that share
-  the label. Schedule updated to `02:00 UTC` (04:00 CEST).
+* Updated `MatchIt::matchit` database entry: narrowed `from_version` from
+  `3.0.2` to `4.6.99` to reflect that the 3.x -> 4.x rewrite is long
+  complete and active users are on 4.x.
 
 # reproducr 0.1.4
 

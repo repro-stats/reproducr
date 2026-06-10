@@ -35,14 +35,15 @@
 #' be used alongside `reproducr`.
 #'
 #' @section What counts as a qualifying call?:
-#' Only *qualified* calls -- those using `::` or `:::` -- are detected. Unqualified
-#' calls (e.g. `filter(df, x > 0)` without `dplyr::`) are not detected because
-#' the package cannot be determined unambiguously from source text alone.
-#' This is by design: qualifying calls is also a reproducibility best practice.
+#' Only *qualified* calls -- those using `::` or `:::` -- are detected.
+#' Unqualified calls (e.g. `filter(df, x > 0)` without `dplyr::`) are not
+#' detected because he package cannot be determined unambiguously from source
+#' text alone. This is by design: qualifying calls is also a reproducibility
+#' best practice.
 #'
-#' @seealso [reproducr::risk_score()] to check detected calls against the breaking-changes
-#'   database; [reproducr::repro_report()] to render the full audit; [reproducr::certify()] to lock
-#'   a set of outputs as a baseline.
+#' @seealso [reproducr::risk_score()] to check detected calls against the
+#' breaking-changes database; [reproducr::repro_report()] to render the
+#' full audit; [reproducr::certify()] to lock a set of outputs as a baseline.
 #'
 #' @examples
 #' # Write a temporary script to audit
@@ -62,9 +63,8 @@
 #'
 #' @export
 audit_script <- function(path = ".", renv = TRUE, verbose = TRUE) {
-
   stopifnot(is.character(path), length(path) == 1L)
-  stopifnot(is.logical(renv),   length(renv) == 1L)
+  stopifnot(is.logical(renv), length(renv) == 1L)
   stopifnot(is.logical(verbose), length(verbose) == 1L)
 
   path <- normalizePath(path, mustWork = TRUE)
@@ -78,22 +78,28 @@ audit_script <- function(path = ".", renv = TRUE, verbose = TRUE) {
   }
 
   if (verbose) {
-    message(sprintf("reproducr: scanning %d file(s) for qualified calls...",
-                    length(files)))
+    message(sprintf(
+      "reproducr: scanning %d file(s) for qualified calls...",
+      length(files)
+    ))
   }
 
   pkg_versions <- .resolve_pkg_versions(use_renv = renv, verbose = verbose)
 
   all_calls <- do.call(
     rbind,
-    c(lapply(files, .extract_calls, pkg_versions = pkg_versions),
-      list(NULL))   # ensures rbind always gets at least one arg
+    c(
+      lapply(files, .extract_calls, pkg_versions = pkg_versions),
+      list(NULL)
+    ) # ensures rbind always gets at least one arg
   )
 
   if (is.null(all_calls) || nrow(all_calls) == 0L) {
     if (verbose) {
-      message("reproducr: no qualified pkg::fn calls detected. ",
-              "Consider using explicit namespacing (pkg::fn) in your scripts.")
+      message(
+        "reproducr: no qualified pkg::fn calls detected. ",
+        "Consider using explicit namespacing (pkg::fn) in your scripts."
+      )
     }
     all_calls <- .empty_calls_df()
   }
@@ -126,21 +132,23 @@ audit_script <- function(path = ".", renv = TRUE, verbose = TRUE) {
 #' @export
 print.audit_report <- function(x, ...) {
   n_files <- length(x$paths)
-  n_pkgs  <- length(unique(x$calls$pkg[!is.na(x$calls$pkg)]))
+  n_pkgs <- length(unique(x$calls$pkg[!is.na(x$calls$pkg)]))
   n_calls <- nrow(x$calls)
-  src     <- if (isTRUE(x$renv_used)) "renv.lock" else "installed library"
+  src <- if (isTRUE(x$renv_used)) "renv.lock" else "installed library"
 
   cat(
     "\n",
-    sprintf("-- reproducr audit report [%s] --\n",
-            format(x$timestamp, "%Y-%m-%d %H:%M")),
+    sprintf(
+      "-- reproducr audit report [%s] --\n",
+      format(x$timestamp, "%Y-%m-%d %H:%M")
+    ),
     "\n",
-    sprintf("  %-18s %s\n", "Files scanned:",  n_files),
+    sprintf("  %-18s %s\n", "Files scanned:", n_files),
     sprintf("  %-18s %s\n", "Packages found:", n_pkgs),
     sprintf("  %-18s %s\n", "Calls detected:", n_calls),
-    sprintf("  %-18s %s\n", "R version:",      x$env$r_version),
-    sprintf("  %-18s %s\n", "Platform:",       x$env$os),
-    sprintf("  %-18s %s\n", "Versions from:",  src),
+    sprintf("  %-18s %s\n", "R version:", x$env$r_version),
+    sprintf("  %-18s %s\n", "Platform:", x$env$os),
+    sprintf("  %-18s %s\n", "Versions from:", src),
     "\n",
     "  Next step: risks <- risk_score(report)\n",
     "\n",
@@ -173,10 +181,10 @@ summary.audit_report <- function(object, ...) {
 
 .empty_calls_df <- function() {
   data.frame(
-    file        = character(0),
-    line        = integer(0),
-    pkg         = character(0),
-    fn          = character(0),
+    file = character(0),
+    line = integer(0),
+    pkg = character(0),
+    fn = character(0),
     pkg_version = character(0),
     stringsAsFactors = FALSE
   )
@@ -187,24 +195,26 @@ summary.audit_report <- function(object, ...) {
     readLines(file, warn = FALSE, encoding = "UTF-8"),
     error = function(e) character(0)
   )
-  if (length(lines) == 0L) return(NULL)
+  if (length(lines) == 0L) {
+    return(NULL)
+  }
 
   # For Rmd/qmd files, only parse lines inside fenced R code blocks.
   # Prose lines (including inline `pkg::fn()` backtick code) are skipped
   # to avoid false positives from documentation examples.
   is_rmd <- grepl("\\.(Rmd|rmd|qmd)$", file, perl = TRUE)
   if (is_rmd) {
-    in_chunk  <- FALSE
-    keep      <- logical(length(lines))
+    in_chunk <- FALSE
+    keep <- logical(length(lines))
     for (i in seq_along(lines)) {
       ln <- lines[[i]]
       if (!in_chunk && grepl("^```\\{[rR]", ln, perl = TRUE)) {
         in_chunk <- TRUE
-        next  # skip the opening fence line itself
+        next # skip the opening fence line itself
       }
       if (in_chunk && grepl("^```\\s*$", ln, perl = TRUE)) {
         in_chunk <- FALSE
-        next  # skip the closing fence line itself
+        next # skip the closing fence line itself
       }
       keep[[i]] <- in_chunk
     }
@@ -238,23 +248,25 @@ summary.audit_report <- function(object, ...) {
       if (length(parts) != 2L) next
 
       pkg <- parts[[1L]]
-      fn  <- parts[[2L]]
+      fn <- parts[[2L]]
 
       ver <- pkg_versions[[pkg]]
       if (is.null(ver)) ver <- NA_character_
 
       n_results <- n_results + 1L
       results[[n_results]] <- data.frame(
-        file        = file,
-        line        = i,
-        pkg         = pkg,
-        fn          = fn,
+        file = file,
+        line = i,
+        pkg = pkg,
+        fn = fn,
         pkg_version = as.character(ver),
         stringsAsFactors = FALSE
       )
     }
   }
 
-  if (n_results == 0L) return(NULL)
+  if (n_results == 0L) {
+    return(NULL)
+  }
   do.call(rbind, results[seq_len(n_results)])
 }

@@ -60,10 +60,11 @@ be used alongside \code{reproducr}.
 
 \section{What counts as a qualifying call?}{
 
-Only \emph{qualified} calls -- those using \code{::} or \code{:::} -- are detected. Unqualified
-calls (e.g. \code{filter(df, x > 0)} without \verb{dplyr::}) are not detected because
-the package cannot be determined unambiguously from source text alone.
-This is by design: qualifying calls is also a reproducibility best practice.
+Only \emph{qualified} calls -- those using \code{::} or \code{:::} -- are detected.
+Unqualified calls (e.g. \code{filter(df, x > 0)} without \verb{dplyr::}) are not
+detected because he package cannot be determined unambiguously from source
+text alone. This is by design: qualifying calls is also a reproducibility
+best practice.
 }
 
 \examples{
@@ -84,7 +85,7 @@ report$calls
 
 }
 \seealso{
-\code{\link[=risk_score]{risk_score()}} to check detected calls against the breaking-changes
-database; \code{\link[=repro_report]{repro_report()}} to render the full audit; \code{\link[=certify]{certify()}} to lock
-a set of outputs as a baseline.
+\code{\link[=risk_score]{risk_score()}} to check detected calls against the
+breaking-changes database; \code{\link[=repro_report]{repro_report()}} to render the
+full audit; \code{\link[=certify]{certify()}} to lock a set of outputs as a baseline.
 }

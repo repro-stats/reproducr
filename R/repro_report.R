@@ -39,7 +39,7 @@
 #' ), script)
 #'
 #' report <- audit_script(script, renv = FALSE, verbose = FALSE)
-#' risks  <- risk_score(report)
+#' risks <- risk_score(report)
 #'
 #' # Console summary
 #' repro_report(report, risks, format = "text", style = "minimal")
@@ -49,18 +49,18 @@
 #'
 #' @export
 repro_report <- function(audit,
-                         risks       = NULL,
-                         drift       = NULL,
-                         format      = "text",
-                         style       = "minimal",
+                         risks = NULL,
+                         drift = NULL,
+                         format = "text",
+                         style = "minimal",
                          output_file = NULL) {
-
   if (!inherits(audit, "audit_report")) {
     stop("`audit` must be an `audit_report` object from `audit_script()`.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
   format <- match.arg(format, c("text", "md", "html"))
-  style  <- match.arg(style,  c("minimal", "academic", "pharma"))
+  style <- match.arg(style, c("minimal", "academic", "pharma"))
 
   verdict <- .compute_verdict(risks, drift)
 
@@ -72,7 +72,8 @@ repro_report <- function(audit,
 
   if (format == "html") {
     content <- .md_to_html(md_content,
-                           title = sprintf("reproducr Report -- %s", style))
+      title = sprintf("reproducr Report -- %s", style)
+    )
   } else {
     content <- md_content
   }
@@ -85,8 +86,11 @@ repro_report <- function(audit,
     cat(text)
   } else {
     if (is.null(output_file)) {
-      output_file <- if (format == "html") "reproducr_report.html"
-                     else                  "reproducr_report.md"
+      output_file <- if (format == "html") {
+        "reproducr_report.html"
+      } else {
+        "reproducr_report.md"
+      }
     }
     writeLines(content, output_file)
     message("reproducr: report written to '", output_file, "'")
@@ -100,8 +104,8 @@ repro_report <- function(audit,
 
 #' @noRd
 .compute_verdict <- function(risks, drift) {
-  n_high    <- if (!is.null(risks)) sum(risks$risk == "high",      na.rm = TRUE) else 0L
-  n_medium  <- if (!is.null(risks)) sum(risks$risk == "medium",    na.rm = TRUE) else 0L
+  n_high <- if (!is.null(risks)) sum(risks$risk == "high", na.rm = TRUE) else 0L
+  n_medium <- if (!is.null(risks)) sum(risks$risk == "medium", na.rm = TRUE) else 0L
   n_drifted <- if (!is.null(drift)) sum(drift$status == "drifted", na.rm = TRUE) else 0L
 
   if (is.null(risks) && is.null(drift)) {
@@ -113,7 +117,7 @@ repro_report <- function(audit,
   }
   if (n_high > 0L || n_drifted > 0L) {
     list(
-      level   = "at_risk",
+      level = "at_risk",
       summary = sprintf(
         "AT RISK: %d high-severity risk(s)%s detected.",
         n_high,
@@ -123,7 +127,7 @@ repro_report <- function(audit,
     )
   } else if (n_medium > 0L) {
     list(
-      level   = "caution",
+      level = "caution",
       summary = sprintf(
         "CAUTION: %d medium-severity risk(s) detected. Review before submission.",
         n_medium
@@ -141,7 +145,7 @@ repro_report <- function(audit,
 
 #' @noRd
 .render_minimal <- function(audit, risks, drift, verdict) {
-  n_pkgs  <- length(unique(audit$calls$pkg[nchar(audit$calls$pkg) > 0L]))
+  n_pkgs <- length(unique(audit$calls$pkg[nchar(audit$calls$pkg) > 0L]))
   n_calls <- nrow(audit$calls)
 
   lines <- c(
@@ -149,12 +153,14 @@ repro_report <- function(audit,
     "",
     sprintf("- **Generated:** %s", format(audit$timestamp, "%Y-%m-%d %H:%M")),
     sprintf("- **R version:** %s", audit$env$r_version),
-    sprintf("- **Platform:** %s",  audit$env$os),
+    sprintf("- **Platform:** %s", audit$env$os),
     sprintf("- **Files scanned:** %d", length(audit$paths)),
     sprintf("- **Packages found:** %d", n_pkgs),
     sprintf("- **Qualified calls:** %d", n_calls),
-    sprintf("- **Versions from:** %s",
-            if (isTRUE(audit$renv_used)) "renv.lock" else "installed library"),
+    sprintf(
+      "- **Versions from:** %s",
+      if (isTRUE(audit$renv_used)) "renv.lock" else "installed library"
+    ),
     "",
     "## Verdict",
     "",
@@ -166,7 +172,8 @@ repro_report <- function(audit,
     lines <- c(lines, "## Risks", "")
     for (i in seq_len(nrow(risks))) {
       r <- risks[i, , drop = FALSE]
-      lines <- c(lines,
+      lines <- c(
+        lines,
         sprintf("### [%s] `%s`", toupper(r$risk), r$call),
         sprintf("- **File:** %s, line %d", basename(r$file), r$line),
         sprintf("- **Check:** %s", r$check),
@@ -181,10 +188,13 @@ repro_report <- function(audit,
     lines <- c(lines, "## Drift check", "")
     for (i in seq_len(nrow(drift))) {
       d <- drift[i, , drop = FALSE]
-      lines <- c(lines,
-        sprintf("- **%s** `%s`%s",
-                toupper(d$status), d$output,
-                if (nchar(trimws(d$note)) > 0L) paste0(" -- ", d$note) else "")
+      lines <- c(
+        lines,
+        sprintf(
+          "- **%s** `%s`%s",
+          toupper(d$status), d$output,
+          if (nchar(trimws(d$note)) > 0L) paste0(" -- ", d$note) else ""
+        )
       )
     }
     lines <- c(lines, "")
@@ -210,12 +220,14 @@ repro_report <- function(audit,
   risk_sentence <- if (n_risks == 0L) {
     "Reproducibility auditing (reproducr) identified no risks."
   } else {
-    n_h <- sum(risks$risk == "high",   na.rm = TRUE)
+    n_h <- sum(risks$risk == "high", na.rm = TRUE)
     n_m <- sum(risks$risk == "medium", na.rm = TRUE)
     sprintf(
-      paste0("Reproducibility auditing (reproducr) identified %d potential ",
-             "concern(s) (%d high, %d medium severity) relating to known ",
-             "behavioural changes in package APIs across versions."),
+      paste0(
+        "Reproducibility auditing (reproducr) identified %d potential ",
+        "concern(s) (%d high, %d medium severity) relating to known ",
+        "behavioural changes in package APIs across versions."
+      ),
       n_risks, n_h, n_m
     )
   }
@@ -239,7 +251,6 @@ repro_report <- function(audit,
 
 #' @noRd
 .render_pharma <- function(audit, risks, drift, verdict) {
-
   # Verdict colour for HTML badge
   verdict_badge <- switch(verdict$level,
     reproducible = "background:#d4edda;color:#155724;padding:3px 10px;border-radius:4px;",
@@ -267,8 +278,10 @@ repro_report <- function(audit,
     sprintf("| OS | %s |", audit$env$os),
     sprintf("| Locale | %s |", audit$env$locale),
     sprintf("| Timezone | %s |", audit$env$timezone),
-    sprintf("| Package versions from | %s |",
-            if (isTRUE(audit$renv_used)) "renv.lock" else "installed library"),
+    sprintf(
+      "| Package versions from | %s |",
+      if (isTRUE(audit$renv_used)) "renv.lock" else "installed library"
+    ),
     "",
     "## 2. Files audited",
     ""
@@ -282,9 +295,12 @@ repro_report <- function(audit,
     pkgs <- pkgs[!duplicated(pkgs$pkg), ]
     lines <- c(lines, "| Package | Version |", "|---|---|")
     for (i in seq_len(nrow(pkgs))) {
-      lines <- c(lines, sprintf("| %s | %s |", pkgs$pkg[i],
-                                 ifelse(is.na(pkgs$pkg_version[i]), "unknown",
-                                        pkgs$pkg_version[i])))
+      lines <- c(lines, sprintf(
+        "| %s | %s |", pkgs$pkg[i],
+        ifelse(is.na(pkgs$pkg_version[i]), "unknown",
+          pkgs$pkg_version[i]
+        )
+      ))
     }
   } else {
     lines <- c(lines, "_No qualified package calls detected._")
@@ -295,17 +311,20 @@ repro_report <- function(audit,
   if (is.null(risks) || nrow(risks) == 0L) {
     lines <- c(lines, "_No risks identified._", "")
   } else {
-    lines <- c(lines,
+    lines <- c(
+      lines,
       "| # | Call | Severity | File | Check | Description |",
       "|---|---|---|---|---|---|"
     )
     for (i in seq_len(nrow(risks))) {
       r <- risks[i, , drop = FALSE]
-      desc_short <- if (nchar(r$description) > 120L)
+      desc_short <- if (nchar(r$description) > 120L) {
         paste0(substr(r$description, 1L, 117L), "...")
-      else
+      } else {
         r$description
-      lines <- c(lines, sprintf("| %d | `%s` | **%s** | %s:%d | %s | %s |",
+      }
+      lines <- c(lines, sprintf(
+        "| %d | `%s` | **%s** | %s:%d | %s | %s |",
         i, r$call, toupper(r$risk),
         basename(r$file), r$line,
         r$check,
@@ -320,9 +339,11 @@ repro_report <- function(audit,
     lines <- c(lines, "| Output | Status | Note |", "|---|---|---|")
     for (i in seq_len(nrow(drift))) {
       d <- drift[i, , drop = FALSE]
-      lines <- c(lines, sprintf("| %s | %s | %s |",
-                                 d$output, d$status,
-                                 ifelse(nchar(trimws(d$note)) > 0L, d$note, "")))
+      lines <- c(lines, sprintf(
+        "| %s | %s | %s |",
+        d$output, d$status,
+        ifelse(nchar(trimws(d$note)) > 0L, d$note, "")
+      ))
     }
     lines <- c(lines, "")
     n_next <- 6L
@@ -330,7 +351,8 @@ repro_report <- function(audit,
     n_next <- 5L
   }
 
-  lines <- c(lines,
+  lines <- c(
+    lines,
     sprintf("## %d. Sign-off", n_next),
     "",
     "| Role | Name | Signature | Date |",
@@ -345,10 +367,11 @@ repro_report <- function(audit,
 
 #' @noRd
 .md_to_html <- function(md, title = "reproducr Report") {
-
   # Use commonmark if available for proper Markdown -> HTML conversion
   if (requireNamespace("commonmark", quietly = TRUE)) {
-    body <- commonmark::markdown_html(md, extensions = TRUE)
+    body <- paste(commonmark::markdown_html(md, extensions = TRUE),
+      collapse = "\n"
+    )
   } else {
     message(
       "reproducr: install 'commonmark' for properly rendered HTML tables: ",
@@ -356,13 +379,13 @@ repro_report <- function(audit,
     )
     # Minimal fallback
     html <- md
-    html <- gsub("^# (.+)$",    "<h1>\\1</h1>",  html, perl = TRUE)
-    html <- gsub("^## (.+)$",   "<h2>\\1</h2>",  html, perl = TRUE)
-    html <- gsub("^### (.+)$",  "<h3>\\1</h3>",  html, perl = TRUE)
-    html <- gsub("^> (.+)$",    "<blockquote>\\1</blockquote>", html, perl = TRUE)
+    html <- gsub("^# (.+)$", "<h1>\\1</h1>", html, perl = TRUE)
+    html <- gsub("^## (.+)$", "<h2>\\1</h2>", html, perl = TRUE)
+    html <- gsub("^### (.+)$", "<h3>\\1</h3>", html, perl = TRUE)
+    html <- gsub("^> (.+)$", "<blockquote>\\1</blockquote>", html, perl = TRUE)
     html <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", html, perl = TRUE)
-    html <- gsub("`([^`]+)`",   "<code>\\1</code>", html, perl = TRUE)
-    html <- gsub("^- (.+)$",    "<li>\\1</li>",  html, perl = TRUE)
+    html <- gsub("`([^`]+)`", "<code>\\1</code>", html, perl = TRUE)
+    html <- gsub("^- (.+)$", "<li>\\1</li>", html, perl = TRUE)
     body <- paste(html, collapse = "\n")
   }
 

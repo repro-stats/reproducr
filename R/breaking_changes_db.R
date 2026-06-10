@@ -15,16 +15,14 @@
 #   closed       : TRUE if window is intentionally closed
 #                  (skipped by check_db_staleness())
 
-.BREAKING_CHANGES_DB <- list(
-
+.breaking_changes_db <- list(
   # ---- broom --------------------------------------------------------------
-
   "broom::tidy" = list(
     list(
       from_version = "0.7.99",
-      to_version   = "1.0.13",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.0.13",
+      risk = "medium",
+      description = paste0(
         "In broom 0.8.0, tidy() renamed columns for several model",
         "types (e.g. 'statistic' became 'z' for glm). Code selecting",
         "columns by name from tidy() output will silently select",
@@ -39,9 +37,9 @@
   "caret::train" = list(
     list(
       from_version = "6.0.99",
-      to_version   = "7.0.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "7.0.9",
+      risk = "medium",
+      description = paste0(
         "In caret 7.0.0, the train() function underwent significant",
         "interface changes including updated default resampling",
         "methods and model tuning behaviour. Results from caret 6.x",
@@ -57,9 +55,9 @@
   "cobalt::bal.tab" = list(
     list(
       from_version = "4.2.99",
-      to_version   = "4.6.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "4.6.9",
+      risk = "medium",
+      description = paste0(
         "In cobalt 4.3.0, bal.tab() changed the default display of",
         "the original function call: it is now hidden by default",
         "(disp.call = FALSE). Code that parses the printed output of",
@@ -77,9 +75,9 @@
   "data.table::fread" = list(
     list(
       from_version = "1.13.99",
-      to_version   = "1.18.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.18.9",
+      risk = "medium",
+      description = paste0(
         "In data.table 1.14.0, fread() improved column type",
         "detection, which may cause some columns to parse",
         "differently. Specify colClasses explicitly to guarantee",
@@ -88,13 +86,12 @@
       reference = "https://github.com/Rdatatable/data.table/blob/master/NEWS.md"
     )
   ),
-
   "data.table::melt" = list(
     list(
       from_version = "1.13.99",
-      to_version   = "1.18.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "1.18.9",
+      risk = "low",
+      description = paste0(
         "In data.table 1.14.0, melt() changed the default class of",
         "the 'variable' column from factor to character. Code that",
         "uses factor levels from the variable column will silently",
@@ -109,9 +106,9 @@
   "dplyr::across" = list(
     list(
       from_version = "1.0.99",
-      to_version   = "1.2.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "medium",
+      description = paste0(
         "In dplyr 1.1.0, across() changed column naming when .names",
         "uses the {col}_{fn} pattern with multiple functions. The",
         "function label changed from the function name to the",
@@ -121,13 +118,12 @@
       reference = "https://dplyr.tidyverse.org/news/index.html#dplyr-110"
     )
   ),
-
   "dplyr::filter" = list(
     list(
       from_version = "0.8.99",
-      to_version   = "1.2.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "medium",
+      description = paste0(
         "In dplyr 1.0.0, filter() began issuing warnings (later",
         "errors) when passed list inputs or non-logical vectors.",
         "Code using filter() with indirect conditions may silently",
@@ -136,13 +132,12 @@
       reference = "https://dplyr.tidyverse.org/news/index.html#dplyr-100"
     )
   ),
-
   "dplyr::mutate" = list(
     list(
       from_version = "1.0.99",
-      to_version   = "1.2.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "low",
+      description = paste0(
         "In dplyr 1.1.0, mutate() gained a .by argument as an",
         "alternative to group_by(). Existing code is unaffected, but",
         "per-operation grouping via .by does not retain grouping in",
@@ -151,13 +146,12 @@
       reference = "https://dplyr.tidyverse.org/news/index.html#dplyr-110"
     )
   ),
-
   "dplyr::summarise" = list(
     list(
       from_version = "1.0.99",
-      to_version   = "1.2.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "high",
+      description = paste0(
         "In dplyr 1.1.0, summarise() changed its default grouping",
         "behaviour: it now drops the last grouping level and returns",
         "an ungrouped data frame by default (.groups = 'drop_last').",
@@ -168,13 +162,12 @@
       reference = "https://dplyr.tidyverse.org/news/index.html#dplyr-110"
     )
   ),
-
   "dplyr::summarize" = list(
     list(
       from_version = "1.0.99",
-      to_version   = "1.2.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "high",
+      description = paste0(
         "In dplyr 1.1.0, summarize() changed its default grouping",
         "behaviour: it now drops the last grouping level by default",
         "(.groups = 'drop_last'). Code relying on retained grouping",
@@ -189,9 +182,9 @@
   "ggplot2::aes" = list(
     list(
       from_version = "3.4.99",
-      to_version   = "4.0.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "4.0.9",
+      risk = "medium",
+      description = paste0(
         "In ggplot2 3.5.0, aes() tightened evaluation rules. Bare",
         "column names that previously resolved from the global",
         "environment now require explicit scoping. Code using",
@@ -201,13 +194,12 @@
       reference = "https://ggplot2.tidyverse.org/news/index.html"
     )
   ),
-
   "ggplot2::geom_histogram" = list(
     list(
       from_version = "3.3.99",
-      to_version   = "4.0.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "4.0.9",
+      risk = "low",
+      description = paste0(
         "In ggplot2 3.4.0, geom_histogram() improved its default",
         "binwidth selection algorithm. Visual output (bin",
         "boundaries, counts per bin) may differ slightly from",
@@ -216,13 +208,12 @@
       reference = "https://ggplot2.tidyverse.org/news/index.html"
     )
   ),
-
   "ggplot2::scale_colour_continuous" = list(
     list(
       from_version = "3.3.99",
-      to_version   = "4.0.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "4.0.9",
+      risk = "low",
+      description = paste0(
         "In ggplot2 3.4.0, the default continuous colour scale",
         "changed from a blue gradient to a viridis-based scale.",
         "Saved plots and reports generated after upgrading will use",
@@ -237,9 +228,9 @@
   "lme4::lmer" = list(
     list(
       from_version = "1.1.28",
-      to_version   = "2.0.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "2.0.9",
+      risk = "low",
+      description = paste0(
         "Between lme4 1.1.29 and 1.1.30, default optimizer",
         "tolerances were adjusted. Borderline models may converge to",
         "slightly different parameter estimates. Results are",
@@ -255,9 +246,9 @@
   "lubridate::period" = list(
     list(
       from_version = "1.8.99",
-      to_version   = "1.9.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.9.9",
+      risk = "medium",
+      description = paste0(
         "In lubridate 1.9.0, period() and duration arithmetic",
         "revised timezone and DST handling. Date calculations that",
         "span daylight-saving boundaries may return different",
@@ -266,13 +257,12 @@
       reference = "https://lubridate.tidyverse.org/news/index.html"
     )
   ),
-
   "lubridate::ymd" = list(
     list(
       from_version = "1.8.99",
-      to_version   = "1.9.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "1.9.9",
+      risk = "low",
+      description = paste0(
         "In lubridate 1.9.0, date-parsing functions (ymd, mdy, dmy,",
         "etc.) improved handling of ambiguous formats. Previously",
         "silently-parsed dates may now fail or parse differently."
@@ -286,9 +276,9 @@
   "MatchIt::match.data" = list(
     list(
       from_version = "4.4.99",
-      to_version   = "4.7.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "4.7.9",
+      risk = "medium",
+      description = paste0(
         "In MatchIt 4.5.0, match.data() gained a subclass column in",
         "its output for all matching methods, not just",
         "subclassification. Code that assumes a fixed column",
@@ -299,7 +289,6 @@
       reference = "https://kosukeimai.github.io/MatchIt/news/index.html"
     )
   ),
-
   "MatchIt::matchit" = list(
     list(
       from_version = "4.6.99",
@@ -323,9 +312,9 @@
   "purrr::map" = list(
     list(
       from_version = "0.3.99",
-      to_version   = "1.2.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "medium",
+      description = paste0(
         "In purrr 1.0.0, map() changed error handling: it now errors",
         "on missing elements and .default was removed. Code relying",
         "on silent NULL returns for missing elements will now fail",
@@ -334,13 +323,12 @@
       reference = "https://purrr.tidyverse.org/news/index.html"
     )
   ),
-
   "purrr::map_df" = list(
     list(
       from_version = "0.3.99",
-      to_version   = "1.2.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.2.9",
+      risk = "medium",
+      description = paste0(
         "In purrr 1.0.0, map_df() was soft-deprecated in favour of",
         "map() |> list_rbind(). Behaviour may differ for edge cases",
         "involving NULL elements or varying column structures."
@@ -354,9 +342,9 @@
   "readr::read_csv" = list(
     list(
       from_version = "1.4.99",
-      to_version   = "2.2.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "2.2.9",
+      risk = "high",
+      description = paste0(
         "In readr 2.0.0, read_csv() switched from a custom parser to",
         "the vroom backend. Column type guessing improved but",
         "changed: previously numeric columns may now parse as",
@@ -366,13 +354,12 @@
       reference = "https://readr.tidyverse.org/news/index.html"
     )
   ),
-
   "readr::read_tsv" = list(
     list(
       from_version = "1.4.99",
-      to_version   = "2.2.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "2.2.9",
+      risk = "high",
+      description = paste0(
         "In readr 2.0.0, read_tsv() switched to the vroom backend.",
         "Column type guessing changed; results may differ. Specify",
         "col_types explicitly."
@@ -386,9 +373,9 @@
   "rstan::extract" = list(
     list(
       from_version = "2.17.99",
-      to_version   = "2.32.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "2.32.9",
+      risk = "medium",
+      description = paste0(
         "rstan::extract() defaults to permuted = TRUE, which merges",
         "and randomly permutes draws from all chains before",
         "returning them. Code that relies on draw order for",
@@ -397,16 +384,15 @@
         "results across runs without explicit permuted = FALSE.",
         "Always specify the permuted argument explicitly."
       ),
-      reference = "https://mc-stan.org/rstan/reference/stanfit-method-extract.html"
+      reference = "https://mc-stan.org/rstan/reference/stanfit-method-extract.html" # nolint
     )
   ),
-
   "rstan::stan" = list(
     list(
       from_version = "2.21.99",
-      to_version   = "2.32.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "2.32.9",
+      risk = "high",
+      description = paste0(
         "In rstan 2.26, Stan introduced a new array declaration",
         "syntax. The old syntax (e.g. 'real x[N]') is deprecated and",
         "removed in Stan 2.33. Models compiled with rstan < 2.26",
@@ -414,7 +400,7 @@
         "results with rstan >= 2.26. Update Stan model code to the",
         "new array syntax: 'array[N] real x'."
       ),
-      reference = "https://mc-stan.org/docs/reference-manual/postfix-brackets-array-syntax.html"
+      reference = "https://mc-stan.org/docs/reference-manual/postfix-brackets-array-syntax.html" # nolint
     )
   ),
 
@@ -423,78 +409,74 @@
   "stats::hclust" = list(
     list(
       from_version = "3.6.99",
-      to_version   = "4.0.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "4.0.9",
+      risk = "high",
+      description = paste0(
         "In R 4.0.0, hclust() changed its tie-breaking rule for",
         "equal distances. Dendrograms for datasets with tied",
         "distance values will differ between R 3.x and R 4.x."
       ),
-      reference    = "https://cran.r-project.org/doc/manuals/r-release/NEWS.html",
-      closed       = TRUE
+      reference = "https://cran.r-project.org/doc/manuals/r-release/NEWS.html",
+      closed = TRUE
     )
   ),
-
   "stats::rbinom" = list(
     list(
       from_version = "3.5.99",
-      to_version   = "3.6.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "3.6.9",
+      risk = "high",
+      description = paste0(
         "In R 3.6.0, RNG defaults changed. Results from rbinom()",
         "with the same seed will differ between R <= 3.5 and R >=",
         "3.6."
       ),
-      reference    = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
-      closed       = TRUE
+      reference = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
+      closed = TRUE
     )
   ),
-
   "stats::rnorm" = list(
     list(
       from_version = "3.5.99",
-      to_version   = "3.6.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "3.6.9",
+      risk = "high",
+      description = paste0(
         "In R 3.6.0, RNG defaults changed. Stochastic output from",
         "rnorm() with the same seed will differ between R <= 3.5 and",
         "R >= 3.6."
       ),
-      reference    = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
-      closed       = TRUE
+      reference = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
+      closed = TRUE
     )
   ),
-
   "stats::runif" = list(
     list(
       from_version = "3.5.99",
-      to_version   = "3.6.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "3.6.9",
+      risk = "high",
+      description = paste0(
         "In R 3.6.0, RNG defaults changed. Stochastic output from",
         "runif() with the same seed will differ between R <= 3.5 and",
         "R >= 3.6. Use set.seed() with explicit kind argument for",
         "stable results."
       ),
-      reference    = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
-      closed       = TRUE
+      reference = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
+      closed = TRUE
     )
   ),
-
   "stats::sample" = list(
     list(
       from_version = "3.5.99",
-      to_version   = "3.6.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "3.6.9",
+      risk = "high",
+      description = paste0(
         "In R 3.6.0, the default RNG algorithm for sample() changed",
         "(sample.kind = 'Rejection' replaced 'Rounding'). Results",
         "produced with the same seed in R <= 3.5 will differ in R >=",
         "3.6. Use set.seed(seed, kind = 'Mersenne-Twister',",
         "sample.kind = 'Rejection') for explicit reproducibility."
       ),
-      reference    = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
-      closed       = TRUE
+      reference = "https://stat.ethz.ch/R-manual/R-devel/doc/html/NEWS.3.html",
+      closed = TRUE
     )
   ),
 
@@ -503,9 +485,9 @@
   "stringr::str_c" = list(
     list(
       from_version = "1.4.99",
-      to_version   = "1.6.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "1.6.9",
+      risk = "high",
+      description = paste0(
         "In stringr 1.5.0, str_c() changed NA handling to match base",
         "paste(): str_c('a', NA) now returns NA instead of 'aNa'.",
         "Code that relied on the old behaviour to build strings",
@@ -521,9 +503,9 @@
   "survival::coxph" = list(
     list(
       from_version = "3.1.99",
-      to_version   = "3.8.9",
-      risk         = "low",
-      description  = paste0(
+      to_version = "3.8.9",
+      risk = "low",
+      description = paste0(
         "In survival 3.2.0, coxph() updated its default handling of",
         "the robust variance estimator for weighted models. Models",
         "with non-integer weights (e.g., IPTW or matching weights)",
@@ -531,16 +513,15 @@
         "confidence intervals compared to survival 3.1.x. The change",
         "is small but affects exact numerical reproducibility."
       ),
-      reference = "https://cran.r-project.org/web/packages/survival/news/news.html"
+      reference = "https://cran.r-project.org/web/packages/survival/news/news.html" # nolint
     )
   ),
-
   "survival::survfit" = list(
     list(
       from_version = "2.99.99",
-      to_version   = "3.8.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "3.8.9",
+      risk = "medium",
+      description = paste0(
         "In survival 3.0.0, survfit() changed its output object",
         "structure. The $surv, $time, and $n.event components now",
         "always return matrices for multi-strata fits rather than",
@@ -548,7 +529,7 @@
         "indexing (e.g., $surv[1]) will silently return the wrong",
         "group's estimate when multiple strata are present."
       ),
-      reference = "https://cran.r-project.org/web/packages/survival/news/news.html"
+      reference = "https://cran.r-project.org/web/packages/survival/news/news.html" # nolint
     )
   ),
 
@@ -557,9 +538,9 @@
   "tidyr::nest" = list(
     list(
       from_version = "0.8.99",
-      to_version   = "1.3.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "1.3.9",
+      risk = "high",
+      description = paste0(
         "In tidyr 1.0.0, nest() changed its interface: the by_",
         "argument was replaced with a tidyselect interface. Old code",
         "using nest(data, by_col) will either error or silently nest",
@@ -568,13 +549,12 @@
       reference = "https://tidyr.tidyverse.org/news/index.html"
     )
   ),
-
   "tidyr::pivot_wider" = list(
     list(
       from_version = "1.1.99",
-      to_version   = "1.3.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.3.9",
+      risk = "medium",
+      description = paste0(
         "In tidyr 1.2.0, pivot_wider() changed its handling of",
         "duplicate identifier rows: it now errors by default",
         "(values_fn = NULL) instead of silently selecting the last",
@@ -584,13 +564,12 @@
       reference = "https://tidyr.tidyverse.org/news/index.html"
     )
   ),
-
   "tidyr::unnest" = list(
     list(
       from_version = "0.8.99",
-      to_version   = "1.3.9",
-      risk         = "medium",
-      description  = paste0(
+      to_version = "1.3.9",
+      risk = "medium",
+      description = paste0(
         "In tidyr 1.0.0, unnest() was rewritten. The old interface",
         "(passing multiple columns positionally) changed; .drop and",
         ".id arguments were removed. Code using the old unnest() API",
@@ -599,16 +578,14 @@
       reference = "https://tidyr.tidyverse.org/news/index.html"
     )
   )
-
 )
 
 # ---- internal helpers ---------------------------------------------------
 
 #' List all keys in the breaking-changes database
 #' @noRd
-.list_db_keys <- function() names(.BREAKING_CHANGES_DB)
+.list_db_keys <- function() names(.breaking_changes_db)
 
 #' Get breaking-change entries for a pkg::fn key
 #' @noRd
-.get_breaking_changes <- function(key) .BREAKING_CHANGES_DB[[key]]
-
+.get_breaking_changes <- function(key) .breaking_changes_db[[key]]

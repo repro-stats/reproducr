@@ -48,13 +48,15 @@ certify(list(coefs = coef(model)), tag = "v1", file = cert_file)
 
 # Same outputs -- should report "ok"
 result <- check_drift(list(coefs = coef(model)),
-                       against = "v1", file = cert_file)
+  against = "v1", file = cert_file
+)
 print(result)
 
 # Different model -- should report "drifted"
 model2 <- lm(mpg ~ hp, data = mtcars)
 check_drift(list(coefs = coef(model2)),
-             against = "v1", file = cert_file)
+  against = "v1", file = cert_file
+)
 
 }
 \seealso{

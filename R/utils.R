@@ -24,7 +24,8 @@ NULL
     raw_bytes <- serialize(obj, connection = NULL)
     paste0(
       format(sum(as.integer(raw_bytes[1:min(500L, length(raw_bytes))]) %% 2147483647L),
-             scientific = FALSE),
+        scientific = FALSE
+      ),
       "-",
       length(raw_bytes)
     )
@@ -37,10 +38,14 @@ NULL
 #' @noRd
 .load_certs <- function(file) {
   rds_path <- .cert_path(file)
-  if (!file.exists(rds_path)) return(list())
+  if (!file.exists(rds_path)) {
+    return(list())
+  }
   tryCatch(readRDS(rds_path), error = function(e) {
     warning("reproducr: could not read certification file '", rds_path,
-            "': ", conditionMessage(e), call. = FALSE)
+      "': ", conditionMessage(e),
+      call. = FALSE
+    )
     list()
   })
 }
@@ -63,7 +68,9 @@ NULL
 #' Collect R-ish source files from a path (file or directory)
 #' @noRd
 .collect_r_files <- function(path) {
-  if (utils::file_test("-f", path)) return(path)
+  if (utils::file_test("-f", path)) {
+    return(path)
+  }
   all_files <- list.files(path, recursive = TRUE, full.names = TRUE)
   r_files <- all_files[grepl("\\.(R|Rmd|qmd|r)$", all_files, perl = TRUE)]
   # Exclude renv library and common non-analysis dirs
@@ -94,8 +101,12 @@ NULL
   }
 
   # Return NULL for missing or empty files
-  if (!file.exists(lock_path)) return(NULL)
-  if (file.info(lock_path)$size == 0L) return(NULL)
+  if (!file.exists(lock_path)) {
+    return(NULL)
+  }
+  if (file.info(lock_path)$size == 0L) {
+    return(NULL)
+  }
 
   # Use jsonlite if available -- handles all renv.lock formats reliably
   if (requireNamespace("jsonlite", quietly = TRUE)) {
@@ -103,9 +114,13 @@ NULL
       jsonlite::fromJSON(lock_path, simplifyVector = FALSE),
       error = function(e) NULL
     )
-    if (is.null(lock)) return(NULL)
+    if (is.null(lock)) {
+      return(NULL)
+    }
     pkgs <- lock[["Packages"]]
-    if (is.null(pkgs) || length(pkgs) == 0L) return(list())
+    if (is.null(pkgs) || length(pkgs) == 0L) {
+      return(list())
+    }
     versions <- lapply(pkgs, function(p) p[["Version"]])
     return(versions[!sapply(versions, is.null)])
   }
@@ -117,22 +132,32 @@ NULL
     paste(readLines(lock_path, warn = FALSE), collapse = "\n"),
     error = function(e) NULL
   )
-  if (is.null(lock_text)) return(NULL)
+  if (is.null(lock_text)) {
+    return(NULL)
+  }
 
   # Strip everything before the first package entry
   pkg_start <- regexpr('"Packages"\\s*:', lock_text, perl = TRUE)
-  if (pkg_start == -1L) return(list())
+  if (pkg_start == -1L) {
+    return(list())
+  }
   pkg_block <- substring(lock_text, pkg_start)
 
   pkg_matches <- gregexpr('"Package":\\s*"([^"]+)"', pkg_block, perl = TRUE)
   ver_matches <- gregexpr('"Version":\\s*"([^"]+)"', pkg_block, perl = TRUE)
 
   pkgs <- gsub('"Package":\\s*"([^"]+)"', "\\1",
-               regmatches(pkg_block, pkg_matches)[[1]], perl = TRUE)
+    regmatches(pkg_block, pkg_matches)[[1]],
+    perl = TRUE
+  )
   vers <- gsub('"Version":\\s*"([^"]+)"', "\\1",
-               regmatches(pkg_block, ver_matches)[[1]], perl = TRUE)
+    regmatches(pkg_block, ver_matches)[[1]],
+    perl = TRUE
+  )
 
-  if (length(pkgs) != length(vers) || length(pkgs) == 0L) return(list())
+  if (length(pkgs) != length(vers) || length(pkgs) == 0L) {
+    return(list())
+  }
   setNames(as.list(vers), pkgs)
 }
 
@@ -142,18 +167,30 @@ NULL
   if (use_renv && .renv_lock_exists()) {
     versions <- tryCatch(.parse_renv_lock(), error = function(e) list())
     if (length(versions) > 0) {
-      if (verbose) message("reproducr: reading package versions from renv.lock (",
-                           length(versions), " packages)")
+      if (verbose) {
+        message(
+          "reproducr: reading package versions from renv.lock (",
+          length(versions), " packages)"
+        )
+      }
       return(versions)
     }
-    if (verbose) message("reproducr: renv.lock found but could not be parsed, ",
-                         "falling back to installed library")
+    if (verbose) {
+      message(
+        "reproducr: renv.lock found but could not be parsed, ",
+        "falling back to installed library"
+      )
+    }
   }
 
   inst <- utils::installed.packages()[, c("Package", "Version"), drop = FALSE]
   versions <- setNames(as.list(inst[, "Version"]), inst[, "Package"])
-  if (verbose) message("reproducr: resolved versions for ", length(versions),
-                       " installed packages")
+  if (verbose) {
+    message(
+      "reproducr: resolved versions for ", length(versions),
+      " installed packages"
+    )
+  }
   versions
 }
 
@@ -163,12 +200,15 @@ NULL
 #' (from_ver, to_ver] -- i.e., the breaking change was introduced in to_ver.
 #' @noRd
 .version_in_window <- function(installed, from_ver, to_ver) {
-  tryCatch({
-    iv <- package_version(as.character(installed))
-    fv <- package_version(as.character(from_ver))
-    tv <- package_version(as.character(to_ver))
-    iv > fv && iv <= tv
-  }, error = function(e) FALSE)
+  tryCatch(
+    {
+      iv <- package_version(as.character(installed))
+      fv <- package_version(as.character(from_ver))
+      tv <- package_version(as.character(to_ver))
+      iv > fv && iv <= tv
+    },
+    error = function(e) FALSE
+  )
 }
 
 # ---- OS detection -----------------------------------------------------------
@@ -189,13 +229,13 @@ NULL
 #' Word-wrap a string for console output
 #' @noRd
 .wrap_text <- function(text, width = 72, indent = "") {
-  words   <- strsplit(as.character(text), " ", fixed = TRUE)[[1]]
-  lines   <- character(0)
+  words <- strsplit(as.character(text), " ", fixed = TRUE)[[1]]
+  lines <- character(0)
   current <- ""
   for (w in words) {
     candidate <- if (nchar(current) == 0L) w else paste(current, w)
     if (nchar(candidate) > width && nchar(current) > 0L) {
-      lines   <- c(lines, current)
+      lines <- c(lines, current)
       current <- w
     } else {
       current <- candidate

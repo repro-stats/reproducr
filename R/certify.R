@@ -50,9 +50,9 @@
 #'     r_squared = summary(model)$r.squared,
 #'     n_obs     = nrow(mtcars)
 #'   ),
-#'   tag    = "baseline-v1",
+#'   tag = "baseline-v1",
 #'   script = "analysis.R",
-#'   file   = cert_file
+#'   file = cert_file
 #' )
 #'
 #' # See what is stored
@@ -60,16 +60,15 @@
 #'
 #' @export
 certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
-
   # --- input validation -------------------------------------------------------
   if (!is.list(outputs) || length(outputs) == 0L) {
     stop("`outputs` must be a non-empty list.", call. = FALSE)
   }
   nms <- names(outputs)
   if (is.null(nms) || any(nchar(trimws(nms)) == 0L)) {
-    stop("`outputs` must be a fully named list with no empty names.", call. = FALSE)
+    stop("`outputs` must be a fully named list with no empty names.", call. = FALSE) # nolint
   }
-  if (missing(tag) || !is.character(tag) || length(tag) != 1L || nchar(trimws(tag)) == 0L) {
+  if (missing(tag) || !is.character(tag) || length(tag) != 1L || nchar(trimws(tag)) == 0L) { # nolint
     stop("`tag` must be a single non-empty character string.", call. = FALSE)
   }
   if (!is.null(script) && (!is.character(script) || length(script) != 1L)) {
@@ -80,7 +79,8 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
   certs <- .load_certs(file)
   if (tag %in% names(certs)) {
     warning(sprintf("Tag '%s' already exists in '%s'. Overwriting.", tag, file),
-            call. = FALSE)
+      call. = FALSE
+    )
   }
 
   # --- hash each output -------------------------------------------------------
@@ -89,7 +89,9 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
       .hash_object(obj),
       error = function(e) {
         warning("Could not hash output '", deparse(substitute(obj)), "': ",
-                conditionMessage(e), call. = FALSE)
+          conditionMessage(e),
+          call. = FALSE
+        )
         NA_character_
       }
     )
@@ -97,22 +99,30 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
 
   # --- build record -----------------------------------------------------------
   record <- list(
-    tag        = tag,
-    timestamp  = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
-    script     = script,
-    r_version  = paste(R.version$major, R.version$minor, sep = "."),
+    tag = tag,
+    timestamp = format(Sys.time(), "%Y-%m-%dT%H:%M:%S%z"),
+    script = script,
+    r_version = paste(R.version$major, R.version$minor, sep = "."),
     r_platform = R.version$platform,
-    os         = .get_os(),
-    hashes     = hashes,
-    n_outputs  = length(outputs),
-    output_names   = names(outputs),
-    output_classes = vapply(outputs,
-                            function(x) paste(class(x), collapse = ", "),
-                            character(1L)),
-    output_dims    = vapply(outputs, function(x) {
-      if (is.data.frame(x))  return(paste(dim(x), collapse = " x "))
-      if (is.matrix(x))      return(paste(dim(x), collapse = " x "))
-      if (is.vector(x))      return(as.character(length(x)))
+    os = .get_os(),
+    hashes = hashes,
+    n_outputs = length(outputs),
+    output_names = names(outputs),
+    output_classes = vapply(
+      outputs,
+      function(x) paste(class(x), collapse = ", "),
+      character(1L)
+    ),
+    output_dims = vapply(outputs, function(x) {
+      if (is.data.frame(x)) {
+        return(paste(dim(x), collapse = " x "))
+      }
+      if (is.matrix(x)) {
+        return(paste(dim(x), collapse = " x "))
+      }
+      if (is.vector(x)) {
+        return(as.character(length(x)))
+      }
       NA_character_
     }, character(1L))
   )
@@ -165,20 +175,21 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
 #'
 #' # Same outputs -- should report "ok"
 #' result <- check_drift(list(coefs = coef(model)),
-#'                        against = "v1", file = cert_file)
+#'   against = "v1", file = cert_file
+#' )
 #' print(result)
 #'
 #' # Different model -- should report "drifted"
 #' model2 <- lm(mpg ~ hp, data = mtcars)
 #' check_drift(list(coefs = coef(model2)),
-#'              against = "v1", file = cert_file)
+#'   against = "v1", file = cert_file
+#' )
 #'
 #' @export
 check_drift <- function(outputs,
-                        against   = "latest",
-                        file      = ".reproducr",
+                        against = "latest",
+                        file = ".reproducr",
                         tolerance = 1e-10) {
-
   if (!is.list(outputs) || is.null(names(outputs))) {
     stop("`outputs` must be a fully named list.", call. = FALSE)
   }
@@ -202,25 +213,28 @@ check_drift <- function(outputs,
     ), call. = FALSE)
   }
 
-  baseline        <- certs[[against]]
+  baseline <- certs[[against]]
   baseline_hashes <- baseline$hashes
-  baseline_names  <- names(baseline_hashes)
-  current_names   <- names(outputs)
+  baseline_names <- names(baseline_hashes)
+  current_names <- names(outputs)
 
   results <- vector("list", length(current_names) +
-                              sum(!baseline_names %in% current_names))
+    sum(!baseline_names %in% current_names))
   idx <- 0L
 
   for (nm in current_names) {
-    curr_hash <- tryCatch(.hash_object(outputs[[nm]]), error = function(e) NA_character_)
+    curr_hash <- tryCatch(
+      .hash_object(outputs[[nm]]),
+      error = function(e) NA_character_
+    )
 
     if (!nm %in% baseline_names) {
       idx <- idx + 1L
       results[[idx]] <- data.frame(
-        output    = nm,
-        status    = "new",
+        output = nm,
+        status = "new",
         max_delta = NA_real_,
-        note      = "Not present in the baseline certification.",
+        note = "Not present in the baseline certification.",
         stringsAsFactors = FALSE
       )
       next
@@ -231,10 +245,10 @@ check_drift <- function(outputs,
     if (identical(curr_hash, base_hash)) {
       idx <- idx + 1L
       results[[idx]] <- data.frame(
-        output    = nm,
-        status    = "ok",
+        output = nm,
+        status = "ok",
         max_delta = 0,
-        note      = "",
+        note = "",
         stringsAsFactors = FALSE
       )
       next
@@ -242,7 +256,7 @@ check_drift <- function(outputs,
 
     # Hashes differ -- attempt numeric tolerance comparison
     max_delta <- NA_real_
-    note      <- "Hash mismatch."
+    note <- "Hash mismatch."
 
     if (tolerance > 0 && is.numeric(outputs[[nm]])) {
       # We only have the stored hash, not the original values, so numeric
@@ -253,10 +267,10 @@ check_drift <- function(outputs,
 
     idx <- idx + 1L
     results[[idx]] <- data.frame(
-      output    = nm,
-      status    = "drifted",
+      output = nm,
+      status = "drifted",
       max_delta = max_delta,
-      note      = note,
+      note = note,
       stringsAsFactors = FALSE
     )
   }
@@ -264,26 +278,28 @@ check_drift <- function(outputs,
   for (nm in baseline_names[!baseline_names %in% current_names]) {
     idx <- idx + 1L
     results[[idx]] <- data.frame(
-      output    = nm,
-      status    = "missing",
+      output = nm,
+      status = "missing",
       max_delta = NA_real_,
-      note      = "Present in baseline but not supplied to check_drift().",
+      note = "Present in baseline but not supplied to check_drift().",
       stringsAsFactors = FALSE
     )
   }
 
   out <- do.call(rbind, results[seq_len(idx)])
-  if (is.null(out)) out <- data.frame(
-    output = character(0), status = character(0),
-    max_delta = numeric(0), note = character(0),
-    stringsAsFactors = FALSE
-  )
+  if (is.null(out)) {
+    out <- data.frame(
+      output = character(0), status = character(0),
+      max_delta = numeric(0), note = character(0),
+      stringsAsFactors = FALSE
+    )
+  }
   row.names(out) <- NULL
 
-  n_ok      <- sum(out$status == "ok",      na.rm = TRUE)
+  n_ok <- sum(out$status == "ok", na.rm = TRUE)
   n_drifted <- sum(out$status == "drifted", na.rm = TRUE)
   n_missing <- sum(out$status == "missing", na.rm = TRUE)
-  n_new     <- sum(out$status == "new",     na.rm = TRUE)
+  n_new <- sum(out$status == "new", na.rm = TRUE)
 
   verdict <- if (n_drifted > 0L || n_missing > 0L) {
     "DRIFT DETECTED"
@@ -353,12 +369,12 @@ list_certs <- function(file = ".reproducr") {
 
   out <- do.call(rbind, lapply(certs, function(rec) {
     data.frame(
-      tag       = rec$tag,
+      tag = rec$tag,
       timestamp = rec$timestamp,
       r_version = rec$r_version,
-      os        = if (!is.null(rec$os)) rec$os else NA_character_,
+      os = if (!is.null(rec$os)) rec$os else NA_character_,
       n_outputs = rec$n_outputs,
-      script    = if (!is.null(rec$script)) rec$script else NA_character_,
+      script = if (!is.null(rec$script)) rec$script else NA_character_,
       stringsAsFactors = FALSE
     )
   }))

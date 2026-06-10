@@ -160,11 +160,11 @@ writeLines(c(
   "# dplyr 1.1.0 changed summarise() grouping behaviour",
   "x <- dplyr::group_by(mtcars, cyl)",
   "y <- dplyr::summarise(x, mean_mpg = mean(mpg))",
-  "z <- stringr::str_c('a', NA)"   # str_c NA-handling changed in 1.5.0
+  "z <- stringr::str_c('a', NA)" # str_c NA-handling changed in 1.5.0
 ), risky_script)
 
 report <- audit_script(risky_script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report, methods = "changelog")
+risks <- risk_score(report, methods = "changelog")
 print(risks)
 ```
 
@@ -206,7 +206,7 @@ writeLines(c(
 ), seed_script)
 
 report <- audit_script(seed_script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report, methods = "seed_check")
+risks <- risk_score(report, methods = "seed_check")
 as.data.frame(risks)[, c("line", "call", "risk", "description")]
 ```
 
@@ -229,11 +229,11 @@ locale_script <- tempfile(fileext = ".R")
 writeLines(c(
   "x <- base::sort(c('banana', 'apple', 'cherry'))",
   "y <- base::format(3.14159, digits = 3)",
-  "z <- base::strftime(Sys.time(), '%B')"   # month name is locale-dependent
+  "z <- base::strftime(Sys.time(), '%B')" # month name is locale-dependent
 ), locale_script)
 
 report <- audit_script(locale_script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report, methods = "locale_check")
+risks <- risk_score(report, methods = "locale_check")
 as.data.frame(risks)[, c("call", "risk", "description")]
 ```
 

@@ -29,21 +29,21 @@
 #' script <- tempfile(fileext = ".R")
 #' writeLines("x <- dplyr::filter(mtcars, cyl == 4)", script)
 #' report <- audit_script(script, renv = FALSE, verbose = FALSE)
-#' risks  <- risk_score(report)
+#' risks <- risk_score(report)
 #'
 #' badge <- repro_badge(report, risks)
 #' cat(badge)
 #'
 #' @export
 repro_badge <- function(audit,
-                        risks       = NULL,
-                        drift       = NULL,
-                        output      = "markdown",
+                        risks = NULL,
+                        drift = NULL,
+                        output = "markdown",
                         readme_path = "README.md") {
-
   if (!inherits(audit, "audit_report")) {
     stop("`audit` must be an `audit_report` object from `audit_script()`.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
   output <- match.arg(output, c("markdown", "README"))
 
@@ -51,9 +51,9 @@ repro_badge <- function(audit,
 
   badge_meta <- list(
     reproducible = list(label = "reproducible", color = "brightgreen"),
-    caution      = list(label = "caution",       color = "yellow"),
-    at_risk      = list(label = "at%20risk",     color = "red"),
-    unknown      = list(label = "unknown",        color = "lightgrey")
+    caution      = list(label = "caution", color = "yellow"),
+    at_risk      = list(label = "at%20risk", color = "red"),
+    unknown      = list(label = "unknown", color = "lightgrey")
   )[[verdict$level]]
 
   badge_url <- sprintf(
@@ -69,7 +69,9 @@ repro_badge <- function(audit,
   if (output == "README") {
     if (!file.exists(readme_path)) {
       stop("README not found at '", readme_path, "'. ",
-           "Create the file first or set readme_path.", call. = FALSE)
+        "Create the file first or set readme_path.",
+        call. = FALSE
+      )
     }
     lines <- readLines(readme_path, warn = FALSE)
 

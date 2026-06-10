@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment  = "#>"
 )
 library(reproducr)
-cert_file <- tempfile()   # shared across all chunks
+cert_file <- tempfile() # shared across all chunks
 ```
 
 This vignette covers Tier 2 of the `reproducr` workflow in depth:
@@ -77,9 +77,9 @@ certify(
     n_complete  = sum(complete.cases(mtcars)),
     group_means = aggregate(mpg ~ cyl, data = mtcars, FUN = mean)
   ),
-  tag    = "baseline-v1",
+  tag = "baseline-v1",
   script = "analysis.R",
-  file   = cert_file
+  file = cert_file
 )
 ```
 
@@ -149,7 +149,7 @@ result <- check_drift(
     group_means = aggregate(mpg ~ cyl, data = mtcars, FUN = mean)
   ),
   against = "baseline-v1",
-  file    = cert_file
+  file = cert_file
 )
 ```
 
@@ -162,7 +162,7 @@ certify(
     will_change = coef(lm(mpg ~ wt, data = mtcars)),
     will_vanish = "this output disappears next run"
   ),
-  tag  = "four-statuses",
+  tag = "four-statuses",
   file = cert_file
 )
 
@@ -173,7 +173,7 @@ demo_result <- check_drift(
     brand_new   = "this output is new"
   ),
   against = "four-statuses",
-  file    = cert_file
+  file = cert_file
 )
 
 print(demo_result)

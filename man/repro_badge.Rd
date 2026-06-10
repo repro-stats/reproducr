@@ -45,7 +45,7 @@ Actions workflow).
 script <- tempfile(fileext = ".R")
 writeLines("x <- dplyr::filter(mtcars, cyl == 4)", script)
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report)
+risks <- risk_score(report)
 
 badge <- repro_badge(report, risks)
 cat(badge)

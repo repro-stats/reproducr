@@ -30,7 +30,7 @@ test_that("audit_script() detects pkg::fn calls across packages", {
 
   expect_true(any(r$calls$pkg == "dplyr" & r$calls$fn == "filter"))
   expect_true(any(r$calls$pkg == "dplyr" & r$calls$fn == "summarise"))
-  expect_true(any(r$calls$pkg == "stats"  & r$calls$fn == "rnorm"))
+  expect_true(any(r$calls$pkg == "stats" & r$calls$fn == "rnorm"))
 })
 
 test_that("audit_script() skips pure comment lines", {
@@ -95,13 +95,13 @@ test_that("audit_script() errors informatively when no R files are found", {
 })
 
 test_that("audit_script() scans a directory recursively", {
-  td  <- tempdir()
+  td <- tempdir()
   dir <- file.path(td, paste0("reproducr_scan_", as.integer(Sys.time())))
   dir.create(dir)
   on.exit(unlink(dir, recursive = TRUE))
 
   writeLines("x <- dplyr::filter(mtcars, cyl==4)", file.path(dir, "a.R"))
-  writeLines("y <- stats::rnorm(10)",               file.path(dir, "b.R"))
+  writeLines("y <- stats::rnorm(10)", file.path(dir, "b.R"))
 
   r <- audit_script(dir, renv = FALSE, verbose = FALSE)
   expect_equal(length(r$paths), 2L)
@@ -110,13 +110,13 @@ test_that("audit_script() scans a directory recursively", {
 })
 
 test_that("audit_script() excludes renv/ subdirectory from scan", {
-  td  <- tempdir()
+  td <- tempdir()
   dir <- file.path(td, paste0("reproducr_renv_", as.integer(Sys.time())))
   dir.create(file.path(dir, "renv"), recursive = TRUE)
   on.exit(unlink(dir, recursive = TRUE))
 
   writeLines("x <- dplyr::filter(mtcars, cyl==4)", file.path(dir, "analysis.R"))
-  writeLines("y <- base::stop('renv internal')",   file.path(dir, "renv", "internal.R"))
+  writeLines("y <- base::stop('renv internal')", file.path(dir, "renv", "internal.R"))
 
   r <- audit_script(dir, renv = FALSE, verbose = FALSE)
   expect_false(any(r$calls$fn == "stop" & grepl("renv", r$calls$file)))

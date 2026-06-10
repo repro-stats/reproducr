@@ -4,7 +4,12 @@
 \alias{check_db_staleness}
 \title{Check whether breaking-changes database entries are stale}
 \usage{
-check_db_staleness(packages = NULL, verbose = TRUE, source = "cran")
+check_db_staleness(
+  packages = NULL,
+  verbose = TRUE,
+  source = "cran",
+  from_version_major_threshold = 1L
+)
 }
 \arguments{
 \item{packages}{\code{character} or \code{NULL}. Package names to check. If \code{NULL}
@@ -23,6 +28,11 @@ One of:
 what is installed on the current machine.}
 }
 Default \code{"cran"}.}
+
+\item{from_version_major_threshold}{\code{integer(1)} or \code{Inf}. Number of full
+major versions the current CRAN release must be \emph{ahead} of \code{from_version}
+before the entry is flagged as having a stale floor. Set to \code{Inf} to
+disable this check. Default \code{1L}.}
 }
 \value{
 A \code{data.frame} of class \code{c("staleness_report", "data.frame")}
@@ -31,39 +41,35 @@ with one row per database entry. Columns:
 \item{\code{key}}{The \code{pkg::fn} key.}
 \item{\code{pkg}}{Package name.}
 \item{\code{fn}}{Function name.}
+\item{\code{from_version}}{The floor version currently in the database.}
 \item{\code{to_version}}{The ceiling version currently in the database.}
 \item{\code{current_version}}{The current version on CRAN or installed.}
-\item{\code{status}}{One of \code{"ok"}, \code{"stale"}, or \code{"unknown"}.}
-\item{\code{gap}}{The version difference as a string, e.g. \code{"1.1.9 -> 1.3.0"}.
-\code{NA} when status is \code{"unknown"}.}
+\item{\code{status}}{One of \code{"ok"}, \code{"stale_ceiling"}, \code{"stale_floor"},
+or \code{"unknown"}.}
+\item{\code{gap}}{Description of the version gap. \code{NA} when status is
+\code{"ok"} or \code{"unknown"}.}
 }
-Rows are ordered: stale first, then ok, then unknown.
-Printed invisibly when all entries are current.
+Rows are ordered: stale_ceiling first, stale_floor second, then ok,
+then unknown.
 }
 \description{
-Compares the \code{to_version} ceiling of each entry in the breaking-changes
-database against the current version of that package on CRAN. Entries
-whose \code{to_version} is below the current CRAN version may need their
-ceiling updated to reflect new releases.
+Compares the \code{to_version} ceiling and \code{from_version} floor of each entry
+in the breaking-changes database against the current version of that
+package on CRAN. Two types of staleness are detected:
+\itemize{
+\item \strong{\code{stale_ceiling}} -- the package has released a new version above
+the \code{to_version} ceiling. The window may need extending.
+\item \strong{\code{stale_floor}} -- the current CRAN version is so far ahead of
+\code{from_version} that the window captures users who are already well
+past the breaking-change transition. The entry may need closing or
+the \code{from_version} floor raising.
+}
 
 This function is primarily intended for use by \code{reproducr} maintainers
 and contributors. It is also run as a scheduled GitHub Actions workflow
 on the \code{reproducr} repository to automatically open issues when staleness
 is detected.
 }
-\section{Staleness vs requiring an update}{
-
-A stale entry does not automatically mean the database is wrong. It means
-the package has released a new version since the ceiling was set. A human
-must determine whether:
-\enumerate{
-\item The breaking change still applies in the new version (extend ceiling).
-\item The new version fixed or reverted the change (lower or remove ceiling).
-\item The entry should be closed because the ecosystem has moved on.
-}
-See the contributing vignette for guidance on setting \code{to_version}.
-}
-
 \examples{
 \dontrun{
 # Check all tracked packages against CRAN
@@ -78,7 +84,7 @@ check_db_staleness(source = "installed")
 
 # Filter to stale entries only
 report <- check_db_staleness()
-report[report$status == "stale", ]
+report[report$status != "ok", ]
 }
 
 }

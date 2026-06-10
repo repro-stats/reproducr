@@ -26,7 +26,7 @@ test_that("certify() stores the correct number of outputs", {
   model <- lm(mpg ~ wt, data = mtcars)
   certify(
     list(coefs = coef(model), r2 = summary(model)$r.squared, n = nrow(mtcars)),
-    tag  = "v1",
+    tag = "v1",
     file = cf
   )
   certs <- readRDS(paste0(cf, ".rds"))
@@ -72,8 +72,8 @@ test_that("certify() errors on unnamed outputs", {
   cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
 
-  expect_error(certify(list(1, 2, 3),    tag = "v1", file = cf), "fully named")
-  expect_error(certify(list(a = 1, 2),   tag = "v1", file = cf), "fully named")
+  expect_error(certify(list(1, 2, 3), tag = "v1", file = cf), "fully named")
+  expect_error(certify(list(a = 1, 2), tag = "v1", file = cf), "fully named")
 })
 
 test_that("certify() errors on empty outputs list", {
@@ -114,7 +114,7 @@ test_that("certify() warns and overwrites on duplicate tag", {
   )
 
   certs <- readRDS(paste0(cf, ".rds"))
-  expect_equal(length(certs), 1L)  # still one tag, not two
+  expect_equal(length(certs), 1L) # still one tag, not two
 })
 
 test_that("certify() returns the certification record invisibly", {
@@ -131,7 +131,7 @@ test_that("certify() hashes differ for different objects", {
   cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
 
-  certify(list(x = 1L),  tag = "a", file = cf)
+  certify(list(x = 1L), tag = "a", file = cf)
   certify(list(x = 99L), tag = "b", file = cf)
   certs <- readRDS(paste0(cf, ".rds"))
 

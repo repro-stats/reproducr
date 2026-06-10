@@ -1,8 +1,8 @@
 test_that("check_drift() returns 'ok' for identical outputs", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
-  outs  <- list(coefs = coef(model), n = nrow(mtcars))
+  outs <- list(coefs = coef(model), n = nrow(mtcars))
 
   certify(outs, tag = "base", file = cf)
   result <- check_drift(outs, against = "base", file = cf)
@@ -11,7 +11,7 @@ test_that("check_drift() returns 'ok' for identical outputs", {
 })
 
 test_that("check_drift() returns 'drifted' when outputs change", {
-  cf     <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model1 <- lm(mpg ~ wt, data = mtcars)
   model2 <- lm(mpg ~ hp, data = mtcars)
@@ -23,7 +23,7 @@ test_that("check_drift() returns 'drifted' when outputs change", {
 })
 
 test_that("check_drift() returns 'missing' for outputs in baseline but not supplied", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
 
@@ -35,7 +35,7 @@ test_that("check_drift() returns 'missing' for outputs in baseline but not suppl
 })
 
 test_that("check_drift() returns 'new' for outputs not in baseline", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
 
@@ -50,10 +50,10 @@ test_that("check_drift() returns 'new' for outputs not in baseline", {
 })
 
 test_that("check_drift() 'latest' resolves to the most recently added tag", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
-  outs  <- list(coefs = coef(model))
+  outs <- list(coefs = coef(model))
 
   certify(outs, tag = "v1", file = cf)
   certify(outs, tag = "v2", file = cf)
@@ -65,7 +65,7 @@ test_that("check_drift() 'latest' resolves to the most recently added tag", {
 })
 
 test_that("check_drift() handles all four statuses simultaneously", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
 
@@ -75,7 +75,7 @@ test_that("check_drift() handles all four statuses simultaneously", {
       changed = coef(model),
       removed = 99L
     ),
-    tag  = "v1",
+    tag = "v1",
     file = cf
   )
 
@@ -87,20 +87,20 @@ test_that("check_drift() handles all four statuses simultaneously", {
       added   = 42L
     ),
     against = "v1",
-    file    = cf
+    file = cf
   )
 
-  expect_true(any(result$status == "ok"      & result$output == "same"))
+  expect_true(any(result$status == "ok" & result$output == "same"))
   expect_true(any(result$status == "drifted" & result$output == "changed"))
   expect_true(any(result$status == "missing" & result$output == "removed"))
-  expect_true(any(result$status == "new"     & result$output == "added"))
+  expect_true(any(result$status == "new" & result$output == "added"))
 })
 
 test_that("check_drift() returns a data frame with required columns", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
-  outs  <- list(coefs = coef(model))
+  outs <- list(coefs = coef(model))
 
   certify(outs, tag = "v1", file = cf)
   result <- check_drift(outs, against = "v1", file = cf)
@@ -118,7 +118,7 @@ test_that("check_drift() errors when no certifications exist", {
 })
 
 test_that("check_drift() errors on unknown tag", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
 
   certify(list(x = 1L), tag = "v1", file = cf)
@@ -137,10 +137,10 @@ test_that("check_drift() errors on unnamed outputs", {
 })
 
 test_that("check_drift() returns invisibly", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
-  outs  <- list(coefs = coef(model))
+  outs <- list(coefs = coef(model))
 
   certify(outs, tag = "v1", file = cf)
   ret <- withVisible(check_drift(outs, against = "v1", file = cf))
@@ -169,10 +169,10 @@ test_that("check_drift() works with diverse R object types", {
 })
 
 test_that("print.drift_report() outputs expected text", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
   model <- lm(mpg ~ wt, data = mtcars)
-  outs  <- list(coefs = coef(model))
+  outs <- list(coefs = coef(model))
 
   certify(outs, tag = "v1", file = cf)
   result <- check_drift(outs, against = "v1", file = cf)
@@ -182,13 +182,13 @@ test_that("print.drift_report() outputs expected text", {
 })
 
 test_that("print.drift_report() returns its input invisibly", {
-  cf    <- tempfile()
+  cf <- tempfile()
   on.exit(unlink(paste0(cf, ".rds"), force = TRUE))
-  outs  <- list(x = 1L)
+  outs <- list(x = 1L)
 
   certify(outs, tag = "v1", file = cf)
   result <- check_drift(outs, against = "v1", file = cf)
-  ret    <- withVisible(print(result))
+  ret <- withVisible(print(result))
 
   expect_false(ret$visible)
 })

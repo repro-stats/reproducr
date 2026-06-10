@@ -25,13 +25,15 @@ writeLines(c(
 ), script)
 
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report)
+risks <- risk_score(report)
 
 cert_file <- tempfile()
 model <- lm(mpg ~ wt, data = mtcars)
 certify(list(coefs = coef(model)), tag = "v1", file = cert_file)
-drift <- check_drift(list(coefs = coef(model)), against = "v1",
-                     file = cert_file)
+drift <- check_drift(list(coefs = coef(model)),
+  against = "v1",
+  file = cert_file
+)
 ```
 
 This vignette covers Tier 3 of the `reproducr` workflow: `repro_report()`
@@ -65,7 +67,7 @@ Every report leads with a verdict, computed from the risks and drift:
 clean_script <- tempfile(fileext = ".R")
 writeLines("x <- 1 + 1", clean_script)
 clean_report <- audit_script(clean_script, renv = FALSE, verbose = FALSE)
-clean_risks  <- risk_score(clean_report)
+clean_risks <- risk_score(clean_report)
 
 cat(repro_report(clean_report, clean_risks, format = "text", style = "minimal"))
 ```
@@ -92,8 +94,10 @@ The minimal style includes:
 - Drift summary (if drift is supplied)
 
 ```{r minimal-with-drift}
-cat(repro_report(report, risks, drift = drift,
-                 format = "text", style = "minimal"))
+cat(repro_report(report, risks,
+  drift = drift,
+  format = "text", style = "minimal"
+))
 ```
 
 ---
@@ -132,8 +136,10 @@ designed for pharmaceutical, biotech, and other regulated analytical workflows
 where the output needs to be reviewed and signed before submission.
 
 ```{r pharma-text}
-cat(repro_report(report, risks, drift = drift,
-                 format = "text", style = "pharma"))
+cat(repro_report(report, risks,
+  drift = drift,
+  format = "text", style = "pharma"
+))
 ```
 
 The pharma style includes:
@@ -159,9 +165,10 @@ For `"md"` and `"html"` formats, `repro_report()` writes to a file. If
 ```{r write-md, results = "hide"}
 md_file <- tempfile(fileext = ".md")
 repro_report(report, risks,
-             format      = "md",
-             style       = "minimal",
-             output_file = md_file)
+  format      = "md",
+  style       = "minimal",
+  output_file = md_file
+)
 
 # Inspect the raw Markdown
 cat(readLines(md_file, warn = FALSE), sep = "\n")
@@ -169,10 +176,12 @@ cat(readLines(md_file, warn = FALSE), sep = "\n")
 
 ```{r write-html, results = "hide"}
 html_file <- tempfile(fileext = ".html")
-repro_report(report, risks, drift = drift,
-             format      = "html",
-             style       = "pharma",
-             output_file = html_file)
+repro_report(report, risks,
+  drift = drift,
+  format = "html",
+  style = "pharma",
+  output_file = html_file
+)
 
 # The file is self-contained — open it in a browser
 # browseURL(html_file)
@@ -184,7 +193,7 @@ dependencies, safe to email or attach to a submission.
 ### All nine combinations
 
 ```{r all-combinations, eval = FALSE}
-styles  <- c("minimal", "academic", "pharma")
+styles <- c("minimal", "academic", "pharma")
 formats <- c("text", "md", "html")
 
 for (sty in styles) {
@@ -193,8 +202,10 @@ for (sty in styles) {
       repro_report(report, risks, format = fmt, style = sty)
     } else {
       out <- tempfile(fileext = paste0(".", fmt))
-      repro_report(report, risks, format = fmt, style = sty,
-                   output_file = out)
+      repro_report(report, risks,
+        format = fmt, style = sty,
+        output_file = out
+      )
       message("Written: ", out)
     }
   }
