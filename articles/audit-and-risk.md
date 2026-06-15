@@ -132,7 +132,7 @@ report$env
 #> [1] "x86_64-pc-linux-gnu"
 #> 
 #> $os
-#> [1] "Linux 6.17.0-1015-azure"
+#> [1] "Linux 6.17.0-1018-azure"
 #> 
 #> $locale
 #> [1] "LC_CTYPE=C.UTF-8;LC_NUMERIC=C;LC_TIME=C.UTF-8;LC_COLLATE=C.UTF-8;LC_MONETARY=C.UTF-8;LC_MESSAGES=C.UTF-8;LC_PAPER=C.UTF-8;LC_NAME=C;LC_ADDRESS=C;LC_TELEPHONE=C;LC_MEASUREMENT=C.UTF-8;LC_IDENTIFICATION=C"
@@ -142,7 +142,7 @@ report$env
 
 # Files scanned
 report$paths
-#> [1] "/tmp/RtmpQFIRxd/file1c35757b2799.R"
+#> [1] "/tmp/RtmpjzuYrf/file1b5a709e9fe7.R"
 
 # Programmatic summary
 s <- summary(report)
@@ -391,7 +391,7 @@ risks[risks$check == "seed_check", ]
 #>   MEDIUM:    1
 #>   LOW:       0
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file1c355deeaa59.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file1b5a1b4a466c.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without

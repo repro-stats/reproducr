@@ -98,9 +98,9 @@ risks <- risk_score(report)
 repro_report(report, risks, format = "text", style = "minimal")
 #> reproducr audit report
 #> 
-#> - Generated: 2026-06-10 21:14
+#> - Generated: 2026-06-15 19:03
 #> - R version: 4.6.0
-#> - Platform: Linux 6.17.0-1015-azure
+#> - Platform: Linux 6.17.0-1018-azure
 #> - Files scanned: 1
 #> - Packages found: 2
 #> - Qualified calls: 2
@@ -114,8 +114,8 @@ repro_report(report, risks, format = "text", style = "minimal")
 cat(repro_report(report, risks, format = "text", style = "academic"))
 #> Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1018-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
 #> # Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1018-azure. The following packages were used: dplyr, stats (v4.6.0). Reproducibility auditing (reproducr) identified no risks. The full audit report and certification records are available in the supplementary materials.
 ```

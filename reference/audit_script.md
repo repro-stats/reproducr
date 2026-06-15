@@ -114,13 +114,13 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-10 21:14] --
+#> -- reproducr audit report [2026-06-15 19:03] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    2
 #>   Calls detected:    3
 #>   R version:         4.6.0
-#>   Platform:          Linux 6.17.0-1015-azure
+#>   Platform:          Linux 6.17.0-1018-azure
 #>   Versions from:     installed library
 #> 
 #>   Next step: risks <- risk_score(report)
@@ -129,7 +129,7 @@ print(report)
 # See the detected calls as a data frame
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpRobBZG/file1aec601b0ffe.R    2 dplyr    filter        <NA>
-#> 2 /tmp/RtmpRobBZG/file1aec601b0ffe.R    3 dplyr summarise        <NA>
-#> 3 /tmp/RtmpRobBZG/file1aec601b0ffe.R    4 stats     rnorm       4.6.0
+#> 1 /tmp/Rtmp2ILJq0/file1a1076a64919.R    2 dplyr    filter        <NA>
+#> 2 /tmp/Rtmp2ILJq0/file1a1076a64919.R    3 dplyr summarise        <NA>
+#> 3 /tmp/Rtmp2ILJq0/file1a1076a64919.R    4 stats     rnorm       4.6.0
 ```

@@ -67,7 +67,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Certifying outputs and detecting drift</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/vignettes/certify-and-drift.Rmd" class="external-link"><code>vignettes/certify-and-drift.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/vignettes/certify-and-drift.Rmd" class="external-link"><code>vignettes/certify-and-drift.Rmd</code></a></small>
       <div class="d-none name"><code>certify-and-drift.Rmd</code></div>
     </div>
 
@@ -142,7 +142,7 @@ choices:</p>
 <span>  script <span class="op">=</span> <span class="st">"analysis.R"</span>,</span>
 <span>  file <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 6 output(s) [2026-06-10] under tag 'baseline-v1'</span></span></code></pre></div>
+<span><span class="co">#&gt; reproducr: certified 6 output(s) [2026-06-15] under tag 'baseline-v1'</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="choosing-what-to-certify">Choosing what to certify<a class="anchor" aria-label="anchor" href="#choosing-what-to-certify"></a>
@@ -174,14 +174,14 @@ label:</p>
 <span>  tag     <span class="op">=</span> <span class="st">"pre-peer-review"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'pre-peer-review'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'pre-peer-review'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>coefs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  tag     <span class="op">=</span> <span class="st">"post-revision"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'post-revision'</span></span></code></pre></div>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'post-revision'</span></span></code></pre></div>
 <p>Passing a duplicate tag overwrites the existing record with a
 warning:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -190,9 +190,9 @@ warning:</p>
 <span>  tag     <span class="op">=</span> <span class="st">"baseline-v1"</span>,</span>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Tag 'baseline-v1' already exists in '/tmp/RtmpVu4Wu1/file1c70519a52e'.</span></span>
-<span><span class="co">#&gt; Overwriting.</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'baseline-v1'</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Tag 'baseline-v1' already exists in</span></span>
+<span><span class="co">#&gt; '/tmp/RtmpzufpsW/file1b944c09c89e'. Overwriting.</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'baseline-v1'</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -203,9 +203,9 @@ warning:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1     baseline-v1 2026-06-10T21:15:02+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
-<span><span class="co">#&gt; 2 pre-peer-review 2026-06-10T21:15:01+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
-<span><span class="co">#&gt; 3   post-revision 2026-06-10T21:15:01+0000     4.6.0 Linux 6.17.0-1015-azure</span></span>
+<span><span class="co">#&gt; 1     baseline-v1 2026-06-15T19:03:13+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
+<span><span class="co">#&gt; 2 pre-peer-review 2026-06-15T19:03:13+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
+<span><span class="co">#&gt; 3   post-revision 2026-06-15T19:03:13+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
 <span><span class="co">#&gt;   n_outputs script</span></span>
 <span><span class="co">#&gt; 1         1   &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 2         1   &lt;NA&gt;</span></span>
@@ -256,7 +256,7 @@ warning:</p>
 <span>  tag <span class="op">=</span> <span class="st">"four-statuses"</span>,</span>
 <span>  file <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-10] under tag 'four-statuses'</span></span>
+<span><span class="co">#&gt; reproducr: certified 3 output(s) [2026-06-15] under tag 'four-statuses'</span></span>
 <span></span>
 <span><span class="va">demo_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span></span>
 <span>  outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -321,11 +321,11 @@ warning:</p>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-1"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'run-1'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'run-1'</span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-2"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'run-2'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'run-2'</span></span>
 <span><span class="fu"><a href="../reference/certify.html">certify</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tag <span class="op">=</span> <span class="st">"run-3"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-10] under tag 'run-3'</span></span>
+<span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-15] under tag 'run-3'</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/check_drift.html">check_drift</a></span><span class="op">(</span>outputs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, against <span class="op">=</span> <span class="st">"latest"</span>, file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt; reproducr: comparing against latest tag: 'run-3'</span></span>

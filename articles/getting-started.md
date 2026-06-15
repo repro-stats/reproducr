@@ -127,13 +127,13 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-10 21:15] --
+#> -- reproducr audit report [2026-06-15 19:03] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    3
 #>   Calls detected:    5
 #>   R version:         4.6.0
-#>   Platform:          Linux 6.17.0-1015-azure
+#>   Platform:          Linux 6.17.0-1018-azure
 #>   Versions from:     installed library
 #> 
 #>   Next step: risks <- risk_score(report)
@@ -143,11 +143,11 @@ print(report)
 
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    3 dplyr    filter        <NA>
-#> 2 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    4 dplyr summarise        <NA>
-#> 3 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    4 dplyr         n        <NA>
-#> 4 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    6 stats     rnorm       4.6.0
-#> 5 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    7  base      sort       4.6.0
+#> 1 /tmp/RtmpklsT5r/file1c06743fb56a.R    3 dplyr    filter        <NA>
+#> 2 /tmp/RtmpklsT5r/file1c06743fb56a.R    4 dplyr summarise        <NA>
+#> 3 /tmp/RtmpklsT5r/file1c06743fb56a.R    4 dplyr         n        <NA>
+#> 4 /tmp/RtmpklsT5r/file1c06743fb56a.R    6 stats     rnorm       4.6.0
+#> 5 /tmp/RtmpklsT5r/file1c06743fb56a.R    7  base      sort       4.6.0
 ```
 
 ### Scoring for risk
@@ -167,7 +167,7 @@ print(risks)
 #>   MEDIUM:    0
 #>   LOW:       1
 #> 
-#> [LOW]     base::sort  (line 7 in file1ce57ba889b8.R)
+#> [LOW]     base::sort  (line 7 in file1c06743fb56a.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.
 #>                     Results may differ on machines with different LC_COLLATE or
@@ -196,7 +196,7 @@ seed_issues <- risk_score(report, methods = "seed_check")
 # As a plain data frame for downstream use
 as.data.frame(risks)
 #>                                 file line       call pkg_version risk
-#> 1 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R    7 base::sort       4.6.0  low
+#> 1 /tmp/RtmpklsT5r/file1c06743fb56a.R    7 base::sort       4.6.0  low
 #>          check
 #> 1 locale_check
 #>                                                                                                                                 description
@@ -228,16 +228,16 @@ certify(
   script = script,
   file = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-10] under tag 'baseline-v1'
+#> reproducr: certified 3 output(s) [2026-06-15] under tag 'baseline-v1'
 ```
 
 ``` r
 
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-06-10T21:15:07+0000     4.6.0 Linux 6.17.0-1015-azure
+#> 1 baseline-v1 2026-06-15T19:03:18+0000     4.6.0 Linux 6.17.0-1018-azure
 #>   n_outputs                             script
-#> 1         3 /tmp/Rtmpy1nj5H/file1ce57ba889b8.R
+#> 1         3 /tmp/RtmpklsT5r/file1c06743fb56a.R
 ```
 
 ### Checking for drift
@@ -301,10 +301,10 @@ repro_report(report, risks, format = "text", style = "minimal")
 cat(repro_report(report, risks, format = "text", style = "academic"))
 #> Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1018-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
 #> # Methods paragraph (reproducr)
 #> 
-#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1015-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
+#> All analyses were conducted in R (version 4.6.0) on Linux 6.17.0-1018-azure. The following packages were used: dplyr, stats (v4.6.0), base (v4.6.0). Reproducibility auditing (reproducr) identified 1 potential concern(s) (0 high, 0 medium severity) relating to known behavioural changes in package APIs across versions. The full audit report and certification records are available in the supplementary materials.
 ```
 
 ``` r
