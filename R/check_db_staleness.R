@@ -27,7 +27,7 @@
 #'     \item{`"cran"`}{Query the CRAN package database via
 #'       `utils::available.packages()`. Requires an internet connection.}
 #'     \item{`"installed"`}{Use locally installed versions via
-#'       `utils::installed.packages()`. Fast and offline, but only reflects
+#'       `utils::packageDescription()`. Fast and offline, but only reflects
 #'       what is installed on the current machine.}
 #'   }
 #'   Default `"cran"`.
@@ -59,7 +59,7 @@
 #' version window design principles.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Check all tracked packages against CRAN
 #' report <- check_db_staleness()
 #' print(report)
@@ -294,6 +294,8 @@ print.staleness_report <- function(x, ...) {
     pkgs
   )
 
+  base_pkgs <- c("base", "stats", "utils", "tools", "methods")
+
   if (source == "cran") {
     tryCatch(
       {
@@ -303,10 +305,7 @@ print.staleness_report <- function(x, ...) {
         for (pkg in pkgs) {
           if (pkg %in% rownames(avail)) {
             versions[[pkg]] <- avail[pkg, "Version"]
-          } else if (pkg %in% c(
-            "base", "stats", "utils",
-            "tools", "methods"
-          )) {
+          } else if (pkg %in% base_pkgs) {
             versions[[pkg]] <- paste(R.version$major, R.version$minor,
               sep = "."
             )
@@ -319,29 +318,25 @@ print.staleness_report <- function(x, ...) {
             "reproducr: CRAN query failed, falling back to installed library"
           )
         }
-        inst <- utils::installed.packages()[
-          , c("Package", "Version"),
-          drop = FALSE
-        ]
         for (pkg in pkgs) {
-          if (pkg %in% inst[, "Package"]) {
-            idx <- which(inst[, "Package"] == pkg)[[1L]]
-            versions[[pkg]] <<- inst[idx, "Version"]
-          }
+          ver <- tryCatch(
+            as.character(utils::packageVersion(pkg)),
+            error = function(e) NA_character_
+          )
+          versions[[pkg]] <<- ver
         }
       }
     )
   } else {
-    inst <- utils::installed.packages()[
-      , c("Package", "Version"),
-      drop = FALSE
-    ]
     for (pkg in pkgs) {
-      if (pkg %in% inst[, "Package"]) {
-        idx <- which(inst[, "Package"] == pkg)[[1L]]
-        versions[[pkg]] <- inst[idx, "Version"]
-      } else if (pkg %in% c("base", "stats", "utils", "tools", "methods")) {
+      if (pkg %in% base_pkgs) {
         versions[[pkg]] <- paste(R.version$major, R.version$minor, sep = ".")
+      } else {
+        ver <- tryCatch(
+          as.character(utils::packageVersion(pkg)),
+          error = function(e) NA_character_
+        )
+        versions[[pkg]] <- ver
       }
     }
   }

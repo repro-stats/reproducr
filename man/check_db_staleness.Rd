@@ -24,7 +24,7 @@ One of:
 \item{\code{"cran"}}{Query the CRAN package database via
 \code{utils::available.packages()}. Requires an internet connection.}
 \item{\code{"installed"}}{Use locally installed versions via
-\code{utils::installed.packages()}. Fast and offline, but only reflects
+\code{utils::packageDescription()}. Fast and offline, but only reflects
 what is installed on the current machine.}
 }
 Default \code{"cran"}.}
@@ -71,7 +71,7 @@ on the \code{reproducr} repository to automatically open issues when staleness
 is detected.
 }
 \examples{
-\dontrun{
+\donttest{
 # Check all tracked packages against CRAN
 report <- check_db_staleness()
 print(report)

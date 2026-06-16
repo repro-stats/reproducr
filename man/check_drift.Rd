@@ -32,7 +32,7 @@ only. Default \code{1e-10}.}
 Invisibly returns a \code{data.frame} of class
 \code{c("drift_report", "data.frame")} with columns \code{output}, \code{status}
 (\code{"ok"}, \code{"drifted"}, \code{"missing"}, \code{"new"}), \code{max_delta}, and \code{note}.
-Also prints a summary to the console.
+Also emits a summary via \code{message()}.
 }
 \description{
 Re-hashes a set of named R objects and compares them against a previously

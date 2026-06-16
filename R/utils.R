@@ -3,7 +3,7 @@
 
 #' @importFrom stats setNames
 #' @importFrom tools md5sum
-#' @importFrom utils file_test installed.packages available.packages
+#' @importFrom utils file_test packageVersion available.packages packageDescription
 NULL
 
 # ---- hashing ----------------------------------------------------------------
@@ -183,8 +183,25 @@ NULL
     }
   }
 
-  inst <- utils::installed.packages()[, c("Package", "Version"), drop = FALSE]
-  versions <- setNames(as.list(inst[, "Version"]), inst[, "Package"])
+  # Use find.package() to list installed packages, then packageDescription()
+  # for versions. Avoids the slow installed.packages() call.
+  lib_paths <- .libPaths()
+  pkg_dirs <- unlist(lapply(lib_paths, function(lp) {
+    list.dirs(lp, full.names = FALSE, recursive = FALSE)
+  }))
+  pkg_dirs <- unique(pkg_dirs[nchar(pkg_dirs) > 0L])
+
+  versions <- setNames(
+    lapply(pkg_dirs, function(pkg) {
+      tryCatch(
+        as.character(utils::packageVersion(pkg)),
+        error = function(e) NULL
+      )
+    }),
+    pkg_dirs
+  )
+  versions <- versions[!sapply(versions, is.null)]
+
   if (verbose) {
     message(
       "reproducr: resolved versions for ", length(versions),

@@ -97,7 +97,7 @@ repro_badge <- function(audit,
     writeLines(lines, readme_path)
     message("reproducr: badge updated in '", readme_path, "'")
   } else {
-    cat(badge_md, "\n")
+    message(badge_md)
   }
 
   invisible(badge_md)

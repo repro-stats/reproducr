@@ -292,9 +292,9 @@
   "MatchIt::matchit" = list(
     list(
       from_version = "4.6.99",
-      to_version   = "4.7.9",
-      risk         = "high",
-      description  = paste0(
+      to_version = "4.7.9",
+      risk = "high",
+      description = paste0(
         "In MatchIt 4.0.0, the package was completely rewritten. The",
         "distance argument changed syntax: the old default distance",
         "= 'logit' is now distance = 'glm', link = 'logit'. The",
