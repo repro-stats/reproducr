@@ -49,7 +49,8 @@ check_drift(
 Invisibly returns a `data.frame` of class
 `c("drift_report", "data.frame")` with columns `output`, `status`
 (`"ok"`, `"drifted"`, `"missing"`, `"new"`), `max_delta`, and `note`.
-Also prints a summary to the console.
+Also emits a summary via
+[`message()`](https://rdrr.io/r/base/message.html).
 
 ## See also
 
@@ -65,21 +66,18 @@ cert_file <- tempfile()
 model <- lm(mpg ~ wt, data = mtcars)
 
 certify(list(coefs = coef(model)), tag = "v1", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-15] under tag 'v1'
+#> reproducr: certified 1 output(s) [2026-06-16] under tag 'v1'
 
 # Same outputs -- should report "ok"
 result <- check_drift(list(coefs = coef(model)),
   against = "v1", file = cert_file
 )
-#> 
 #> -- reproducr drift check vs 'v1' --
-#> 
 #>   Verdict  : ALL OUTPUTS MATCH
 #>   OK       : 1
 #>   Drifted  : 0
 #>   Missing  : 0
 #>   New      : 0
-#> 
 print(result)
 #> 
 #> -- reproducr drift report --
@@ -92,16 +90,12 @@ model2 <- lm(mpg ~ hp, data = mtcars)
 check_drift(list(coefs = coef(model2)),
   against = "v1", file = cert_file
 )
-#> 
 #> -- reproducr drift check vs 'v1' --
-#> 
 #>   Verdict  : DRIFT DETECTED
 #>   OK       : 0
 #>   Drifted  : 1
 #>   Missing  : 0
 #>   New      : 0
-#> 
 #>   Drifted outputs:
 #>     - coefs
-#> 
 ```

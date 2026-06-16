@@ -44,7 +44,7 @@ Think of certify() as a "signed receipt" for a completed analysis run.'><meta pr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Certify analytical outputs as a reproducibility baseline</h1>
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/R/certify.R" class="external-link"><code>R/certify.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/R/certify.R" class="external-link"><code>R/certify.R</code></a></small>
       <div class="d-none name"><code>certify.Rd</code></div>
     </div>
 
@@ -134,12 +134,12 @@ This makes the certification auditable and shareable with collaborators.</p>
 <span class="r-in"><span>  script <span class="op">=</span> <span class="st">"analysis.R"</span>,</span></span>
 <span class="r-in"><span>  file <span class="op">=</span> <span class="va">cert_file</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 3 output(s) [2026-06-15] under tag 'baseline-v1'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: certified 3 output(s) [2026-06-16] under tag 'baseline-v1'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># See what is stored</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           tag                timestamp r_version                      os</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 baseline-v1 2026-06-15T19:03:04+0000     4.6.0 Linux 6.17.0-1018-azure</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 baseline-v1 2026-06-16T13:00:30+0000     4.6.0 Linux 6.17.0-1018-azure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   n_outputs     script</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         3 analysis.R</span>
 <span class="r-in"><span></span></span>

@@ -56,7 +56,7 @@ where no set.seed() appears within 50 lines above the call.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Score function calls for reproducibility risk</h1>
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
       <div class="d-none name"><code>risk_score.Rd</code></div>
     </div>
 
@@ -216,14 +216,14 @@ windows that are too wide.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   MEDIUM:    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   LOW:       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file1a10362a23c8.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file1a4b9cfb927.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : seed_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     above this call (line 2). Output will differ across runs without</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     a fixed seed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file1a10362a23c8.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file1a4b9cfb927.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : locale_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : sort() output is locale-sensitive. Current locale: C. Results may</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     differ on machines with different LC_COLLATE or LC_TIME settings.</span>

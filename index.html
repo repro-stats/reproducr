@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Behavioural Reproducibility Auditing for R Projects">
-<meta name="description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows.">
-<meta property="og:description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows.">
+<meta name="description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows. For more details see &lt;https://github.com/repro-stats/reproducr&gt;.">
+<meta property="og:description" content="Audits R scripts for behavioural reproducibility risk. Scans scripts for qualified package::function calls and checks them against a curated database of known silent breaking changes across popular CRAN packages. Flags stochastic calls lacking set.seed() and detects locale-sensitive operations that may produce different results across systems. Supports baseline certification of analytical outputs so that silent numerical drift can be detected across package upgrades or platform changes. Generates human-readable audit reports suitable for academic submission or pharmaceutical QC workflows. For more details see &lt;https://github.com/repro-stats/reproducr&gt;.">
 <meta property="og:image" content="https://repro-stats.github.io/reproducr/logo.svg">
 </head>
 <body>
@@ -316,93 +316,8 @@ risk_score()                   check_drift()                   repro_badge()</co
 <div class="section level2">
 <h2 id="the-breaking-changes-database">The breaking-changes database<a class="anchor" aria-label="anchor" href="#the-breaking-changes-database"></a>
 </h2>
-<p>The heart of <code><a href="reference/risk_score.html">risk_score()</a></code> is a curated database of known cases where a package update <strong>silently changed function behaviour</strong> — not errors, not deprecation warnings, just different results.</p>
-<p>Current coverage:</p>
-<table class="table">
-<colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
-</colgroup>
-<thead><tr>
-<th>Package</th>
-<th>Entries</th>
-<th>Examples</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>dplyr</code></td>
-<td>5</td>
-<td>
-<code>summarise()</code> grouping change (v1.1.0), <code>across()</code> naming (v1.1.0)</td>
-</tr>
-<tr>
-<td><code>tidyr</code></td>
-<td>3</td>
-<td>
-<code>nest()</code> interface rewrite (v1.0.0), <code>pivot_wider()</code> duplicate handling (v1.2.0)</td>
-</tr>
-<tr>
-<td><code>ggplot2</code></td>
-<td>3</td>
-<td>Default colour scale change (v3.4.0), <code>aes()</code> scoping (v3.5.0)</td>
-</tr>
-<tr>
-<td><code>readr</code></td>
-<td>2</td>
-<td>vroom backend switch, column type guessing (v2.0.0)</td>
-</tr>
-<tr>
-<td><code>purrr</code></td>
-<td>2</td>
-<td>Error handling change (v1.0.0), <code>map_df()</code> deprecation</td>
-</tr>
-<tr>
-<td><code>stringr</code></td>
-<td>1</td>
-<td>
-<code>str_c()</code> NA propagation (v1.5.0)</td>
-</tr>
-<tr>
-<td><code>lubridate</code></td>
-<td>2</td>
-<td>DST arithmetic (v1.9.0)</td>
-</tr>
-<tr>
-<td><code>broom</code></td>
-<td>1</td>
-<td>Column renaming (v0.8.0)</td>
-</tr>
-<tr>
-<td><code>data.table</code></td>
-<td>2</td>
-<td>
-<code>fread()</code> type detection, <code>melt()</code> factor→character</td>
-</tr>
-<tr>
-<td><code>lme4</code></td>
-<td>1</td>
-<td>Optimizer tolerance change</td>
-</tr>
-<tr>
-<td><code>caret</code></td>
-<td>1</td>
-<td>
-<code>train()</code> interface changes (v7.0.0)</td>
-</tr>
-<tr>
-<td><code>rstan</code></td>
-<td>2</td>
-<td>Array syntax change (v2.26), <code>extract()</code> permutation default</td>
-</tr>
-<tr>
-<td><code>base R</code></td>
-<td>5</td>
-<td>RNG change (R 3.6.0), <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> tie-breaking (R 4.0.0)</td>
-</tr>
-</tbody>
-</table>
-<p>The database is kept current via a weekly automated check — see <code><a href="reference/check_db_staleness.html">check_db_staleness()</a></code>. Community contributions are welcome via <strong><a href="https://github.com/repro-stats/reproducr-db" class="external-link">reproducr-db</a></strong>.</p>
+<p>The heart of <code><a href="reference/risk_score.html">risk_score()</a></code> is a curated database of known cases where a package update <strong>silently changed function behaviour</strong> — not errors, not deprecation warnings, just different results. Coverage spans popular packages across the tidyverse, modelling (<code>lme4</code>, <code>survival</code>, <code>MatchIt</code>, <code>caret</code>), and base R.</p>
+<p>The database is kept current via a weekly automated check – see <code><a href="reference/check_db_staleness.html">check_db_staleness()</a></code>. Community contributions are welcome via <strong><a href="https://github.com/repro-stats/reproducr-db" class="external-link">reproducr-db</a></strong>, which lists every tracked entry.</p>
 <hr>
 </div>
 <div class="section level2">

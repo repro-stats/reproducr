@@ -42,7 +42,7 @@ reproducr workflow."><meta property="og:image" content="https://repro-stats.gith
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Audit an R script for reproducibility risks</h1>
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
       <div class="d-none name"><code>audit_script.Rd</code></div>
     </div>
 
@@ -160,7 +160,7 @@ full audit; <code><a href="certify.html">certify()</a></code> to lock a set of o
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu">audit_script</span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-15 19:03] --</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-16 13:00] --</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Files scanned:     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Packages found:    2</span>
@@ -175,9 +175,9 @@ full audit; <code><a href="certify.html">certify()</a></code> to lock a set of o
 <span class="r-in"><span><span class="co"># See the detected calls as a data frame</span></span></span>
 <span class="r-in"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                 file line   pkg        fn pkg_version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/Rtmp2ILJq0/file1a1076a64919.R    2 dplyr    filter        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/Rtmp2ILJq0/file1a1076a64919.R    3 dplyr summarise        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/Rtmp2ILJq0/file1a1076a64919.R    4 stats     rnorm       4.6.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/RtmpKLrmMi/file1a4b64ce12eb.R    2 dplyr    filter        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/RtmpKLrmMi/file1a4b64ce12eb.R    3 dplyr summarise        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/RtmpKLrmMi/file1a4b64ce12eb.R    4 stats     rnorm       4.6.0</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
