@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,18 @@
       <small>Source: <a href="https://github.com/repro-stats/reproducr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="reproducr-021">reproducr 0.2.1<a class="anchor" aria-label="anchor" href="#reproducr-021"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-0-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h4>
+<ul><li><p><code><a href="../reference/check_drift.html">check_drift()</a></code> numeric tolerance comparison now works correctly. Previously the tolerance path was a documented stub that immediately fell back to <code>"Hash mismatch (numeric tolerance check requires stored values)"</code>. <code><a href="../reference/check_drift.html">check_drift()</a></code> now performs a full element-wise <code>max(abs(current - stored))</code> comparison for numeric outputs whose hashes differ, and marks them <code>"ok"</code> when the maximum absolute difference is within <code>tolerance</code> (default <code>1e-10</code>). This fixes false-positive drift reports caused by benign floating-point variation across platforms (e.g. macOS local vs Linux CI).</p></li>
+<li><p><code><a href="../reference/certify.html">certify()</a></code> now stores raw output values alongside hashes in <code>.reproducr.rds</code> (new <code>values</code> field in the certification record). This is required for the tolerance comparison above. Certifications created by earlier versions remain readable; <code><a href="../reference/check_drift.html">check_drift()</a></code> degrades gracefully with a clear message when <code>values</code> is absent.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="migration-note-0-2-1">Migration note<a class="anchor" aria-label="anchor" href="#migration-note-0-2-1"></a></h4>
+<p>Delete <code>.reproducr.rds</code> and re-run <code><a href="../reference/certify.html">certify()</a></code> once to populate the new <code>values</code> field. Until then <code><a href="../reference/check_drift.html">check_drift()</a></code> degrades gracefully with an informative message.</p>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="reproducr-020">reproducr 0.2.0<a class="anchor" aria-label="anchor" href="#reproducr-020"></a></h2>
 <ul><li><p><code><a href="../reference/risk_score.html">risk_score()</a></code> gains a <code>major_version_grace</code> parameter (default <code>1L</code>) – when the installed version is one or more major versions ahead of an entry’s <code>from_version</code>, the entry is suppressed entirely. This prevents historically wide version windows (e.g. a major package rewrite from several years ago) from generating false-positive flags for users who are already well past the breaking-change transition.</p></li>

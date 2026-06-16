@@ -6,6 +6,15 @@ previously stored certification. Reports which outputs are unchanged
 not supplied (`"missing"`), or are new outputs not in the baseline
 (`"new"`).
 
+For numeric outputs whose hashes differ, `check_drift()` falls back to
+an element-wise absolute difference comparison using `tolerance`. This
+makes drift detection robust to benign floating-point variation across
+platforms (e.g. Linux CI vs macOS local), while still catching genuine
+numerical changes. The fallback requires that the certification was
+created with
+[`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
+version \>= 0.2.0, which stores raw values alongside hashes.
+
 ## Usage
 
 ``` r
@@ -38,11 +47,10 @@ check_drift(
 
 - tolerance:
 
-  `numeric(1)`. Numeric tolerance applied to hash comparison. When
-  `> 0`, outputs whose hashes differ are also compared element-wise (for
-  numeric vectors/matrices), and flagged as `"ok"` if the maximum
-  absolute difference is within `tolerance`. Set to `0` for exact
-  matching only. Default `1e-10`.
+  `numeric(1)`. Numeric tolerance for element-wise comparison of numeric
+  outputs whose hashes differ. Outputs whose maximum absolute difference
+  is within `tolerance` are reported as `"ok"`. Set to `0` for exact
+  hash matching only. Default `1e-10`.
 
 ## Value
 

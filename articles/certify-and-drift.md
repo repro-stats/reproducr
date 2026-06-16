@@ -127,7 +127,7 @@ certify(
   file    = cert_file
 )
 #> Warning: Tag 'baseline-v1' already exists in
-#> '/tmp/Rtmp8fpZXE/file1bdf193b88f8'. Overwriting.
+#> '/tmp/RtmpebSYTm/file1ad020b06124'. Overwriting.
 #> reproducr: certified 1 output(s) [2026-06-16] under tag 'baseline-v1'
 ```
 
@@ -139,9 +139,9 @@ certify(
 
 list_certs(file = cert_file)
 #>               tag                timestamp r_version                      os
-#> 1     baseline-v1 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure
-#> 2 pre-peer-review 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure
-#> 3   post-revision 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 1     baseline-v1 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 2 pre-peer-review 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 3   post-revision 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure
 #>   n_outputs script
 #> 1         1   <NA>
 #> 2         1   <NA>
@@ -216,8 +216,8 @@ print(demo_result)
 #> -- reproducr drift report --
 #> 
 #> [OK]      stays_same
-#> [DRIFT]   will_change
-#>             Hash mismatch (numeric tolerance check requires stored values).
+#> [DRIFT]   will_change (max delta: 7.19)
+#>             Numeric drift (max |delta|: 7.19, tolerance: 1e-10).
 #> [NEW]     brand_new
 #>             Not present in the baseline certification.
 #> [MISSING] will_vanish

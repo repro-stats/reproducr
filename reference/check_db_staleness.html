@@ -35,7 +35,7 @@ is detected."><meta property="og:image" content="https://repro-stats.github.io/r
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,19 +174,18 @@ version window design principles.</p></div>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Check all tracked packages against CRAN</span></span></span>
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu">check_db_staleness</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 15 package(s) against cran...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 2 stale ceiling, 12 stale floor, 13 ok, 0 unknown</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 13 package(s) against cran...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 3 stale ceiling, 10 stale floor, 9 ok, 0 unknown</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale ceiling entries (to_version below current release):</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   MatchIt::match.data  [to_version 4.4.9 -&gt; current 4.7.2]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::group_by  [to_version 1.1.9 -&gt; current 1.2.1]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::geom_sf  [to_version 3.4.9 -&gt; current 4.0.3]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale floor entries (from_version too old -- window too wide):</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   broom::tidy  [from_version 0.7.99 &lt;&lt; current 1.0.13 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::filter  [from_version 0.8.99 &lt;&lt; current 1.2.1 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::geom_histogram  [from_version 3.5.99 &lt;&lt; current 4.0.3 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::scale_colour_continuous  [from_version 3.5.99 &lt;&lt; current 4.0.3 (&gt;= 1 major version(s) behind)]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   lme4::lmer  [from_version 1.1.28 &lt;&lt; current 2.0-1 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   purrr::map_df  [from_version 0.3.99 &lt;&lt; current 1.2.2 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   readr::read_csv  [from_version 1.4.99 &lt;&lt; current 2.2.0 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   readr::read_tsv  [from_version 1.4.99 &lt;&lt; current 2.2.0 (&gt;= 1 major version(s) behind)]</span>
@@ -198,12 +197,16 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr database staleness report --</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE CEILING:         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE FLOOR:           12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   OK:                    13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE CEILING:         3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE FLOOR:           10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   OK:                    9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   UNKNOWN:               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Stale ceiling entries (to_version below current release):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE CEILING] MatchIt::match.data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     to_version=4.4.9 | current=4.7.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: extend to_version or close entry.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE CEILING] dplyr::group_by</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     to_version=1.1.9 | current=1.2.1</span>
@@ -215,10 +218,6 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Stale floor entries (from_version too old -- window too wide):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] broom::tidy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=0.7.99 | current=1.0.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] dplyr::filter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=0.8.99 | current=1.2.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
@@ -229,10 +228,6 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] ggplot2::scale_colour_continuous</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=3.5.99 | current=4.0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] lme4::lmer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=1.1.28 | current=2.0-1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] purrr::map_df</span>
@@ -267,7 +262,7 @@ version window design principles.</p></div>
 <span class="r-in"><span><span class="co"># Check specific packages only</span></span></span>
 <span class="r-in"><span><span class="fu">check_db_staleness</span><span class="op">(</span>packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"tidyr"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 2 package(s) against cran...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 1 stale ceiling, 4 stale floor, 2 ok, 0 unknown</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 1 stale ceiling, 4 stale floor, 0 ok, 0 unknown</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale ceiling entries (to_version below current release):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::group_by  [to_version 1.1.9 -&gt; current 1.2.1]</span>
@@ -280,8 +275,8 @@ version window design principles.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Offline check using installed versions</span></span></span>
 <span class="r-in"><span><span class="fu">check_db_staleness</span><span class="op">(</span>source <span class="op">=</span> <span class="st">"installed"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 15 package(s) against installed...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 0 stale ceiling, 2 stale floor, 1 ok, 24 unknown</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 13 package(s) against installed...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 0 stale ceiling, 2 stale floor, 1 ok, 19 unknown</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale floor entries (from_version too old -- window too wide):</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   purrr::map_df  [from_version 0.3.99 &lt;&lt; current 1.2.2 (&gt;= 1 major version(s) behind)]</span>
@@ -289,19 +284,18 @@ version window design principles.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Filter to stale entries only</span></span></span>
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu">check_db_staleness</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 15 package(s) against cran...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 2 stale ceiling, 12 stale floor, 13 ok, 0 unknown</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: checking 13 package(s) against cran...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> reproducr: 3 stale ceiling, 10 stale floor, 9 ok, 0 unknown</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale ceiling entries (to_version below current release):</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   MatchIt::match.data  [to_version 4.4.9 -&gt; current 4.7.2]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::group_by  [to_version 1.1.9 -&gt; current 1.2.1]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::geom_sf  [to_version 3.4.9 -&gt; current 4.0.3]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Stale floor entries (from_version too old -- window too wide):</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   broom::tidy  [from_version 0.7.99 &lt;&lt; current 1.0.13 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::filter  [from_version 0.8.99 &lt;&lt; current 1.2.1 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::geom_histogram  [from_version 3.5.99 &lt;&lt; current 4.0.3 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   ggplot2::scale_colour_continuous  [from_version 3.5.99 &lt;&lt; current 4.0.3 (&gt;= 1 major version(s) behind)]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   lme4::lmer  [from_version 1.1.28 &lt;&lt; current 2.0-1 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   purrr::map_df  [from_version 0.3.99 &lt;&lt; current 1.2.2 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   readr::read_csv  [from_version 1.4.99 &lt;&lt; current 2.2.0 (&gt;= 1 major version(s) behind)]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   readr::read_tsv  [from_version 1.4.99 &lt;&lt; current 2.2.0 (&gt;= 1 major version(s) behind)]</span>
@@ -313,12 +307,16 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr database staleness report --</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE CEILING:         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE FLOOR:           12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE CEILING:         3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   STALE FLOOR:           10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   OK:                    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   UNKNOWN:               0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Stale ceiling entries (to_version below current release):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE CEILING] MatchIt::match.data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     to_version=4.4.9 | current=4.7.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: extend to_version or close entry.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE CEILING] dplyr::group_by</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     to_version=1.1.9 | current=1.2.1</span>
@@ -330,10 +328,6 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Stale floor entries (from_version too old -- window too wide):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] broom::tidy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=0.7.99 | current=1.0.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] dplyr::filter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=0.8.99 | current=1.2.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
@@ -344,10 +338,6 @@ version window design principles.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] ggplot2::scale_colour_continuous</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=3.5.99 | current=4.0.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] lme4::lmer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     from_version=1.1.28 | current=2.0-1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Action: raise from_version or close entry.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [STALE FLOOR] purrr::map_df</span>

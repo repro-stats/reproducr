@@ -120,19 +120,18 @@ for the database schema and version window design principles.
 # \donttest{
 # Check all tracked packages against CRAN
 report <- check_db_staleness()
-#> reproducr: checking 15 package(s) against cran...
-#> reproducr: 2 stale ceiling, 12 stale floor, 13 ok, 0 unknown
+#> reproducr: checking 13 package(s) against cran...
+#> reproducr: 3 stale ceiling, 10 stale floor, 9 ok, 0 unknown
 #> 
 #> Stale ceiling entries (to_version below current release):
+#>   MatchIt::match.data  [to_version 4.4.9 -> current 4.7.2]
 #>   dplyr::group_by  [to_version 1.1.9 -> current 1.2.1]
 #>   ggplot2::geom_sf  [to_version 3.4.9 -> current 4.0.3]
 #> 
 #> Stale floor entries (from_version too old -- window too wide):
-#>   broom::tidy  [from_version 0.7.99 << current 1.0.13 (>= 1 major version(s) behind)]
 #>   dplyr::filter  [from_version 0.8.99 << current 1.2.1 (>= 1 major version(s) behind)]
 #>   ggplot2::geom_histogram  [from_version 3.5.99 << current 4.0.3 (>= 1 major version(s) behind)]
 #>   ggplot2::scale_colour_continuous  [from_version 3.5.99 << current 4.0.3 (>= 1 major version(s) behind)]
-#>   lme4::lmer  [from_version 1.1.28 << current 2.0-1 (>= 1 major version(s) behind)]
 #>   purrr::map_df  [from_version 0.3.99 << current 1.2.2 (>= 1 major version(s) behind)]
 #>   readr::read_csv  [from_version 1.4.99 << current 2.2.0 (>= 1 major version(s) behind)]
 #>   readr::read_tsv  [from_version 1.4.99 << current 2.2.0 (>= 1 major version(s) behind)]
@@ -144,12 +143,16 @@ print(report)
 #> 
 #> -- reproducr database staleness report --
 #> 
-#>   STALE CEILING:         2
-#>   STALE FLOOR:           12
-#>   OK:                    13
+#>   STALE CEILING:         3
+#>   STALE FLOOR:           10
+#>   OK:                    9
 #>   UNKNOWN:               0
 #> 
 #> Stale ceiling entries (to_version below current release):
+#> 
+#>   [STALE CEILING] MatchIt::match.data
+#>     to_version=4.4.9 | current=4.7.2
+#>     Action: extend to_version or close entry.
 #> 
 #>   [STALE CEILING] dplyr::group_by
 #>     to_version=1.1.9 | current=1.2.1
@@ -161,10 +164,6 @@ print(report)
 #> 
 #> Stale floor entries (from_version too old -- window too wide):
 #> 
-#>   [STALE FLOOR] broom::tidy
-#>     from_version=0.7.99 | current=1.0.13
-#>     Action: raise from_version or close entry.
-#> 
 #>   [STALE FLOOR] dplyr::filter
 #>     from_version=0.8.99 | current=1.2.1
 #>     Action: raise from_version or close entry.
@@ -175,10 +174,6 @@ print(report)
 #> 
 #>   [STALE FLOOR] ggplot2::scale_colour_continuous
 #>     from_version=3.5.99 | current=4.0.3
-#>     Action: raise from_version or close entry.
-#> 
-#>   [STALE FLOOR] lme4::lmer
-#>     from_version=1.1.28 | current=2.0-1
 #>     Action: raise from_version or close entry.
 #> 
 #>   [STALE FLOOR] purrr::map_df
@@ -213,7 +208,7 @@ print(report)
 # Check specific packages only
 check_db_staleness(packages = c("dplyr", "tidyr"))
 #> reproducr: checking 2 package(s) against cran...
-#> reproducr: 1 stale ceiling, 4 stale floor, 2 ok, 0 unknown
+#> reproducr: 1 stale ceiling, 4 stale floor, 0 ok, 0 unknown
 #> 
 #> Stale ceiling entries (to_version below current release):
 #>   dplyr::group_by  [to_version 1.1.9 -> current 1.2.1]
@@ -226,8 +221,8 @@ check_db_staleness(packages = c("dplyr", "tidyr"))
 
 # Offline check using installed versions
 check_db_staleness(source = "installed")
-#> reproducr: checking 15 package(s) against installed...
-#> reproducr: 0 stale ceiling, 2 stale floor, 1 ok, 24 unknown
+#> reproducr: checking 13 package(s) against installed...
+#> reproducr: 0 stale ceiling, 2 stale floor, 1 ok, 19 unknown
 #> 
 #> Stale floor entries (from_version too old -- window too wide):
 #>   purrr::map_df  [from_version 0.3.99 << current 1.2.2 (>= 1 major version(s) behind)]
@@ -235,19 +230,18 @@ check_db_staleness(source = "installed")
 
 # Filter to stale entries only
 report <- check_db_staleness()
-#> reproducr: checking 15 package(s) against cran...
-#> reproducr: 2 stale ceiling, 12 stale floor, 13 ok, 0 unknown
+#> reproducr: checking 13 package(s) against cran...
+#> reproducr: 3 stale ceiling, 10 stale floor, 9 ok, 0 unknown
 #> 
 #> Stale ceiling entries (to_version below current release):
+#>   MatchIt::match.data  [to_version 4.4.9 -> current 4.7.2]
 #>   dplyr::group_by  [to_version 1.1.9 -> current 1.2.1]
 #>   ggplot2::geom_sf  [to_version 3.4.9 -> current 4.0.3]
 #> 
 #> Stale floor entries (from_version too old -- window too wide):
-#>   broom::tidy  [from_version 0.7.99 << current 1.0.13 (>= 1 major version(s) behind)]
 #>   dplyr::filter  [from_version 0.8.99 << current 1.2.1 (>= 1 major version(s) behind)]
 #>   ggplot2::geom_histogram  [from_version 3.5.99 << current 4.0.3 (>= 1 major version(s) behind)]
 #>   ggplot2::scale_colour_continuous  [from_version 3.5.99 << current 4.0.3 (>= 1 major version(s) behind)]
-#>   lme4::lmer  [from_version 1.1.28 << current 2.0-1 (>= 1 major version(s) behind)]
 #>   purrr::map_df  [from_version 0.3.99 << current 1.2.2 (>= 1 major version(s) behind)]
 #>   readr::read_csv  [from_version 1.4.99 << current 2.2.0 (>= 1 major version(s) behind)]
 #>   readr::read_tsv  [from_version 1.4.99 << current 2.2.0 (>= 1 major version(s) behind)]
@@ -259,12 +253,16 @@ report[report$status != "ok", ]
 #> 
 #> -- reproducr database staleness report --
 #> 
-#>   STALE CEILING:         2
-#>   STALE FLOOR:           12
+#>   STALE CEILING:         3
+#>   STALE FLOOR:           10
 #>   OK:                    0
 #>   UNKNOWN:               0
 #> 
 #> Stale ceiling entries (to_version below current release):
+#> 
+#>   [STALE CEILING] MatchIt::match.data
+#>     to_version=4.4.9 | current=4.7.2
+#>     Action: extend to_version or close entry.
 #> 
 #>   [STALE CEILING] dplyr::group_by
 #>     to_version=1.1.9 | current=1.2.1
@@ -276,10 +274,6 @@ report[report$status != "ok", ]
 #> 
 #> Stale floor entries (from_version too old -- window too wide):
 #> 
-#>   [STALE FLOOR] broom::tidy
-#>     from_version=0.7.99 | current=1.0.13
-#>     Action: raise from_version or close entry.
-#> 
 #>   [STALE FLOOR] dplyr::filter
 #>     from_version=0.8.99 | current=1.2.1
 #>     Action: raise from_version or close entry.
@@ -290,10 +284,6 @@ report[report$status != "ok", ]
 #> 
 #>   [STALE FLOOR] ggplot2::scale_colour_continuous
 #>     from_version=3.5.99 | current=4.0.3
-#>     Action: raise from_version or close entry.
-#> 
-#>   [STALE FLOOR] lme4::lmer
-#>     from_version=1.1.28 | current=2.0-1
 #>     Action: raise from_version or close entry.
 #> 
 #>   [STALE FLOOR] purrr::map_df

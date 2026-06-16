@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,7 +191,7 @@ warning:</p>
 <span>  file    <span class="op">=</span> <span class="va">cert_file</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Tag 'baseline-v1' already exists in</span></span>
-<span><span class="co">#&gt; '/tmp/Rtmp8fpZXE/file1bdf193b88f8'. Overwriting.</span></span>
+<span><span class="co">#&gt; '/tmp/RtmpebSYTm/file1ad020b06124'. Overwriting.</span></span>
 <span><span class="co">#&gt; reproducr: certified 1 output(s) [2026-06-16] under tag 'baseline-v1'</span></span></code></pre></div>
 <hr>
 </div>
@@ -203,9 +203,9 @@ warning:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/list_certs.html">list_certs</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">cert_file</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               tag                timestamp r_version                      os</span></span>
-<span><span class="co">#&gt; 1     baseline-v1 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
-<span><span class="co">#&gt; 2 pre-peer-review 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
-<span><span class="co">#&gt; 3   post-revision 2026-06-16T13:00:40+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
+<span><span class="co">#&gt; 1     baseline-v1 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
+<span><span class="co">#&gt; 2 pre-peer-review 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
+<span><span class="co">#&gt; 3   post-revision 2026-06-16T17:45:22+0000     4.6.0 Linux 6.17.0-1018-azure</span></span>
 <span><span class="co">#&gt;   n_outputs script</span></span>
 <span><span class="co">#&gt; 1         1   &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 2         1   &lt;NA&gt;</span></span>
@@ -279,8 +279,8 @@ warning:</p>
 <span><span class="co">#&gt; -- reproducr drift report --</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [OK]      stays_same</span></span>
-<span><span class="co">#&gt; [DRIFT]   will_change</span></span>
-<span><span class="co">#&gt;             Hash mismatch (numeric tolerance check requires stored values).</span></span>
+<span><span class="co">#&gt; [DRIFT]   will_change (max delta: 7.19)</span></span>
+<span><span class="co">#&gt;             Numeric drift (max |delta|: 7.19, tolerance: 1e-10).</span></span>
 <span><span class="co">#&gt; [NEW]     brand_new</span></span>
 <span><span class="co">#&gt;             Not present in the baseline certification.</span></span>
 <span><span class="co">#&gt; [MISSING] will_vanish</span></span>
