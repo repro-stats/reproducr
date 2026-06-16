@@ -12,7 +12,8 @@ Description: Audits R scripts for behavioural reproducibility risk. Scans
     systems. Supports baseline certification of analytical outputs so that
     silent numerical drift can be detected across package upgrades or platform
     changes. Generates human-readable audit reports suitable for academic
-    submission or pharmaceutical QC workflows.
+    submission or pharmaceutical QC workflows. For more details see
+    <https://github.com/repro-stats/reproducr>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-GB

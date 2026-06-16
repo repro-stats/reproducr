@@ -162,7 +162,7 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
 #' @return Invisibly returns a `data.frame` of class
 #'   `c("drift_report", "data.frame")` with columns `output`, `status`
 #'   (`"ok"`, `"drifted"`, `"missing"`, `"new"`), `max_delta`, and `note`.
-#'   Also prints a summary to the console.
+#'   Also emits a summary via `message()`.
 #'
 #' @seealso [certify()] to create a baseline; [list_certs()] to see available
 #'   tags.
@@ -307,23 +307,19 @@ check_drift <- function(outputs,
     "ALL OUTPUTS MATCH"
   }
 
-  cat(
-    sprintf("\n-- reproducr drift check vs '%s' --\n\n", against),
-    sprintf("  Verdict  : %s\n", verdict),
-    sprintf("  OK       : %d\n", n_ok),
-    sprintf("  Drifted  : %d\n", n_drifted),
-    sprintf("  Missing  : %d\n", n_missing),
-    sprintf("  New      : %d\n", n_new),
-    "\n",
-    sep = ""
-  )
+  message(sprintf("-- reproducr drift check vs '%s' --", against))
+  message(sprintf("  Verdict  : %s", verdict))
+  message(sprintf("  OK       : %d", n_ok))
+  message(sprintf("  Drifted  : %d", n_drifted))
+  message(sprintf("  Missing  : %d", n_missing))
+  message(sprintf("  New      : %d", n_new))
 
   if (n_drifted > 0L) {
-    cat("  Drifted outputs:\n")
-    for (nm in out$output[out$status == "drifted"]) {
-      cat("    - ", nm, "\n", sep = "")
-    }
-    cat("\n")
+    drifted_nms <- paste(
+      paste0("    - ", out$output[out$status == "drifted"]),
+      collapse = "\n"
+    )
+    message("  Drifted outputs:\n", drifted_nms)
   }
 
   class(out) <- c("drift_report", "data.frame")

@@ -1,18 +1,16 @@
-## R CMD check results
-0 errors | 0 warnings | 1 note
+This is a resubmission addressing reviewer feedback:
 
-* checking for future file timestamps: unable to verify current time
-  Known infrastructure issue, unrelated to the package.
+- Added reference URL to the Description field of DESCRIPTION
+- Replaced \dontrun{} with \donttest{} in check_db_staleness examples
+- Replaced cat()/print() with message() in non-S3-print functions
+  (audit_script.R, certify.R, check_db_staleness.R, repro_badge.R,
+  repro_report.R, risk_score.R)
+- Replaced installed.packages() with packageVersion() in
+  check_db_staleness.R and utils.R
 
-## Test environments
-* macOS 26.5, R 4.4.2 (local)
-* Windows (R-devel, win-builder): 0 errors, 0 warnings, 1 note
-
-## Downstream dependencies
-None.
-
-## Resubmission notes
-This is a resubmission of v0.1.4 (previously submitted 2026-06-07).
-Changes since v0.1.4:
-
-* Fixed remaining relative URI in README.md -- the CODE_OF_CONDUCT.md link. Now uses the full absolute GitHub URL.
+Note on versioning: the version has been incremented from 0.1.5
+(current CRAN release) to 0.2.0, as new functionality was added during the review period:
+- major_version_grace and from_version_major_threshold parameters
+  added to risk_score() and check_db_staleness() respectively,
+  suppressing false-positive flags for users already past a
+  breaking-change transition window.
