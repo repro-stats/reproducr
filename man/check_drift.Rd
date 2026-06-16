@@ -22,11 +22,10 @@ added certification.}
 \item{file}{\code{character(1)}. Base path of the certification store.
 Default \code{".reproducr"} (reads \code{.reproducr.rds}).}
 
-\item{tolerance}{\code{numeric(1)}. Numeric tolerance applied to hash comparison.
-When \verb{> 0}, outputs whose hashes differ are also compared element-wise
-(for numeric vectors/matrices), and flagged as \code{"ok"} if the maximum
-absolute difference is within \code{tolerance}. Set to \code{0} for exact matching
-only. Default \code{1e-10}.}
+\item{tolerance}{\code{numeric(1)}. Numeric tolerance for element-wise comparison
+of numeric outputs whose hashes differ. Outputs whose maximum absolute
+difference is within \code{tolerance} are reported as \code{"ok"}. Set to \code{0} for
+exact hash matching only. Default \code{1e-10}.}
 }
 \value{
 Invisibly returns a \code{data.frame} of class
@@ -39,6 +38,13 @@ Re-hashes a set of named R objects and compares them against a previously
 stored certification. Reports which outputs are unchanged (\code{"ok"}), have
 changed (\code{"drifted"}), are present in the baseline but not supplied
 (\code{"missing"}), or are new outputs not in the baseline (\code{"new"}).
+
+For numeric outputs whose hashes differ, \code{check_drift()} falls back to an
+element-wise absolute difference comparison using \code{tolerance}. This makes
+drift detection robust to benign floating-point variation across platforms
+(e.g. Linux CI vs macOS local), while still catching genuine numerical
+changes. The fallback requires that the certification was created with
+\code{certify()} version >= 0.2.0, which stores raw values alongside hashes.
 }
 \examples{
 cert_file <- tempfile()

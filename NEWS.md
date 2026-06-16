@@ -1,3 +1,28 @@
+# reproducr 0.2.1
+
+### Bug fixes
+
+* `check_drift()` numeric tolerance comparison now works correctly.
+  Previously the tolerance path was a documented stub that immediately fell
+  back to `"Hash mismatch (numeric tolerance check requires stored values)"`.
+  `check_drift()` now performs a full element-wise `max(abs(current - stored))`
+  comparison for numeric outputs whose hashes differ, and marks them `"ok"`
+  when the maximum absolute difference is within `tolerance` (default `1e-10`).
+  This fixes false-positive drift reports caused by benign floating-point
+  variation across platforms (e.g. macOS local vs Linux CI).
+
+* `certify()` now stores raw output values alongside hashes in `.reproducr.rds`
+  (new `values` field in the certification record). This is required for the
+  tolerance comparison above. Certifications created by earlier versions remain
+  readable; `check_drift()` degrades gracefully with a clear message when
+  `values` is absent.
+
+### Migration note
+
+Delete `.reproducr.rds` and re-run `certify()` once to populate the new
+`values` field. Until then `check_drift()` degrades gracefully with an
+informative message.
+
 # reproducr 0.2.0
 
 * `risk_score()` gains a `major_version_grace` parameter (default `1L`) --

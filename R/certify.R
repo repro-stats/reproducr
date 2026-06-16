@@ -106,6 +106,7 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
     r_platform = R.version$platform,
     os = .get_os(),
     hashes = hashes,
+    values = outputs, # stored for cross-platform numeric tolerance comparison
     n_outputs = length(outputs),
     output_names = names(outputs),
     output_classes = vapply(
@@ -146,6 +147,13 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
 #' changed (`"drifted"`), are present in the baseline but not supplied
 #' (`"missing"`), or are new outputs not in the baseline (`"new"`).
 #'
+#' For numeric outputs whose hashes differ, `check_drift()` falls back to an
+#' element-wise absolute difference comparison using `tolerance`. This makes
+#' drift detection robust to benign floating-point variation across platforms
+#' (e.g. Linux CI vs macOS local), while still catching genuine numerical
+#' changes. The fallback requires that the certification was created with
+#' `certify()` version >= 0.2.0, which stores raw values alongside hashes.
+#'
 #' @param outputs A fully named list of current R objects -- the same names used
 #'   in the [certify()] call being compared against.
 #' @param against `character(1)`. The certification tag to compare against.
@@ -153,11 +161,10 @@ certify <- function(outputs, tag, script = NULL, file = ".reproducr") {
 #'   added certification.
 #' @param file `character(1)`. Base path of the certification store.
 #'   Default `".reproducr"` (reads `.reproducr.rds`).
-#' @param tolerance `numeric(1)`. Numeric tolerance applied to hash comparison.
-#'   When `> 0`, outputs whose hashes differ are also compared element-wise
-#'   (for numeric vectors/matrices), and flagged as `"ok"` if the maximum
-#'   absolute difference is within `tolerance`. Set to `0` for exact matching
-#'   only. Default `1e-10`.
+#' @param tolerance `numeric(1)`. Numeric tolerance for element-wise comparison
+#'   of numeric outputs whose hashes differ. Outputs whose maximum absolute
+#'   difference is within `tolerance` are reported as `"ok"`. Set to `0` for
+#'   exact hash matching only. Default `1e-10`.
 #'
 #' @return Invisibly returns a `data.frame` of class
 #'   `c("drift_report", "data.frame")` with columns `output`, `status`
@@ -215,6 +222,7 @@ check_drift <- function(outputs,
 
   baseline <- certs[[against]]
   baseline_hashes <- baseline$hashes
+  baseline_values <- baseline$values # NULL for certs made before v0.2.0
   baseline_names <- names(baseline_hashes)
   current_names <- names(outputs)
 
@@ -254,15 +262,54 @@ check_drift <- function(outputs,
       next
     }
 
-    # Hashes differ -- attempt numeric tolerance comparison
+    # --- Hashes differ: attempt numeric tolerance comparison -----------------
     max_delta <- NA_real_
     note <- "Hash mismatch."
 
     if (tolerance > 0 && is.numeric(outputs[[nm]])) {
-      # We only have the stored hash, not the original values, so numeric
-      # delta requires the user to pass both. This path is a hook for a
-      # future version that stores values alongside hashes.
-      note <- "Hash mismatch (numeric tolerance check requires stored values)."
+      stored_val <- baseline_values[[nm]]
+
+      if (!is.null(stored_val) && is.numeric(stored_val)) {
+        curr_val <- outputs[[nm]]
+
+        if (length(curr_val) == length(stored_val)) {
+          delta <- max(abs(curr_val - stored_val), na.rm = TRUE)
+
+          if (is.finite(delta) && delta <= tolerance) {
+            # Within tolerance — benign platform floating point variation, treat as ok
+            idx <- idx + 1L
+            results[[idx]] <- data.frame(
+              output = nm,
+              status = "ok",
+              max_delta = delta,
+              note = sprintf(
+                "Within tolerance (max |delta|: %s)", signif(delta, 3L)
+              ),
+              stringsAsFactors = FALSE
+            )
+            next
+          } else if (is.finite(delta)) {
+            max_delta <- delta
+            note <- sprintf(
+              "Numeric drift (max |delta|: %s, tolerance: %s).",
+              signif(delta, 3L), signif(tolerance, 3L)
+            )
+          } else {
+            note <- "Hash mismatch (non-finite delta; possible NaN/Inf change)."
+          }
+        } else {
+          note <- sprintf(
+            "Hash mismatch (length changed: %d -> %d).",
+            length(stored_val), length(curr_val)
+          )
+        }
+      } else {
+        # baseline$values absent — old certification format
+        note <- paste0(
+          "Hash mismatch (numeric tolerance unavailable; ",
+          "re-run certify() to enable cross-platform comparison)."
+        )
+      }
     }
 
     idx <- idx + 1L
