@@ -366,6 +366,7 @@ repository](https://github.com/repro-stats/reproducr).
 - [`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
   : Certify analytical outputs as a reproducibility baseline
 - [`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
+  [`print(`*`<staleness_report>`*`)`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
   : Check whether breaking-changes database entries are stale
 - [`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md)
   : Check analytical outputs for drift against a certified baseline

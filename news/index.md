@@ -4,25 +4,51 @@
 
 #### Bug fixes
 
-- [`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md)
-  numeric tolerance comparison now works correctly. Previously the
-  tolerance path was a documented stub that immediately fell back to
-  `"Hash mismatch (numeric tolerance check requires stored values)"`.
-  [`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md)
-  now performs a full element-wise `max(abs(current - stored))`
-  comparison for numeric outputs whose hashes differ, and marks them
-  `"ok"` when the maximum absolute difference is within `tolerance`
-  (default `1e-10`). This fixes false-positive drift reports caused by
-  benign floating-point variation across platforms (e.g. macOS local vs
-  Linux CI).
-
 - [`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
-  now stores raw output values alongside hashes in `.reproducr.rds` (new
-  `values` field in the certification record). This is required for the
-  tolerance comparison above. Certifications created by earlier versions
-  remain readable;
-  [`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md)
-  degrades gracefully with a clear message when `values` is absent.
+  now stores raw output values alongside hashes in the certification
+  record (new `values` field in `.reproducr.rds`). Previously only
+  SHA-256 hashes were stored, making element-wise numeric comparison
+  impossible downstream.
+
+- [`check_drift()`](https://repro-stats.github.io/reproducr/reference/check_drift.md)
+  tolerance comparison is now fully implemented. Previously `tolerance`
+  was a no-op — the function detected numeric outputs but immediately
+  fell back to a hash-mismatch message for all of them. It now computes
+  `max(abs(current - stored))` element-wise and resolves to `"ok"` when
+  `delta <= tolerance`, `"drifted"` with the observed delta when not,
+  and handles length mismatches, non-finite deltas, and old
+  certification format (pre-0.2.1 `.reproducr.rds`) gracefully. Fixes
+  false-positive drift reports on cross-platform runs (e.g. macOS local
+  vs Linux CI).
+
+- `.md_to_html()` fallback (used when `commonmark` is not installed) now
+  correctly converts Markdown headings, list items, and blockquotes in
+  multiline strings. The line-anchored
+  [`gsub()`](https://rdrr.io/r/base/grep.html) patterns were missing the
+  `(?m)` multiline flag. Also fixes a typo in the `<h2>` replacement
+  string (`\\2` → `\\1`).
+
+- [`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
+  stale ceiling and stale floor detail messages now respect
+  `verbose = FALSE`. Previously these were printed unconditionally
+  regardless of the `verbose` argument.
+
+- CI audit workflows now commit `reproducibility_report.md` alongside
+  `README.md` and `.reproducr.rds`, and use timestamp-based tags
+  (`ci-{date}-{hhmmss}`) to prevent same-day collisions.
+
+#### New features
+
+- [`print.staleness_report()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
+  gains a `details` argument (default `TRUE`). Set `details = FALSE` to
+  print only the summary counts without the per-entry breakdown, useful
+  when reviewing results interactively after already having read the
+  entries.
+
+#### Internal
+
+- Test coverage increased from 89% to 97%.
+- `withr` added to `Suggests` to formally declare the test dependency.
 
 #### Migration note
 

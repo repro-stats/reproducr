@@ -26,6 +26,9 @@ check_db_staleness(
   source = "cran",
   from_version_major_threshold = 1L
 )
+
+# S3 method for class 'staleness_report'
+print(x, details = TRUE, ...)
 ```
 
 ## Arguments
@@ -65,6 +68,20 @@ check_db_staleness(
   release must be *ahead* of `from_version` before the entry is flagged
   as having a stale floor. Set to `Inf` to disable this check. Default
   `1L`.
+
+- x:
+
+  A `staleness_report` object.
+
+- details:
+
+  `logical(1)`. When `TRUE` (the default), renders the full per-entry
+  breakdown for stale entries. Set to `FALSE` to print only the summary
+  counts.
+
+- ...:
+
+  Additional arguments (currently unused).
 
 ## Value
 
@@ -203,6 +220,17 @@ print(report)
 #>   [STALE FLOOR] tidyr::unnest
 #>     from_version=0.8.99 | current=1.3.2
 #>     Action: raise from_version or close entry.
+#> 
+
+# Compact counts-only view
+print(report, details = FALSE)
+#> 
+#> -- reproducr database staleness report --
+#> 
+#>   STALE CEILING:         3
+#>   STALE FLOOR:           10
+#>   OK:                    9
+#>   UNKNOWN:               0
 #> 
 
 # Check specific packages only

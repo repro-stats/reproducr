@@ -43,8 +43,22 @@
 <h2 class="pkg-version" data-toc-text="0.2.1" id="reproducr-021">reproducr 0.2.1<a class="anchor" aria-label="anchor" href="#reproducr-021"></a></h2>
 <div class="section level4">
 <h4 id="bug-fixes-0-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h4>
-<ul><li><p><code><a href="../reference/check_drift.html">check_drift()</a></code> numeric tolerance comparison now works correctly. Previously the tolerance path was a documented stub that immediately fell back to <code>"Hash mismatch (numeric tolerance check requires stored values)"</code>. <code><a href="../reference/check_drift.html">check_drift()</a></code> now performs a full element-wise <code>max(abs(current - stored))</code> comparison for numeric outputs whose hashes differ, and marks them <code>"ok"</code> when the maximum absolute difference is within <code>tolerance</code> (default <code>1e-10</code>). This fixes false-positive drift reports caused by benign floating-point variation across platforms (e.g. macOS local vs Linux CI).</p></li>
-<li><p><code><a href="../reference/certify.html">certify()</a></code> now stores raw output values alongside hashes in <code>.reproducr.rds</code> (new <code>values</code> field in the certification record). This is required for the tolerance comparison above. Certifications created by earlier versions remain readable; <code><a href="../reference/check_drift.html">check_drift()</a></code> degrades gracefully with a clear message when <code>values</code> is absent.</p></li>
+<ul><li><p><code><a href="../reference/certify.html">certify()</a></code> now stores raw output values alongside hashes in the certification record (new <code>values</code> field in <code>.reproducr.rds</code>). Previously only SHA-256 hashes were stored, making element-wise numeric comparison impossible downstream.</p></li>
+<li><p><code><a href="../reference/check_drift.html">check_drift()</a></code> tolerance comparison is now fully implemented. Previously <code>tolerance</code> was a no-op — the function detected numeric outputs but immediately fell back to a hash-mismatch message for all of them. It now computes <code>max(abs(current - stored))</code> element-wise and resolves to <code>"ok"</code> when <code>delta &lt;= tolerance</code>, <code>"drifted"</code> with the observed delta when not, and handles length mismatches, non-finite deltas, and old certification format (pre-0.2.1 <code>.reproducr.rds</code>) gracefully. Fixes false-positive drift reports on cross-platform runs (e.g. macOS local vs Linux CI).</p></li>
+<li><p><code>.md_to_html()</code> fallback (used when <code>commonmark</code> is not installed) now correctly converts Markdown headings, list items, and blockquotes in multiline strings. The line-anchored <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> patterns were missing the <code>(?m)</code> multiline flag. Also fixes a typo in the <code>&lt;h2&gt;</code> replacement string (<code>\\2</code> → <code>\\1</code>).</p></li>
+<li><p><code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> stale ceiling and stale floor detail messages now respect <code>verbose = FALSE</code>. Previously these were printed unconditionally regardless of the <code>verbose</code> argument.</p></li>
+<li><p>CI audit workflows now commit <code>reproducibility_report.md</code> alongside <code>README.md</code> and <code>.reproducr.rds</code>, and use timestamp-based tags (<code>ci-{date}-{hhmmss}</code>) to prevent same-day collisions.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-0-2-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-1"></a></h4>
+<ul><li>
+<code><a href="../reference/check_db_staleness.html">print.staleness_report()</a></code> gains a <code>details</code> argument (default <code>TRUE</code>). Set <code>details = FALSE</code> to print only the summary counts without the per-entry breakdown, useful when reviewing results interactively after already having read the entries.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="internal-0-2-1">Internal<a class="anchor" aria-label="anchor" href="#internal-0-2-1"></a></h4>
+<ul><li>Test coverage increased from 89% to 97%.</li>
+<li>
+<code>withr</code> added to <code>Suggests</code> to formally declare the test dependency.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="migration-note-0-2-1">Migration note<a class="anchor" aria-label="anchor" href="#migration-note-0-2-1"></a></h4>
