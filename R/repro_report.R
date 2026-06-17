@@ -379,13 +379,13 @@ repro_report <- function(audit,
     )
     # Minimal fallback
     html <- md
-    html <- gsub("^# (.+)$", "<h1>\\1</h1>", html, perl = TRUE)
-    html <- gsub("^## (.+)$", "<h2>\\1</h2>", html, perl = TRUE)
-    html <- gsub("^### (.+)$", "<h3>\\1</h3>", html, perl = TRUE)
-    html <- gsub("^> (.+)$", "<blockquote>\\1</blockquote>", html, perl = TRUE)
+    html <- gsub("(?m)^# (.+)$", "<h1>\\1</h1>", html, perl = TRUE)
+    html <- gsub("(?m)^## (.+)$", "<h2>\\1</h2>", html, perl = TRUE)
+    html <- gsub("(?m)^### (.+)$", "<h3>\\1</h3>", html, perl = TRUE)
+    html <- gsub("(?m)^> (.+)$", "<blockquote>\\1</blockquote>", html, perl = TRUE)
     html <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", html, perl = TRUE)
     html <- gsub("`([^`]+)`", "<code>\\1</code>", html, perl = TRUE)
-    html <- gsub("^- (.+)$", "<li>\\1</li>", html, perl = TRUE)
+    html <- gsub("(?m)^- (.+)$", "<li>\\1</li>", html, perl = TRUE)
     body <- paste(html, collapse = "\n")
   }
 

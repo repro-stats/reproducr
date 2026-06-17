@@ -30,7 +30,8 @@ Suggests:
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
-    covr
+    covr,
+    withr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://github.com/repro-stats/reproducr
