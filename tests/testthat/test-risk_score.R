@@ -11,12 +11,10 @@ test_that("risk_score() returns a data frame with required columns", {
   rs <- risk_score(r)
 
   expect_s3_class(rs, "data.frame")
-  expect_true(all(
-    c(
-      "file", "line", "call", "pkg_version", "risk", "check",
-      "description", "reference"
-    ) %in% names(rs)
-  ))
+  expect_true(all(c(
+    "file", "line", "call", "pkg_version", "risk", "check",
+    "description", "reference"
+  ) %in% names(rs)))
 })
 
 test_that("risk_score() returns empty data frame with correct columns on clean script", {
@@ -159,17 +157,17 @@ test_that("risk_score() min_risk = 'high' excludes medium and low", {
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
   high <- risk_score(r, min_risk = "high")
 
-  if (nrow(high) > 0L) expect_true(all(high$risk == "high"))
+  expect_true(nrow(high) == 0L || all(high$risk == "high"))
 })
 
 test_that("risk_score() min_risk = 'low' returns all risks", {
   f <- write_script("x <- base::sort(letters)", "y <- stats::rnorm(10)")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
-  all <- risk_score(r, min_risk = "low")
+  all_risks <- risk_score(r, min_risk = "low")
   hi <- risk_score(r, min_risk = "high")
 
-  expect_true(nrow(all) >= nrow(hi))
+  expect_true(nrow(all_risks) >= nrow(hi))
 })
 
 # ---- methods selection -----------------------------------------------------
@@ -188,39 +186,22 @@ test_that("risk_score() runs only the requested method(s)", {
 # ---- major_version_grace ---------------------------------------------------
 
 test_that("risk_score() major_version_grace suppresses entries past transition", {
-  # Build a mock audit_report whose pkg_version is 2 major versions ahead
-  # of a known from_version in the database.
-  # dplyr::summarise has from_version "1.0.99" -- installing "3.0.0" (gap=2)
-  # should suppress with grace=1 but not with grace=Inf.
   f <- write_script("x <- dplyr::summarise(mtcars, n = dplyr::n())")
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
 
-  # Override pkg_version to simulate a version 2 major versions past from_version
-  if (nrow(r$calls) > 0L) {
-    idx <- r$calls$pkg == "dplyr" & r$calls$fn == "summarise"
-    if (any(idx)) {
-      r$calls$pkg_version[idx] <- "3.0.0"
+  idx <- r$calls$pkg == "dplyr" & r$calls$fn == "summarise"
+  skip_if(!any(idx), "dplyr::summarise not detected in audit")
 
-      rs_grace_1 <- risk_score(r,
-        methods = "changelog",
-        major_version_grace = 1L
-      )
-      rs_grace_inf <- risk_score(r,
-        methods = "changelog",
-        major_version_grace = Inf
-      )
+  r$calls$pkg_version[idx] <- "3.0.0"
+  rs_grace_1   <- risk_score(r, methods = "changelog", major_version_grace = 1L)
+  rs_grace_inf <- risk_score(r, methods = "changelog", major_version_grace = Inf)
 
-      dplyr_grace <- rs_grace_1[rs_grace_1$call == "dplyr::summarise", ]
-      dplyr_no_grace <- rs_grace_inf[rs_grace_inf$call == "dplyr::summarise", ]
+  dplyr_grace    <- rs_grace_1[rs_grace_1$call == "dplyr::summarise", ]
+  dplyr_no_grace <- rs_grace_inf[rs_grace_inf$call == "dplyr::summarise", ]
 
-      # With grace=1 and gap=2, entry should be suppressed
-      expect_equal(nrow(dplyr_grace), 0L)
-      # With grace=Inf, suppression disabled -- entry should appear if in window
-      # (depends on installed version, so only check structure)
-      expect_true(is.data.frame(dplyr_no_grace))
-    }
-  }
+  expect_equal(nrow(dplyr_grace), 0L)
+  expect_true(is.data.frame(dplyr_no_grace))
 })
 
 test_that("risk_score() major_version_grace = Inf disables suppression", {
@@ -228,7 +209,6 @@ test_that("risk_score() major_version_grace = Inf disables suppression", {
   on.exit(unlink(f))
   r <- audit_script(f, renv = FALSE, verbose = FALSE)
 
-  # Should not error and should return a data frame
   rs <- risk_score(r, methods = "changelog", major_version_grace = Inf)
   expect_s3_class(rs, "data.frame")
 })
@@ -284,4 +264,30 @@ test_that("as.data.frame.risk_report() drops the risk_report class", {
 
   expect_false(inherits(df, "risk_report"))
   expect_true(is.data.frame(df))
+})
+
+# ---- [.risk_report(): class stripping (line 351) ---------------------------
+
+test_that("[.risk_report() strips class when required columns are removed", {
+  # base::sort always triggers locale_check — guarantees at least one risk row
+  f <- write_script("x <- base::sort(letters)")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+  rs <- risk_score(r, methods = "locale_check")
+
+  expect_true(nrow(rs) > 0L)
+  sub <- rs[, c("call", "risk"), drop = FALSE]
+  expect_false(inherits(sub, "risk_report"))
+  expect_true(is.data.frame(sub))
+})
+
+test_that("[.risk_report() preserves class when all required columns retained", {
+  f <- write_script("x <- base::sort(letters)")
+  on.exit(unlink(f))
+  r <- audit_script(f, renv = FALSE, verbose = FALSE)
+  rs <- risk_score(r, methods = "locale_check")
+
+  expect_true(nrow(rs) > 0L)
+  sub <- rs[1L, , drop = FALSE]
+  expect_s3_class(sub, "risk_report")
 })

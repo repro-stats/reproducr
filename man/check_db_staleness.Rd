@@ -2,6 +2,7 @@
 % Please edit documentation in R/check_db_staleness.R
 \name{check_db_staleness}
 \alias{check_db_staleness}
+\alias{print.staleness_report}
 \title{Check whether breaking-changes database entries are stale}
 \usage{
 check_db_staleness(
@@ -10,6 +11,8 @@ check_db_staleness(
   source = "cran",
   from_version_major_threshold = 1L
 )
+
+\method{print}{staleness_report}(x, details = TRUE, ...)
 }
 \arguments{
 \item{packages}{\code{character} or \code{NULL}. Package names to check. If \code{NULL}
@@ -33,6 +36,14 @@ Default \code{"cran"}.}
 major versions the current CRAN release must be \emph{ahead} of \code{from_version}
 before the entry is flagged as having a stale floor. Set to \code{Inf} to
 disable this check. Default \code{1L}.}
+
+\item{x}{A \code{staleness_report} object.}
+
+\item{details}{\code{logical(1)}. When \code{TRUE} (the default), renders the full
+per-entry breakdown for stale entries. Set to \code{FALSE} to print only the
+summary counts.}
+
+\item{...}{Additional arguments (currently unused).}
 }
 \value{
 A \code{data.frame} of class \code{c("staleness_report", "data.frame")}
@@ -75,6 +86,9 @@ is detected.
 # Check all tracked packages against CRAN
 report <- check_db_staleness()
 print(report)
+
+# Compact counts-only view
+print(report, details = FALSE)
 
 # Check specific packages only
 check_db_staleness(packages = c("dplyr", "tidyr"))

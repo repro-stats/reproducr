@@ -12,4 +12,3 @@ docs/
 # R CMD check
 /*.Rcheck/
 *.tar.gz
-reproducibility_report.md

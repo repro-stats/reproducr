@@ -64,6 +64,9 @@
 #' report <- check_db_staleness()
 #' print(report)
 #'
+#' # Compact counts-only view
+#' print(report, details = FALSE)
+#'
 #' # Check specific packages only
 #' check_db_staleness(packages = c("dplyr", "tidyr"))
 #'
@@ -205,35 +208,35 @@ check_db_staleness <- function(packages = NULL,
   class(out) <- c("staleness_report", "data.frame")
 
   n_stale_ceiling <- sum(out$status == "stale_ceiling", na.rm = TRUE)
-  n_stale_floor <- sum(out$status == "stale_floor", na.rm = TRUE)
-  n_ok <- sum(out$status == "ok", na.rm = TRUE)
-  n_unknown <- sum(out$status == "unknown", na.rm = TRUE)
+  n_stale_floor   <- sum(out$status == "stale_floor",   na.rm = TRUE)
+  n_ok            <- sum(out$status == "ok",            na.rm = TRUE)
+  n_unknown       <- sum(out$status == "unknown",        na.rm = TRUE)
 
   if (verbose) {
     message(sprintf(
       "reproducr: %d stale ceiling, %d stale floor, %d ok, %d unknown",
       n_stale_ceiling, n_stale_floor, n_ok, n_unknown
     ))
-  }
 
-  if (n_stale_ceiling > 0L) {
-    stale_c <- out[out$status == "stale_ceiling", , drop = FALSE]
-    message(
-      "\nStale ceiling entries (to_version below current release):\n",
-      paste(sprintf("  %s  [%s]", stale_c$key, stale_c$gap),
-        collapse = "\n"
+    if (n_stale_ceiling > 0L) {
+      stale_c <- out[out$status == "stale_ceiling", , drop = FALSE]
+      message(
+        "\nStale ceiling entries (to_version below current release):\n",
+        paste(sprintf("  %s  [%s]", stale_c$key, stale_c$gap),
+          collapse = "\n"
+        )
       )
-    )
-  }
+    }
 
-  if (n_stale_floor > 0L) {
-    stale_f <- out[out$status == "stale_floor", , drop = FALSE]
-    message(
-      "\nStale floor entries (from_version too old -- window too wide):\n",
-      paste(sprintf("  %s  [%s]", stale_f$key, stale_f$gap),
-        collapse = "\n"
+    if (n_stale_floor > 0L) {
+      stale_f <- out[out$status == "stale_floor", , drop = FALSE]
+      message(
+        "\nStale floor entries (from_version too old -- window too wide):\n",
+        paste(sprintf("  %s  [%s]", stale_f$key, stale_f$gap),
+          collapse = "\n"
+        )
       )
-    )
+    }
   }
 
   invisible(out)
@@ -241,39 +244,47 @@ check_db_staleness <- function(packages = NULL,
 
 # ---- S3 methods -------------------------------------------------------------
 
+#' @rdname check_db_staleness
+#' @param x A `staleness_report` object.
+#' @param details `logical(1)`. When `TRUE` (the default), renders the full
+#'   per-entry breakdown for stale entries. Set to `FALSE` to print only the
+#'   summary counts.
+#' @param ... Additional arguments (currently unused).
 #' @export
-print.staleness_report <- function(x, ...) {
+print.staleness_report <- function(x, details = TRUE, ...) {
   n_stale_ceiling <- sum(x$status == "stale_ceiling", na.rm = TRUE)
-  n_stale_floor <- sum(x$status == "stale_floor", na.rm = TRUE)
-  n_ok <- sum(x$status == "ok", na.rm = TRUE)
-  n_unknown <- sum(x$status == "unknown", na.rm = TRUE)
+  n_stale_floor   <- sum(x$status == "stale_floor",   na.rm = TRUE)
+  n_ok            <- sum(x$status == "ok",            na.rm = TRUE)
+  n_unknown       <- sum(x$status == "unknown",        na.rm = TRUE)
 
   cat("\n-- reproducr database staleness report --\n\n")
   cat(sprintf("  %-22s %d\n", "STALE CEILING:", n_stale_ceiling))
-  cat(sprintf("  %-22s %d\n", "STALE FLOOR:", n_stale_floor))
-  cat(sprintf("  %-22s %d\n", "OK:", n_ok))
-  cat(sprintf("  %-22s %d\n", "UNKNOWN:", n_unknown))
+  cat(sprintf("  %-22s %d\n", "STALE FLOOR:",   n_stale_floor))
+  cat(sprintf("  %-22s %d\n", "OK:",             n_ok))
+  cat(sprintf("  %-22s %d\n", "UNKNOWN:",        n_unknown))
   cat("\n")
 
-  if (n_stale_ceiling > 0L) {
-    stale <- x[x$status == "stale_ceiling", , drop = FALSE]
-    cat("Stale ceiling entries (to_version below current release):\n\n")
-    for (i in seq_len(nrow(stale))) {
-      cat(sprintf(
-        "  [STALE CEILING] %s\n    to_version=%s | current=%s\n    Action: extend to_version or close entry.\n\n",
-        stale$key[i], stale$to_version[i], stale$current_version[i]
-      ))
+  if (details) {
+    if (n_stale_ceiling > 0L) {
+      stale <- x[x$status == "stale_ceiling", , drop = FALSE]
+      cat("Stale ceiling entries (to_version below current release):\n\n")
+      for (i in seq_len(nrow(stale))) {
+        cat(sprintf(
+          "  [STALE CEILING] %s\n    to_version=%s | current=%s\n    Action: extend to_version or close entry.\n\n",
+          stale$key[i], stale$to_version[i], stale$current_version[i]
+        ))
+      }
     }
-  }
 
-  if (n_stale_floor > 0L) {
-    stale <- x[x$status == "stale_floor", , drop = FALSE]
-    cat("Stale floor entries (from_version too old -- window too wide):\n\n")
-    for (i in seq_len(nrow(stale))) {
-      cat(sprintf(
-        "  [STALE FLOOR] %s\n    from_version=%s | current=%s\n    Action: raise from_version or close entry.\n\n",
-        stale$key[i], stale$from_version[i], stale$current_version[i]
-      ))
+    if (n_stale_floor > 0L) {
+      stale <- x[x$status == "stale_floor", , drop = FALSE]
+      cat("Stale floor entries (from_version too old -- window too wide):\n\n")
+      for (i in seq_len(nrow(stale))) {
+        cat(sprintf(
+          "  [STALE FLOOR] %s\n    from_version=%s | current=%s\n    Action: raise from_version or close entry.\n\n",
+          stale$key[i], stale$from_version[i], stale$current_version[i]
+        ))
+      }
     }
   }
 
