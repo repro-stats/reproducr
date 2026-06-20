@@ -300,8 +300,8 @@ report_forced$calls$pkg_version[report_forced$calls$pkg == "dplyr"] <- "1.1.0"
 
 risks_forced <- risk_score(report_forced, methods = "changelog")
 as.data.frame(risks_forced)[, c("call", "pkg_version", "risk")]
-#> [1] call        pkg_version risk       
-#> <0 rows> (or 0-length row.names)
+#>               call pkg_version risk
+#> 1 dplyr::summarise       1.1.0 high
 ```
 
 ------------------------------------------------------------------------

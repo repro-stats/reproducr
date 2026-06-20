@@ -190,15 +190,30 @@ The heart of
 [`risk_score()`](https://repro-stats.github.io/reproducr/reference/risk_score.md)
 is a curated database of known cases where a package update **silently
 changed function behaviour** — not errors, not deprecation warnings,
-just different results. Coverage spans popular packages across the
-tidyverse, modelling (`lme4`, `survival`, `MatchIt`, `caret`), and base
-R.
+just different results.
 
-The database is kept current via a weekly automated check – see
+Current coverage:
+
+| Package | Entries | Examples |
+|----|----|----|
+| `dplyr` | 5 | `summarise()` grouping change (v1.1.0), `across()` naming (v1.1.0) |
+| `tidyr` | 3 | `nest()` interface rewrite (v1.0.0), `pivot_wider()` duplicate handling (v1.2.0) |
+| `ggplot2` | 3 | Default colour scale change (v3.4.0), `aes()` scoping (v3.5.0) |
+| `readr` | 2 | vroom backend switch, column type guessing (v2.0.0) |
+| `purrr` | 2 | Error handling change (v1.0.0), `map_df()` deprecation |
+| `stringr` | 1 | `str_c()` NA propagation (v1.5.0) |
+| `lubridate` | 2 | DST arithmetic (v1.9.0) |
+| `broom` | 1 | Column renaming (v0.8.0) |
+| `data.table` | 2 | `fread()` type detection, `melt()` factor→character |
+| `lme4` | 1 | Optimizer tolerance change |
+| `caret` | 1 | `train()` interface changes (v7.0.0) |
+| `rstan` | 2 | Array syntax change (v2.26), `extract()` permutation default |
+| `base R` | 5 | RNG change (R 3.6.0), [`hclust()`](https://rdrr.io/r/stats/hclust.html) tie-breaking (R 4.0.0) |
+
+The database is kept current via a weekly automated check — see
 [`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md).
 Community contributions are welcome via
-**[reproducr-db](https://github.com/repro-stats/reproducr-db)**, which
-lists every tracked entry.
+**[reproducr-db](https://github.com/repro-stats/reproducr-db)**.
 
 ------------------------------------------------------------------------
 

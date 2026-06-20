@@ -6,15 +6,6 @@ previously stored certification. Reports which outputs are unchanged
 not supplied (`"missing"`), or are new outputs not in the baseline
 (`"new"`).
 
-For numeric outputs whose hashes differ, `check_drift()` falls back to
-an element-wise absolute difference comparison using `tolerance`. This
-makes drift detection robust to benign floating-point variation across
-platforms (e.g. Linux CI vs macOS local), while still catching genuine
-numerical changes. The fallback requires that the certification was
-created with
-[`certify()`](https://repro-stats.github.io/reproducr/reference/certify.md)
-version \>= 0.2.0, which stores raw values alongside hashes.
-
 ## Usage
 
 ``` r
@@ -47,18 +38,18 @@ check_drift(
 
 - tolerance:
 
-  `numeric(1)`. Numeric tolerance for element-wise comparison of numeric
-  outputs whose hashes differ. Outputs whose maximum absolute difference
-  is within `tolerance` are reported as `"ok"`. Set to `0` for exact
-  hash matching only. Default `1e-10`.
+  `numeric(1)`. Numeric tolerance applied to hash comparison. When
+  `> 0`, outputs whose hashes differ are also compared element-wise (for
+  numeric vectors/matrices), and flagged as `"ok"` if the maximum
+  absolute difference is within `tolerance`. Set to `0` for exact
+  matching only. Default `1e-10`.
 
 ## Value
 
 Invisibly returns a `data.frame` of class
 `c("drift_report", "data.frame")` with columns `output`, `status`
 (`"ok"`, `"drifted"`, `"missing"`, `"new"`), `max_delta`, and `note`.
-Also emits a summary via
-[`message()`](https://rdrr.io/r/base/message.html).
+Also prints a summary to the console.
 
 ## See also
 
@@ -74,18 +65,20 @@ cert_file <- tempfile()
 model <- lm(mpg ~ wt, data = mtcars)
 
 certify(list(coefs = coef(model)), tag = "v1", file = cert_file)
-#> reproducr: certified 1 output(s) [2026-06-17] under tag 'v1'
+#> reproducr: certified 1 output(s) [2026-06-20] under tag 'v1'
 
 # Same outputs -- should report "ok"
 result <- check_drift(list(coefs = coef(model)),
-  against = "v1", file = cert_file
-)
+                       against = "v1", file = cert_file)
+#> 
 #> -- reproducr drift check vs 'v1' --
+#> 
 #>   Verdict  : ALL OUTPUTS MATCH
 #>   OK       : 1
 #>   Drifted  : 0
 #>   Missing  : 0
 #>   New      : 0
+#> 
 print(result)
 #> 
 #> -- reproducr drift report --
@@ -96,14 +89,17 @@ print(result)
 # Different model -- should report "drifted"
 model2 <- lm(mpg ~ hp, data = mtcars)
 check_drift(list(coefs = coef(model2)),
-  against = "v1", file = cert_file
-)
+             against = "v1", file = cert_file)
+#> 
 #> -- reproducr drift check vs 'v1' --
+#> 
 #>   Verdict  : DRIFT DETECTED
 #>   OK       : 0
 #>   Drifted  : 1
 #>   Missing  : 0
 #>   New      : 0
+#> 
 #>   Drifted outputs:
 #>     - coefs
+#> 
 ```

@@ -127,7 +127,7 @@ writeLines(c(
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
 print(report)
 #> 
-#> -- reproducr audit report [2026-06-17 13:02] --
+#> -- reproducr audit report [2026-06-20 19:25] --
 #> 
 #>   Files scanned:     1
 #>   Packages found:    3
@@ -143,11 +143,11 @@ print(report)
 
 report$calls
 #>                                 file line   pkg        fn pkg_version
-#> 1 /tmp/RtmpwzyYaW/file1c243efc893f.R    3 dplyr    filter        <NA>
-#> 2 /tmp/RtmpwzyYaW/file1c243efc893f.R    4 dplyr summarise        <NA>
-#> 3 /tmp/RtmpwzyYaW/file1c243efc893f.R    4 dplyr         n        <NA>
-#> 4 /tmp/RtmpwzyYaW/file1c243efc893f.R    6 stats     rnorm       4.6.0
-#> 5 /tmp/RtmpwzyYaW/file1c243efc893f.R    7  base      sort       4.6.0
+#> 1 /tmp/RtmpzXAEf2/file1b7949ad2498.R    3 dplyr    filter        <NA>
+#> 2 /tmp/RtmpzXAEf2/file1b7949ad2498.R    4 dplyr summarise        <NA>
+#> 3 /tmp/RtmpzXAEf2/file1b7949ad2498.R    4 dplyr         n        <NA>
+#> 4 /tmp/RtmpzXAEf2/file1b7949ad2498.R    6 stats     rnorm       4.6.0
+#> 5 /tmp/RtmpzXAEf2/file1b7949ad2498.R    7  base      sort       4.6.0
 ```
 
 ### Scoring for risk
@@ -167,7 +167,7 @@ print(risks)
 #>   MEDIUM:    0
 #>   LOW:       1
 #> 
-#> [LOW]     base::sort  (line 7 in file1c243efc893f.R)
+#> [LOW]     base::sort  (line 7 in file1b7949ad2498.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C.UTF-8.
 #>                     Results may differ on machines with different LC_COLLATE or
@@ -196,7 +196,7 @@ seed_issues <- risk_score(report, methods = "seed_check")
 # As a plain data frame for downstream use
 as.data.frame(risks)
 #>                                 file line       call pkg_version risk
-#> 1 /tmp/RtmpwzyYaW/file1c243efc893f.R    7 base::sort       4.6.0  low
+#> 1 /tmp/RtmpzXAEf2/file1b7949ad2498.R    7 base::sort       4.6.0  low
 #>          check
 #> 1 locale_check
 #>                                                                                                                                 description
@@ -228,16 +228,16 @@ certify(
   script = script,
   file = cert_file
 )
-#> reproducr: certified 3 output(s) [2026-06-17] under tag 'baseline-v1'
+#> reproducr: certified 3 output(s) [2026-06-20] under tag 'baseline-v1'
 ```
 
 ``` r
 
 list_certs(file = cert_file)
 #>           tag                timestamp r_version                      os
-#> 1 baseline-v1 2026-06-17T13:02:18+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 1 baseline-v1 2026-06-20T19:25:03+0000     4.6.0 Linux 6.17.0-1018-azure
 #>   n_outputs                             script
-#> 1         3 /tmp/RtmpwzyYaW/file1c243efc893f.R
+#> 1         3 /tmp/RtmpzXAEf2/file1b7949ad2498.R
 ```
 
 ### Checking for drift
@@ -256,7 +256,9 @@ result <- check_drift(
   against = "baseline-v1",
   file = cert_file
 )
+#> 
 #> -- reproducr drift check vs 'baseline-v1' --
+#> 
 #>   Verdict  : ALL OUTPUTS MATCH
 #>   OK       : 3
 #>   Drifted  : 0
@@ -274,12 +276,15 @@ check_drift(
   against = "baseline-v1",
   file    = cert_file
 )
+#> 
 #> -- reproducr drift check vs 'baseline-v1' --
+#> 
 #>   Verdict  : DRIFT DETECTED
 #>   OK       : 0
 #>   Drifted  : 1
 #>   Missing  : 2
 #>   New      : 0
+#> 
 #>   Drifted outputs:
 #>     - coefs
 ```

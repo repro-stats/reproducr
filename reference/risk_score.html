@@ -27,7 +27,7 @@ where no set.seed() appears within 50 lines above the call.
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ where no set.seed() appears within 50 lines above the call.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Score function calls for reproducibility risk</h1>
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/R/risk_score.R" class="external-link"><code>R/risk_score.R</code></a></small>
       <div class="d-none name"><code>risk_score.Rd</code></div>
     </div>
 
@@ -76,8 +76,7 @@ where no <code><a href="https://rdrr.io/r/base/Random.html" class="external-link
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">risk_score</span><span class="op">(</span></span>
 <span>  <span class="va">audit</span>,</span>
 <span>  methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"changelog"</span>, <span class="st">"seed_check"</span>, <span class="st">"locale_check"</span><span class="op">)</span>,</span>
-<span>  min_risk <span class="op">=</span> <span class="st">"low"</span>,</span>
-<span>  major_version_grace <span class="op">=</span> <span class="fl">1L</span></span>
+<span>  min_risk <span class="op">=</span> <span class="st">"low"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'risk_report'</span></span>
@@ -106,16 +105,6 @@ where no <code><a href="https://rdrr.io/r/base/Random.html" class="external-link
 <dt id="arg-min-risk">min_risk<a class="anchor" aria-label="anchor" href="#arg-min-risk"></a></dt>
 <dd><p><code>character(1)</code>. Minimum risk level to include in the output.
 One of <code>"low"</code> (show all), <code>"medium"</code>, or <code>"high"</code>. Default <code>"low"</code>.</p></dd>
-
-
-<dt id="arg-major-version-grace">major_version_grace<a class="anchor" aria-label="anchor" href="#arg-major-version-grace"></a></dt>
-<dd><p><code>integer(1)</code> or <code>Inf</code>. Number of full major
-versions the installed package must be <em>ahead</em> of <code>from_version</code> before
-the entry is suppressed entirely. When the installed version is this many
-or more major versions newer than <code>from_version</code>, the user is already past
-the breaking-change transition and the flag is a false positive – the
-entry is silently dropped from the results. Set to <code>Inf</code> to disable.
-Default <code>1L</code>.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
@@ -179,22 +168,10 @@ a call is flagged only if the installed version is <em>greater than</em>
 versions where the breaking change is known to apply.</p>
     </div>
     <div class="section level2">
-    <h2 id="major-version-grace">Major version grace<a class="anchor" aria-label="anchor" href="#major-version-grace"></a></h2>
-
-
-<p>When an installed version is <code>major_version_grace</code> or more major versions
-ahead of <code>from_version</code>, the entry is suppressed entirely. The user is
-already past the breaking-change transition – flagging it at any severity
-would be a false positive. The database staleness check
-(<code><a href="check_db_staleness.html">check_db_staleness()</a></code>) handles the maintenance concern of
-identifying entries whose <code>from_version</code> floor is too old.</p>
-    </div>
-    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="audit_script.html">audit_script()</a></code> to generate the input;
-<code><a href="repro_report.html">repro_report()</a></code> to render the results;
-<code><a href="check_db_staleness.html">check_db_staleness()</a></code> to identify database entries with
-windows that are too wide.</p></div>
+    <div class="dont-index"><p><code><a href="audit_script.html">audit_script()</a></code> to generate the input; <code><a href="repro_report.html">repro_report()</a></code> to render
+the results; the <code>reproducr</code> GitHub repository to contribute new database
+entries.</p></div>
     </div>
 
     <div class="section level2">
@@ -207,7 +184,7 @@ windows that are too wide.</p></div>
 <span class="r-in"><span><span class="op">)</span>, <span class="va">script</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="audit_script.html">audit_script</a></span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">risks</span> <span class="op">&lt;-</span> <span class="fu">risk_score</span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">risks</span>  <span class="op">&lt;-</span> <span class="fu">risk_score</span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">risks</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr risk score --</span>
@@ -216,14 +193,14 @@ windows that are too wide.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   MEDIUM:    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   LOW:       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file1a2974d1221d.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [MEDIUM]  stats::rnorm  (line 2 in file19844262a6d4.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : seed_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     above this call (line 2). Output will differ across runs without</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     a fixed seed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file1a2974d1221d.R)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [LOW]     base::sort  (line 3 in file19844262a6d4.R)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Check    : locale_check</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Details  : sort() output is locale-sensitive. Current locale: C. Results may</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     differ on machines with different LC_COLLATE or LC_TIME settings.</span>
