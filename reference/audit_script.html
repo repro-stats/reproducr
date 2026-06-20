@@ -13,7 +13,7 @@ reproducr workflow."><meta property="og:image" content="https://repro-stats.gith
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ reproducr workflow."><meta property="og:image" content="https://repro-stats.gith
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Audit an R script for reproducibility risks</h1>
-      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/repro-stats/reproducr/blob/main/R/audit_script.R" class="external-link"><code>R/audit_script.R</code></a></small>
       <div class="d-none name"><code>audit_script.Rd</code></div>
     </div>
 
@@ -133,16 +133,17 @@ be used alongside <code>reproducr</code>.</p>
     <h2 id="what-counts-as-a-qualifying-call-">What counts as a qualifying call?<a class="anchor" aria-label="anchor" href="#what-counts-as-a-qualifying-call-"></a></h2>
 
 
-<p>Only <em>qualified</em> calls – those using <code>::</code> or <code>:::</code> – are detected. Unqualified
-calls (e.g. <code>filter(df, x &gt; 0)</code> without <code>dplyr::</code>) are not detected because
-the package cannot be determined unambiguously from source text alone.
-This is by design: qualifying calls is also a reproducibility best practice.</p>
+<p>Only <em>qualified</em> calls – those using <code>::</code> or <code>:::</code> – are detected.
+Unqualified calls (e.g. <code>filter(df, x &gt; 0)</code> without <code>dplyr::</code>) are not
+detected because he package cannot be determined unambiguously from source
+text alone. This is by design: qualifying calls is also a reproducibility
+best practice.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="risk_score.html">risk_score()</a></code> to check detected calls against the breaking-changes
-database; <code><a href="repro_report.html">repro_report()</a></code> to render the full audit; <code><a href="certify.html">certify()</a></code> to lock
-a set of outputs as a baseline.</p></div>
+    <div class="dont-index"><p><code><a href="risk_score.html">risk_score()</a></code> to check detected calls against the
+breaking-changes database; <code><a href="repro_report.html">repro_report()</a></code> to render the
+full audit; <code><a href="certify.html">certify()</a></code> to lock a set of outputs as a baseline.</p></div>
     </div>
 
     <div class="section level2">
@@ -159,7 +160,7 @@ a set of outputs as a baseline.</p></div>
 <span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu">audit_script</span><span class="op">(</span><span class="va">script</span>, renv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-20 19:24] --</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -- reproducr audit report [2026-06-20 19:29] --</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Files scanned:     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Packages found:    2</span>
@@ -174,9 +175,9 @@ a set of outputs as a baseline.</p></div>
 <span class="r-in"><span><span class="co"># See the detected calls as a data frame</span></span></span>
 <span class="r-in"><span><span class="va">report</span><span class="op">$</span><span class="va">calls</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                 file line   pkg        fn pkg_version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/RtmpFTIm0l/file1984772dee68.R    2 dplyr    filter        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/RtmpFTIm0l/file1984772dee68.R    3 dplyr summarise        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/RtmpFTIm0l/file1984772dee68.R    4 stats     rnorm       4.6.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /tmp/RtmplSR89N/file197571ce1ab5.R    2 dplyr    filter        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /tmp/RtmplSR89N/file197571ce1ab5.R    3 dplyr summarise        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /tmp/RtmplSR89N/file197571ce1ab5.R    4 stats     rnorm       4.6.0</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

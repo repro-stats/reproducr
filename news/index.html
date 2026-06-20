@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">reproducr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,20 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/repro-stats/reproducr/blob/v0.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/repro-stats/reproducr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="reproducr-021">reproducr 0.2.1<a class="anchor" aria-label="anchor" href="#reproducr-021"></a></h2>
+<ul><li><p><code><a href="../reference/certify.html">certify()</a></code> now stores raw output values alongside hashes in the certification record (new <code>values</code> field in <code>.reproducr.rds</code>). Previously only SHA-256 hashes were stored, making element-wise numeric comparison impossible downstream.</p></li>
+<li><p><code><a href="../reference/check_drift.html">check_drift()</a></code> tolerance comparison is now fully implemented. Previously <code>tolerance</code> was a no-op — the function detected numeric outputs but immediately fell back to a hash-mismatch message for all of them. It now computes <code>max(abs(current - stored))</code> element-wise and resolves to <code>"ok"</code> when <code>delta &lt;= tolerance</code>, <code>"drifted"</code> with the observed delta when not, and handles length mismatches, non-finite deltas, and old certification format (pre-0.2.1 <code>.reproducr.rds</code>) gracefully. Fixes false-positive drift reports on cross-platform runs (e.g. macOS local vs Linux CI).</p></li>
+<li><p><code>.md_to_html()</code> fallback (used when <code>commonmark</code> is not installed) now correctly converts Markdown headings, list items, and blockquotes in multiline strings. The line-anchored <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> patterns were missing the <code>(?m)</code> multiline flag. Also fixes a typo in the <code>&lt;h2&gt;</code> replacement string (<code>\\2</code> → <code>\\1</code>).</p></li>
+<li><p><code><a href="../reference/check_db_staleness.html">check_db_staleness()</a></code> stale ceiling and stale floor detail messages now respect <code>verbose = FALSE</code>. Previously these were printed unconditionally regardless of the <code>verbose</code> argument.</p></li>
+<li><p>CI audit workflows now commit <code>reproducibility_report.md</code> alongside <code>README.md</code> and <code>.reproducr.rds</code>, and use timestamp-based tags (<code>ci-{date}-{hhmmss}</code>) to prevent same-day collisions.</p></li>
+<li><p><strong>New features:</strong> <code><a href="../reference/check_db_staleness.html">print.staleness_report()</a></code> gains a <code>details</code> argument (default <code>TRUE</code>). Set <code>details = FALSE</code> to print only the summary counts without the per-entry breakdown, useful when reviewing results interactively after already having read the entries.</p></li>
+<li><p><code>withr</code> added to <code>Suggests</code> to formally declare the test dependency.</p></li>
+<li><p><strong>Migration note:</strong> Delete <code>.reproducr.rds</code> and re-run <code><a href="../reference/certify.html">certify()</a></code> once to populate the new <code>values</code> field. Until then <code><a href="../reference/check_drift.html">check_drift()</a></code> degrades gracefully with an informative message.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="reproducr-020">reproducr 0.2.0<a class="anchor" aria-label="anchor" href="#reproducr-020"></a></h2><p class="text-muted">CRAN release: 2026-06-20</p>
 <ul><li><p><code><a href="../reference/risk_score.html">risk_score()</a></code> gains a <code>major_version_grace</code> parameter (default <code>1L</code>) – when the installed version is one or more major versions ahead of an entry’s <code>from_version</code>, the entry is suppressed entirely. This prevents historically wide version windows (e.g. a major package rewrite from several years ago) from generating false-positive flags for users who are already well past the breaking-change transition.</p></li>

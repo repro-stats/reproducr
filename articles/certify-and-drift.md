@@ -127,7 +127,7 @@ certify(
   file    = cert_file
 )
 #> Warning: Tag 'baseline-v1' already exists in
-#> '/tmp/Rtmp2Abyw0/file1b06112c26bb'. Overwriting.
+#> '/tmp/Rtmpic0JSh/file1af97af82755'. Overwriting.
 #> reproducr: certified 1 output(s) [2026-06-20] under tag 'baseline-v1'
 ```
 
@@ -139,9 +139,9 @@ certify(
 
 list_certs(file = cert_file)
 #>               tag                timestamp r_version                      os
-#> 1     baseline-v1 2026-06-20T19:24:57+0000     4.6.0 Linux 6.17.0-1018-azure
-#> 2 pre-peer-review 2026-06-20T19:24:57+0000     4.6.0 Linux 6.17.0-1018-azure
-#> 3   post-revision 2026-06-20T19:24:57+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 1     baseline-v1 2026-06-20T19:29:13+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 2 pre-peer-review 2026-06-20T19:29:13+0000     4.6.0 Linux 6.17.0-1018-azure
+#> 3   post-revision 2026-06-20T19:29:13+0000     4.6.0 Linux 6.17.0-1018-azure
 #>   n_outputs script
 #> 1         1   <NA>
 #> 2         1   <NA>
@@ -170,9 +170,7 @@ result <- check_drift(
   against = "baseline-v1",
   file = cert_file
 )
-#> 
 #> -- reproducr drift check vs 'baseline-v1' --
-#> 
 #>   Verdict  : ALL OUTPUTS MATCH
 #>   OK       : 1
 #>   Drifted  : 0
@@ -204,15 +202,12 @@ demo_result <- check_drift(
   against = "four-statuses",
   file = cert_file
 )
-#> 
 #> -- reproducr drift check vs 'four-statuses' --
-#> 
 #>   Verdict  : DRIFT DETECTED
 #>   OK       : 1
 #>   Drifted  : 1
 #>   Missing  : 1
 #>   New      : 1
-#> 
 #>   Drifted outputs:
 #>     - will_change
 
@@ -221,8 +216,8 @@ print(demo_result)
 #> -- reproducr drift report --
 #> 
 #> [OK]      stays_same
-#> [DRIFT]   will_change
-#>             Hash mismatch (numeric tolerance check requires stored values).
+#> [DRIFT]   will_change (max delta: 7.19)
+#>             Numeric drift (max |delta|: 7.19, tolerance: 1e-10).
 #> [NEW]     brand_new
 #>             Not present in the baseline certification.
 #> [MISSING] will_vanish
@@ -249,9 +244,7 @@ certify(outputs = list(x = 1L), tag = "run-3", file = cert_file)
 
 check_drift(outputs = list(x = 1L), against = "latest", file = cert_file)
 #> reproducr: comparing against latest tag: 'run-3'
-#> 
 #> -- reproducr drift check vs 'run-3' --
-#> 
 #>   Verdict  : ALL OUTPUTS MATCH
 #>   OK       : 1
 #>   Drifted  : 0

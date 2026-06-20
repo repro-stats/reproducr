@@ -22,7 +22,8 @@ three independent checks:
 risk_score(
   audit,
   methods = c("changelog", "seed_check", "locale_check"),
-  min_risk = "low"
+  min_risk = "low",
+  major_version_grace = 1L
 )
 
 # S3 method for class 'risk_report'
@@ -51,6 +52,16 @@ x[i, j, ...]
 
   `character(1)`. Minimum risk level to include in the output. One of
   `"low"` (show all), `"medium"`, or `"high"`. Default `"low"`.
+
+- major_version_grace:
+
+  `integer(1)` or `Inf`. Number of full major versions the installed
+  package must be *ahead* of `from_version` before the entry is
+  suppressed entirely. When the installed version is this many or more
+  major versions newer than `from_version`, the user is already past the
+  breaking-change transition and the flag is a false positive – the
+  entry is silently dropped from the results. Set to `Inf` to disable.
+  Default `1L`.
 
 - x:
 
@@ -119,13 +130,24 @@ The `"changelog"` check uses a half-open version window
 *greater than* `from_ver` *and* *at most* `to_ver`. This means the risk
 is scoped to versions where the breaking change is known to apply.
 
+## Major version grace
+
+When an installed version is `major_version_grace` or more major
+versions ahead of `from_version`, the entry is suppressed entirely. The
+user is already past the breaking-change transition – flagging it at any
+severity would be a false positive. The database staleness check
+([`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md))
+handles the maintenance concern of identifying entries whose
+`from_version` floor is too old.
+
 ## See also
 
 [`audit_script()`](https://repro-stats.github.io/reproducr/reference/audit_script.md)
 to generate the input;
 [`repro_report()`](https://repro-stats.github.io/reproducr/reference/repro_report.md)
-to render the results; the `reproducr` GitHub repository to contribute
-new database entries.
+to render the results;
+[`check_db_staleness()`](https://repro-stats.github.io/reproducr/reference/check_db_staleness.md)
+to identify database entries with windows that are too wide.
 
 ## Examples
 
@@ -138,7 +160,7 @@ writeLines(c(
 ), script)
 
 report <- audit_script(script, renv = FALSE, verbose = FALSE)
-risks  <- risk_score(report)
+risks <- risk_score(report)
 print(risks)
 #> 
 #> -- reproducr risk score --
@@ -147,14 +169,14 @@ print(risks)
 #>   MEDIUM:    1
 #>   LOW:       1
 #> 
-#> [MEDIUM]  stats::rnorm  (line 2 in file19844262a6d4.R)
+#> [MEDIUM]  stats::rnorm  (line 2 in file19751e5d0f94.R)
 #>          Check    : seed_check
 #>          Details  : rnorm() is stochastic but no set.seed() was found in the 50 lines
 #>                     above this call (line 2). Output will differ across runs without
 #>                     a fixed seed.
 #>          Reference: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html
 #> 
-#> [LOW]     base::sort  (line 3 in file19844262a6d4.R)
+#> [LOW]     base::sort  (line 3 in file19751e5d0f94.R)
 #>          Check    : locale_check
 #>          Details  : sort() output is locale-sensitive. Current locale: C. Results may
 #>                     differ on machines with different LC_COLLATE or LC_TIME settings.
