@@ -15,11 +15,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: ubuntu-latest,  r: 'release' }
-          - { os: ubuntu-latest,  r: 'devel'   }
+          - { os: ubuntu-latest,  r: 'release'  }
+          - { os: ubuntu-latest,  r: 'devel'    }
           - { os: ubuntu-latest,  r: 'oldrel-1' }
-          - { os: macos-latest,   r: 'release' }
-          - { os: windows-latest, r: 'release' }
+          - { os: macos-latest,   r: 'release'  }
+          - { os: windows-latest, r: 'release'  }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -46,9 +46,15 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual", "--compact-vignettes=gs+qpdf")'
 
-      - name: Upload coverage to Codecov
+      - name: Generate coverage report
         if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
         shell: Rscript {0}
         run: |
-          covr::codecov(quiet = FALSE, token = "${{ secrets.CODECOV_TOKEN }}")
-          
+          covr::to_cobertura(covr::package_coverage())
+
+      - name: Upload coverage reports to Codecov
+        if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: repro-stats/reproducr

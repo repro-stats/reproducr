@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![reproducibility](https://img.shields.io/badge/reproducibility-reproducible-brightgreen)](https://repro-stats.github.io/reproducr/)
-[![CRAN status](https://img.shields.io/badge/CRAN-not%20yet-lightgrey)](https://cran.r-project.org)
+[![CRAN status](https://www.r-pkg.org/badges/version/reproducr)](https://CRAN.R-project.org/package=reproducr)
 [![R-CMD-check](https://github.com/repro-stats/reproducr/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/repro-stats/reproducr/actions/workflows/R-CMD-check.yml)
 [![Codecov test coverage](https://codecov.io/gh/repro-stats/reproducr/graph/badge.svg)](https://app.codecov.io/gh/repro-stats/reproducr)
 <!-- badges: end -->
