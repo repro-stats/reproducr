@@ -1,7 +1,5 @@
 # reproducr 0.2.1
 
-### Bug fixes
-
 * `certify()` now stores raw output values alongside hashes in the
   certification record (new `values` field in `.reproducr.rds`). Previously
   only SHA-256 hashes were stored, making element-wise numeric comparison
@@ -30,21 +28,14 @@
   `README.md` and `.reproducr.rds`, and use timestamp-based tags
   (`ci-{date}-{hhmmss}`) to prevent same-day collisions.
 
-### New features
-
-* `print.staleness_report()` gains a `details` argument (default `TRUE`).
+* **New features:** `print.staleness_report()` gains a `details` argument (default `TRUE`).
   Set `details = FALSE` to print only the summary counts without the
   per-entry breakdown, useful when reviewing results interactively after
   already having read the entries.
 
-### Internal
-
-* Test coverage increased from 89% to 97%.
 * `withr` added to `Suggests` to formally declare the test dependency.
 
-### Migration note
-
-Delete `.reproducr.rds` and re-run `certify()` once to populate the new
+* **Migration note:** Delete `.reproducr.rds` and re-run `certify()` once to populate the new
 `values` field. Until then `check_drift()` degrades gracefully with an
 informative message.
 
